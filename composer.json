@@ -2,7 +2,7 @@
     "name": "sendit/bliskapaczka",
     "description": "",
     "require": {
-        "php": "~7.0.0",
+        "php": "~7.0",
         "magento/product-community-edition": "~2.1"
     },
     "suggest": {
