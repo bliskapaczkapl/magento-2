@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <bliskapaczka>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>Sendit\Bliskapaczka\Model\Carrier\Bliskapaczka</model>
+                <name>Sendit Bliskapaczka Shipping Method</name>
+                <price>10.00</price>
+                <title>Sendit Bliskapaczka Shipping Method</title>
+                <type>I</type>
+                <specific_error_msg>This shipping method is not available. To use this shipping method, please contact us.</specific_error_msg>
+            </bliskapaczka>
+            <courier>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>Sendit\Bliskapaczka\Model\Carrier\Courier</model>
+                <name>Sendit Courier Shipping Method</name>
+                <price>10.00</price>
+                <title>Sendit Courier Shipping Method</title>
+                <type>I</type>
+                <specific_error_msg>This shipping method is not available. To use this shipping method, please contact us.</specific_error_msg>
+            </courier>
+        </carriers>
+    </default>
+</config>

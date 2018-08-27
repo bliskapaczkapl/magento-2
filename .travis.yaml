@@ -1,0 +1,28 @@
+language: php
+
+php:
+  - '7.1'
+
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::8}
+
+services:
+  - docker
+
+before_script:
+  - composer install
+
+script:
+  - echo "Test"
+
+after_success:
+  - docker build -t bliskapaczkapl/magento-2:$COMMIT -t bliskapaczkapl/magento-2:latest -t bliskapaczkapl/magento-2:develop -f dev/docker/Dockerfile .
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  - docker push bliskapaczkapl/magento-2:$COMMIT
+  - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    docker push bliskapaczkapl/magento-2:latest;
+    fi
+  - if [ "$TRAVIS_BRANCH" == "develop" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    docker push bliskapaczkapl/magento-2:develop;
+    fi
