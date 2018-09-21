@@ -65,6 +65,7 @@ docker-compose -f docker-compose.yaml -f dev/docker/docker-compose.dev.yaml up
 
 ### Jak uruchomić testy jednostkowe 
 ```
+docker-compose exec magento php vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist app/code/Sendit/Bliskapaczka/Test/Unit/
 ```
 
 ### Jak uruchomić statyczną analizę kodu
