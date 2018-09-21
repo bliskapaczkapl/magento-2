@@ -28,7 +28,10 @@ RUN docker-php-ext-install \
         --with-freetype-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
-    && docker-php-ext-install gd
+    && docker-php-ext-install gd \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 RUN apt-get purge -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
@@ -55,6 +58,7 @@ RUN rm -rf /var/www/html \
 
 COPY dev/docker/nginx/conf.d /etc/nginx/conf.d
 COPY dev/docker/php/conf.d/memory-limit-php.ini /usr/local/etc/php/conf.d/memory-limit-php.ini
+COPY dev/docker/php/conf.d/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 RUN usermod -s /bin/bash www-data
 
