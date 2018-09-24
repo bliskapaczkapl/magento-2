@@ -96,7 +96,7 @@ class InstallSchema implements InstallSchemaInterface
                     Table::ACTION_CASCADE,
                     Table::ACTION_CASCADE
                 )
-                ->setComment('News Table')
+                ->setComment('Table for module bliska paczka')
                 ->setOption('type', 'InnoDB')
                 ->setOption('charset', 'utf8');
             $installer->getConnection()->createTable($table);
