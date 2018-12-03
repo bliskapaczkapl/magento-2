@@ -14,7 +14,9 @@ RUN apt-get update \
         libmcrypt-dev \
         libicu-dev \
         libxslt-dev \
-        cron
+        cron \
+        mc \
+        nano
 RUN docker-php-ext-install \
         pdo_mysql \
         mysqli \

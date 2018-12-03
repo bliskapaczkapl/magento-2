@@ -1,7 +1,9 @@
 var config = {
-    map: {
-        "*": {
-            bliskapaczka: 'Sendit_Bliskapaczka/js/bliskapaczka',
-        }
+  config: {
+    mixins: {
+      'Magento_Checkout/js/action/set-shipping-information': {
+        'Sendit_Bliskapaczka/js/order/set-shipping-information-mixin': true
+      }
     }
+  }
 };
