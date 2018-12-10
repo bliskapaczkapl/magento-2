@@ -28,7 +28,9 @@ define(
        'Magento_Checkout/js/checkout-data',
        'uiRegistry',
        'mage/translate',
-       'Magento_Checkout/js/model/shipping-rate-service'
+       'Magento_Checkout/js/model/shipping-rate-service',
+       'Sendit_Bliskapaczka/js/bliskapaczka',
+        'https://widget.bliskapaczka.pl/v5/main.js'
    ],function (
        $,
        _,
@@ -63,6 +65,16 @@ define(
            this.selectedMethod = ko.computed(function() {
                var method = quote.shippingMethod();
                var selectedMethod = method != null ? method.carrier_code + '_' + method.method_code : null;
+               if ((selectedMethod === 'bliskapaczka_bliskapaczka') || (selectedMethod === 'courier_courier') ) {
+                 console.log(selectedMethod);
+                 Bliskapaczka.showMap(
+                   [{"operator":"RUCH","price":5},{"operator":"POCZTA","price":0},{"operator":"UPS","price":15},{"operator":"INPOST","price":7},{"operator":"DPD","price":5}],
+                   "AIzaSyCUyydNCGhxGi5GIt5z5I-X6hofzptsRjE",
+                   true,
+                   "sendit_bliskapaczka_sendit_bliskapaczka",
+                   false                                    )
+               }
+
                return selectedMethod;
            }, this);
 
