@@ -12,110 +12,180 @@
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="name" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
+                <field id="name" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Method Name</label>
                 </field>
-                <field id="price" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1"
+                <field id="api_key" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>API key</label>
+                </field>
+                <field id="sandbox" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1"
                        showInStore="0">
-                    <label>Price</label>
+                    <label>Sandbox mode enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="auto_advice" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Auto advice</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="gmap_api_key" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Google Map API Key</label>
+                </field>
+                <field id="size_x" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Fixed parce type size X (cm)</label>
                     <validate>validate-number validate-zero-or-greater</validate>
                 </field>
-                <field id="handling_type" translate="label" type="select" sortOrder="7" showInDefault="1"
-                       showInWebsite="1" showInStore="0">
-                    <label>Calculate Handling Fee</label>
-                    <source_model>Magento\Shipping\Model\Source\HandlingType</source_model>
-                </field>
-                <field id="handling_fee" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1"
+                <field id="size_y" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1"
                        showInStore="0">
-                    <label>Handling Fee</label>
+                    <label>Fixed parce type size Y (cm)</label>
                     <validate>validate-number validate-zero-or-greater</validate>
                 </field>
-                <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
+                <field id="size_z" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Fixed parce type size Z (cm)</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="weight" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Fixed parce type weight (kg)</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="sender_email" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Sender email</label>
+                </field>
+                <field id="sender_first_name" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Sender first name</label>
+                </field>
+                <field id="sender_last_name" translate="label" type="text" sortOrder="13" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Sender last name</label>
+                </field>
+                <field id="sender_phone_number" translate="label" type="text" sortOrder="14" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Sender phone number</label>
+                </field>
+                <field id="sender_street" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Sender street</label>
+                </field>
+                <field id="sender_building_number" translate="label" type="text" sortOrder="16" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Sender building number</label>
+                </field>
+                <field id="sender_flat_number" translate="label" type="text" sortOrder="17" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Sender flat number</label>
+                </field>
+                <field id="sender_post_code" translate="label" type="text" sortOrder="18" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Sender post code</label>
+                </field>
+                <field id="sender_city" translate="label" type="text" sortOrder="19" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Sender city</label>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
                        showInStore="0">
                     <label>Sort Order</label>
                 </field>
-                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                <field id="title" translate="label" type="text" sortOrder="21" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Title</label>
                 </field>
-                <field id="sallowspecific" translate="label" type="select" sortOrder="90" showInDefault="1"
+                <field id="sallowspecific" translate="label" type="select" sortOrder="22" showInDefault="1"
                        showInWebsite="1" showInStore="0">
                     <label>Ship to Applicable Countries</label>
                     <frontend_class>shipping-applicable-country</frontend_class>
                     <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
                 </field>
-                <field id="specific_country" translate="label" type="multiselect" sortOrder="91" showInDefault="1"
+                <field id="specific_country" translate="label" type="multiselect" sortOrder="23" showInDefault="1"
                        showInWebsite="1" showInStore="0">
                     <label>Ship to Specific Countries</label>
                     <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
-                <field id="show_method" translate="label" type="select" sortOrder="92" showInDefault="1"
+                <field id="show_method" translate="label" type="select" sortOrder="24" showInDefault="1"
                        showInWebsite="1" showInStore="0">
                     <label>Show Method if Not Applicable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="specific_error_msg" translate="label" type="textarea" sortOrder="80" showInDefault="1"
-                       showInWebsite="1" showInStore="1">
-                    <label>Displayed Error Message</label>
+                <field id="neodinamic_licence_owner" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Neodinamic License Owner</label>
                 </field>
+                <field id="neodinamic_licence_key" translate="label" type="text" sortOrder="26" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Neodinamic License Key</label>
+                </field>
+                <field id="neodinamic" translate="label" type="select" sortOrder="27" showInDefault="1" showInWebsite="1"
+                       showInStore="0">
+                    <label>Neodinamic Print</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="cod" translate="label" type="select" sortOrder="28" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>COD</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="use_reference" translate="label" type="select" sortOrder="29" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Use reference</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
             </group>
-            <group id="active" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1"
+            <group id="active" translate="label" type="text" sortOrder="24" showInDefault="1" showInWebsite="1"
                    showInStore="1">
                 <label>Sendit Courier Shipping Method</label>
-                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1"
+                <field id="enable" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1"
                        showInStore="0">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="name" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1"
+                <field id="name" translate="label" type="text" sortOrder="26" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Method Name</label>
                 </field>
-                <field id="price" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1"
-                       showInStore="0">
-                    <label>Price</label>
-                    <validate>validate-number validate-zero-or-greater</validate>
-                </field>
-                <field id="handling_type" translate="label" type="select" sortOrder="7" showInDefault="1"
+                <field id="handling_type" translate="label" type="select" sortOrder="27" showInDefault="1"
                        showInWebsite="1" showInStore="0">
                     <label>Calculate Handling Fee</label>
                     <source_model>Magento\Shipping\Model\Source\HandlingType</source_model>
                 </field>
-                <field id="handling_fee" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1"
+                <field id="handling_fee" translate="label" type="text" sortOrder="28" showInDefault="1" showInWebsite="1"
                        showInStore="0">
                     <label>Handling Fee</label>
                     <validate>validate-number validate-zero-or-greater</validate>
                 </field>
-                <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
+                <field id="sort_order" translate="label" type="text" sortOrder="29" showInDefault="1" showInWebsite="1"
                        showInStore="0">
                     <label>Sort Order</label>
                 </field>
-                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1"
+                <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Title</label>
                 </field>
-                <field id="sallowspecific" translate="label" type="select" sortOrder="90" showInDefault="1"
+                <field id="sallowspecific" translate="label" type="select" sortOrder="31" showInDefault="1"
                        showInWebsite="1" showInStore="0">
                     <label>Ship to Applicable Countries</label>
                     <frontend_class>shipping-applicable-country</frontend_class>
                     <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
                 </field>
-                <field id="specific_country" translate="label" type="multiselect" sortOrder="91" showInDefault="1"
+                <field id="specific_country" translate="label" type="multiselect" sortOrder="32" showInDefault="1"
                        showInWebsite="1" showInStore="0">
                     <label>Ship to Specific Countries</label>
                     <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
-                <field id="show_method" translate="label" type="select" sortOrder="92" showInDefault="1"
+                <field id="show_method" translate="label" type="select" sortOrder="33" showInDefault="1"
                        showInWebsite="1" showInStore="0">
                     <label>Show Method if Not Applicable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="specific_error_msg" translate="label" type="textarea" sortOrder="80" showInDefault="1"
-                       showInWebsite="1" showInStore="1">
-                    <label>Displayed Error Message</label>
                 </field>
             </group>
         </section>

@@ -11,97 +11,66 @@ namespace Sendit\Bliskapaczka\Setup;
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
-use Magento\Framework\DB\Ddl\Table;
 
+/**
+ * Class InstallSchema
+ * @package Dckap\CustomFields\Setup
+ */
 class InstallSchema implements InstallSchemaInterface
 {
+
+    /**
+     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
         $installer = $setup;
+
         $installer->startSetup();
 
-        // Get tutorial_simplenews table
-        $tableName = $installer->getTable('sendit_bliskapaczka_order');
-        // Check if the table already exists
-        if ($installer->getConnection()->isTableExists($tableName) != true) {
-            // Create tutorial_simplenews table
-            $table = $installer->getConnection()
-                ->newTable($tableName)
-                ->addColumn(
-                    'entity_id',
-                    Table::TYPE_INTEGER,
-                    null,
-                    [
-                        'identity' => true,
-                        'unsigned' => true,
-                        'nullable' => false,
-                        'primary' => true
-                    ],
-                    'Entity Id'
-                )
-                ->addColumn(
-                    'order_id',
-                    Table::TYPE_INTEGER,
-                    null,
-                    ['nullable' => false, 'unsigned' => true],
-                    'Order Id'
-                )
-                ->addColumn(
-                    'number',
-                    Table::TYPE_TEXT,
-                    null,
-                    ['nullable' => true, 'default' => ''],
-                    'Number'
-                )
-                ->addColumn(
-                    'status',
-                    Table::TYPE_TEXT,
-                    null,
-                    ['nullable' => true, 'default' => ''],
-                    'Status'
-                )
-                ->addColumn(
-                    'delivery_type',
-                    Table::TYPE_TEXT,
-                    null,
-                    ['nullable' => true],
-                    'Delivery type'
-                )
-                ->addColumn(
-                    'tracking_number',
-                    Table::TYPE_TEXT,
-                    null,
-                    ['nullable' => true, 'default' => ''],
-                    'Tracking number'
-                )
-                ->addColumn(
-                    'advice_date',
-                    Table::TYPE_DATETIME,
-                    null,
-                    ['nullable' => true],
-                    'Advice data'
-                )
-                ->addColumn(
-                    'creation_date',
-                    Table::TYPE_DATETIME,
-                    null,
-                    ['nullable' => true],
-                    'Creation date'
-                )
-                ->addForeignKey(
-                    $installer->getFkName('sendit_bliskapaczka/order', 'order_id', 'sales/order', 'entity_id'),
-                    'order_id',
-                    $installer->getTable('sales/order'),
-                    'entity_id',
-                    Table::ACTION_CASCADE,
-                    Table::ACTION_CASCADE
-                )
-                ->setComment('Table for module bliska paczka')
-                ->setOption('type', 'InnoDB')
-                ->setOption('charset', 'utf8');
-            $installer->getConnection()->createTable($table);
-        }
+        /* While module install, creates columns in quote_address and sales_order_address table */
 
+        $eavTable1 = $installer->getTable('quote');
+        $eavTable2 = $installer->getTable('sales_order');
+
+        $columns = [
+            'number' => [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'nullable' => true,
+                'comment' => 'Number field',
+            ],
+
+            'status' => [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'nullable' => true,
+                'comment' => 'Status field',
+            ],
+
+            'delivery_type' => [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'nullable' => true,
+                'comment' => 'Delivery type field',
+            ],
+
+            'tracking_number' => [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'nullable' => true,
+                'comment' => 'Tracking number field',
+            ],
+
+            'advice_date' => [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
+                'nullable' => true,
+                'comment' => 'Advice date field',
+            ],
+        ];
+
+        $connection = $installer->getConnection();
+        foreach ($columns as $name => $definition) {
+            $connection->addColumn($eavTable1, $name, $definition);
+            $connection->addColumn($eavTable2, $name, $definition);
+        }
         $installer->endSetup();
     }
 }

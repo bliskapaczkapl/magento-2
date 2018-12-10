@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
-    <extension_attributes for="Magento\Quote\Api\Data\ShippingMethodInterface">
-        <attribute code="pos_code" type="string"/>
-        <attribute code="pos_operator" type="string"/>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+    <extension_attributes for="Magento\Checkout\Api\Data\ShippingInformationInterface">
+        <attribute code="posCode" type="string" />
+        <attribute code="posOperator" type="string" />
+        <attribute code="posCodeDescription" type="string" />
     </extension_attributes>
 </config>
