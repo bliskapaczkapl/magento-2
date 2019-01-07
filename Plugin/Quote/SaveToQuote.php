@@ -49,39 +49,40 @@ class SaveToQuote
            return;
 
        $quote = $this->quoteRepository->getActive($cartId);
-       $orderData = [
-           "senderFirstName" => "Paweł",
-           "senderLastName" => "Karbowniczek",
-           "senderPhoneNumber" => "512813267",
-           "senderEmail" => "pkarbowniczek@divante.pl",
-           "senderStreet" => "Dmowskiego",
-           "senderBuildingNumber" => "17",
-           "senderFlatNumber" => "",
-           "senderPostCode" => "50-203",
-           "senderCity" => "Wrocłąw",
-           "receiverFirstName" => "Paweł",
-           "receiverLastName" => "Karbowniczek",
-           "receiverPhoneNumber" => "512813267",
-           "receiverEmail" => "pkarbowniczek@divante.pl",
-           "operatorName" => $extAttributes->getPosOperator(),
-           "destinationCode" => $extAttributes->getPosCode(),
-           "postingCode" => "WRO206",
-           "codValue" => 1,
-           "insuranceValue" => 0,
-           "additionalInformation" => $extAttributes->getPosCodeDescription(),
-           "parcel" => [
-               "dimensions" => [
-                   "height" => 20,
-                   "length" => 20,
-                   "width" => 20,
-                   "weight" => 2
-               ]
-           ]
-       ];
+//       $orderData = [
+//           "senderFirstName" => "Paweł",
+//           "senderLastName" => "Karbowniczek",
+//           "senderPhoneNumber" => "512813267",
+//           "senderEmail" => "pkarbowniczek@divante.pl",
+//           "senderStreet" => "Dmowskiego",
+//           "senderBuildingNumber" => "17",
+//           "senderFlatNumber" => "",
+//           "senderPostCode" => "50-203",
+//           "senderCity" => "Wrocłąw",
+//           "receiverFirstName" => "Paweł",
+//           "receiverLastName" => "Karbowniczek",
+//           "receiverPhoneNumber" => "512813267",
+//           "receiverEmail" => "pkarbowniczek@divante.pl",
+//           "operatorName" => $extAttributes->getPosOperator(),
+//           "destinationCode" => $extAttributes->getPosCode(),
+//           "postingCode" => "WRO206",
+//           "codValue" => 1,
+//           "insuranceValue" => 0,
+//           "additionalInformation" => $extAttributes->getPosCodeDescription(),
+//           "parcel" => [
+//               "dimensions" => [
+//                   "height" => 20,
+//                   "length" => 20,
+//                   "width" => 20,
+//                   "weight" => 2
+//               ]
+//           ],
+//           "deliveryType" => "P2P"
+//       ];
 
+       $quote->setPosOperator($extAttributes->getPosOperator());
+       $quote->setPosCode($extAttributes->getPosCode());
+       $quote->setPosCodeDescription($extAttributes->getPosCodeDescription());
 
-//       $quote->setInputCustomShippingField($extAttributes->getInputCustomShippingField());
-//       $quote->setDateCustomShippingField($extAttributes->getDateCustomShippingField());
-//       $quote->setSelectCustomShippingField($extAttributes->getSelectCustomShippingField());
    }
 }

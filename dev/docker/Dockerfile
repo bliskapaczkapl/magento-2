@@ -57,8 +57,13 @@ RUN rm -rf /var/www/html \
 
 COPY dev/docker/nginx/conf.d /etc/nginx/conf.d
 COPY dev/docker/php/conf.d/memory-limit-php.ini /usr/local/etc/php/conf.d/memory-limit-php.ini
+COPY dev/docker/php/conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 RUN usermod -s /bin/bash www-data
+
+# Install PECL extensions
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
 
 # Install composer
 RUN (curl -sS https://getcomposer.org/installer | php) || exit 1

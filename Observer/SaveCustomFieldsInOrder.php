@@ -8,6 +8,11 @@
 
 namespace Sendit\Bliskapaczka\Observer;
 
+use Sendit\Bliskapaczka\Model\Api\Configuration;
+use Sendit\Bliskapaczka\Model\Api\OrderApiClient;
+use Sendit\Bliskapaczka\Model\Api\ReceiverConfiguration;
+use Sendit\Bliskapaczka\Model\Api\SenderConfiguration;
+
 /**
 * Class SaveCustomFieldsInOrder
 * @package Dckap\CustomFields\Observer
@@ -21,12 +26,32 @@ class SaveCustomFieldsInOrder implements \Magento\Framework\Event\ObserverInterf
    public function execute(\Magento\Framework\Event\Observer $observer)
   {
 
-     $order = $observer->getEvent()->getOrder();
-     $quote = $observer->getEvent()->getQuote();
+    $order = $observer->getEvent()->getOrder();
+    $quote = $observer->getEvent()->getQuote();
+    if (empty($quote->getPosOperator()) || empty($quote->getPosCode())) {
+        return $this;
+    }
+    $conf = Configuration::fromStoreConfiguration();
+    $orderApiClient = OrderApiClient::fromConfiguration($conf);
+    $senderConfiguration = SenderConfiguration::fromStoreConfiguration();
+    $receiverConfiguration = ReceiverConfiguration::fromQuote($quote);
+    $senderConfArray = $senderConfiguration->toArray();
+    $receiverConfigurationArray = $receiverConfiguration->toArray();
+    $data = array_merge($senderConfArray, $receiverConfigurationArray,
+        [
+            "postingCode" => "WRO206",
+            "deliveryType" => "P2P"
+        ]);
+    $resp = $orderApiClient->create($data);
+    $resp = json_decode($resp);
+    $order->setData("pos_operator", $quote->getPosOperator());
+    $order->setData("pos_code", $quote->getPosCode());
+    $order->setData("pos_code_description", $quote->getPosCodeDescription());
+    $order->setData("number", $resp->number);
+    $order->setData("delivery_type", $resp->deliveryType);
+    $order->setData("tracking_number", $resp->trackingNumber);
+    $order->setData("advice_date", $resp->adviceDate);
 
-//       $order->setData("input_custom_shipping_field",$quote->getInputCustomShippingField());
-//       $order->setData("date_custom_shipping_field",$quote->getDateCustomShippingField());
-//       $order->setData("select_custom_shipping_field",$quote->getSelectCustomShippingField());
 
      return $this;
   }
