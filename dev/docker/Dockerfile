@@ -16,8 +16,9 @@ RUN apt-get update \
         libxslt-dev \
         cron \
         mc \
-        nano
-RUN docker-php-ext-install \
+        nano \
+        mysql-client \
+    && docker-php-ext-install \
         pdo_mysql \
         mysqli \
         mcrypt \
@@ -30,26 +31,22 @@ RUN docker-php-ext-install \
         --with-freetype-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
-    && docker-php-ext-install gd
-RUN apt-get purge -y \
+    && docker-php-ext-install gd \
+    && apt-get purge -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng-dev \
         libmcrypt-dev \
         libicu-dev \
-        libxslt-dev
-
-RUN apt-get update \
-    && apt-get install -y gnupg
-
-RUN curl http://nginx.org/keys/nginx_signing.key | apt-key add - \
+        libxslt-dev \
+    && apt-get install -y gnupg \
+    && curl http://nginx.org/keys/nginx_signing.key | apt-key add - \
     && echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" > /etc/apt/sources.list.d/nginx.list \
     && apt-get update \
     && apt-get install -y nginx \
     && rm -f /etc/apt/sources.list.d/nginx.list \
-    && apt-key del 7BD9BF62
-
-RUN apt-get clean \
+    && apt-key del 7BD9BF62 \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 RUN rm -rf /var/www/html \
@@ -61,23 +58,17 @@ COPY dev/docker/php/conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 RUN usermod -s /bin/bash www-data
 
-# Install PECL extensions
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
-
 # Install composer
-RUN (curl -sS https://getcomposer.org/installer | php) || exit 1
-RUN mv composer.phar /usr/local/bin/composer.phar
+RUN (curl -sS https://getcomposer.org/installer | php) || exit 1 \
+    && mv composer.phar /usr/local/bin/composer.phar
 
 # Create composer wrapper
 RUN echo '#!/usr/bin/env bash' >> /usr/local/bin/composer \
     && echo 'COMPOSER_MEMORY_LIMIT=-1 COMPOSER_HOME=/opt/composer/www-data /usr/local/bin/composer.phar $@' >> /usr/local/bin/composer \
-    && chmod 0755 /usr/local/bin/composer
-
-RUN /usr/local/bin/composer config -g http-basic.repo.magento.com bc4c30862f0179e4fb6588d87b42fabc cb1289ea2905db7d27baffcd717c6ed8 \
-    && /usr/local/bin/composer -q create-project --repository-url=https://repo.magento.com/ magento/project-community-edition ${magento_path}
-
-RUN /usr/local/bin/composer config http-basic.repo.magento.com bc4c30862f0179e4fb6588d87b42fabc cb1289ea2905db7d27baffcd717c6ed8
+    && chmod 0755 /usr/local/bin/composer \
+    && /usr/local/bin/composer config -g http-basic.repo.magento.com bc4c30862f0179e4fb6588d87b42fabc cb1289ea2905db7d27baffcd717c6ed8 \
+    && /usr/local/bin/composer -q create-project --repository-url=https://repo.magento.com/ magento/project-community-edition ${magento_path} \
+    && /usr/local/bin/composer config http-basic.repo.magento.com bc4c30862f0179e4fb6588d87b42fabc cb1289ea2905db7d27baffcd717c6ed8
 
 RUN php ${magento_path}/bin/magento sampledata:deploy
 
@@ -95,6 +86,10 @@ RUN find ${magento_path} -type d -exec chmod 777 {} \; && find ${magento_path} -
     && chown -R www-data:www-data ${magento_path}
 
 RUN chown -R www-data:www-data /opt/composer/www-data
+
+# Install PECL extensions
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
 
 COPY dev/docker/run /opt/run
 
