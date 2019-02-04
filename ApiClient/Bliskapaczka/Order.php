@@ -53,7 +53,7 @@ class Order extends AbstractBliskapaczka implements BliskapaczkaInterface
     {
         $this->validate($data);
 
-        $response = $this->doCall($this->getUrl(), json_encode($data), array(), 'POST');
+        $response = $this->doCall($this->getUrl(), json_encode($data , JSON_UNESCAPED_UNICODE), array(), 'POST');
 
         return $response;
     }

@@ -37,13 +37,8 @@ class SaveCustomFieldsInOrder implements \Magento\Framework\Event\ObserverInterf
     $receiverConfiguration = ReceiverConfiguration::fromQuote($quote);
     $senderConfArray = $senderConfiguration->toArray();
     $receiverConfigurationArray = $receiverConfiguration->toArray();
-    $data = array_merge($senderConfArray, $receiverConfigurationArray,
-        [
-            "postingCode" => "WRO206",
-            "deliveryType" => "P2P"
-        ]);
+    $data = array_merge($senderConfArray, $receiverConfigurationArray);
     $resp = $orderApiClient->create($data);
-    $resp = json_decode($resp);
     $order->setData("pos_operator", $quote->getPosOperator());
     $order->setData("pos_code", $quote->getPosCode());
     $order->setData("pos_code_description", $quote->getPosCodeDescription());

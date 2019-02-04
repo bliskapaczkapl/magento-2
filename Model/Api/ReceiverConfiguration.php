@@ -36,7 +36,8 @@ class ReceiverConfiguration
     protected $destinationCode;
     /** @var string */
     protected $additionalInformation;
-
+    /** @var string */
+    protected $deliveryType;
 
     private function __construct(){}
 
@@ -62,6 +63,7 @@ class ReceiverConfiguration
         $rc->operatorName = $quote->getPosOperator();
         $rc->destinationCode = $quote->getPosCode();
         $rc->additionalInformation = $quote->getPosCodeDescription();
+        $rc->deliveryType = $quote->getDeliveryType();
         return $rc;
     }
 
@@ -83,7 +85,13 @@ class ReceiverConfiguration
             'receiverCountryCode' => $this->receiverCountryCode,
             'operatorName' => $this->operatorName,
             'destinationCode' => $this->destinationCode,
-            'additionalInformation' => $this->additionalInformation
+            'additionalInformation' => $this->additionalInformation,
+            'deliveryType' => $this->deliveryType
         ];
+    }
+
+    protected function createDeliveryTypeFromOperatorName(string $operatorName)
+    {
+
     }
 }

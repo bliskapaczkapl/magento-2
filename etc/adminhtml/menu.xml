@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Sendit_Bliskapaczka::raports"
+             title="Bliska paczka raports"
+             module="Sendit_Bliskapaczka"
+             sortOrder="999"
+             action="report/report/edit"
+             parent="Magento_Sales::sales"
+             resource="Sendit_Bliskapaczka::raports"/>
+    </menu>
+</config>

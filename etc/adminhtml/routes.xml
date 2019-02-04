@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="waybill" frontName="waybill">
+            <module name="Sendit_Bliskapaczka" before="Magento_Backend"/>
+        </route>
+        <route id="cancel" frontName="cancel">
+            <module name="Sendit_Bliskapaczka" before="Magento_Backend"/>
+        </route>
+        <route id="recreate" frontName="recreate">
+            <module name="Sendit_Bliskapaczka" before="Magento_Backend"/>
+        </route>
+        <route id="advice" frontName="advice">
+            <module name="Sendit_Bliskapaczka" before="Magento_Backend"/>
+        </route>
+        <route id="report" frontName="report">
+            <module name="Sendit_Bliskapaczka" before="Magento_Backend"/>
+        </route>
+    </router>
+</config>

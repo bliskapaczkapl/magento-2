@@ -9,15 +9,15 @@
 namespace Sendit\Bliskapaczka\Model\Api;
 
 use Sendit\Bliskapaczka\ApiClient\Bliskapaczka\Order;
-class OrderApiClient
+class AdviceApiClient
 {
     /** @var Order */
     protected $apiClient;
     private function __construct(){}
     public static function fromConfiguration(Configuration $configuration)
     {
-        $apiClient = new OrderApiClient;
-        $apiClient->apiClient = new Order(
+        $apiClient = new AdviceApiClient;
+        $apiClient->apiClient = new Order\Advice(
             $configuration->getApikey(),
             $configuration->getEnvironment()
         );
@@ -32,38 +32,10 @@ class OrderApiClient
     public function create(array $data)
     {
         $response = json_decode($this->apiClient->create($data));
-        $this->validateResponse($response);
-        return $response;
-
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setOrderId(string $id)
-    {
-        $this->apiClient->setOrderId($id);
-    }
-
-    /**
-     * @return mixed
-     * @throws \Sendit\Bliskapaczka\ApiClient\Exception
-     */
-    public function get()
-    {
-        $response = json_decode($this->apiClient->get());
-        $this->validateResponse($response);
-        return $response;
-    }
-
-    /**
-     * @param mixed $response
-     * @throws \Exception
-     */
-    protected function validateResponse($response)
-    {
-        if (isset($response->error)) {
+        if (isset($response->errors)) {
             throw new \Exception($response->errors[0]->message);
         }
+       return $this->apiClient->create($data);
     }
+
 }
