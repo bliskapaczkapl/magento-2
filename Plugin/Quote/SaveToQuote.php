@@ -23,75 +23,41 @@ class SaveToQuote
     */
     protected $quoteRepository;
 
-    protected $apiClient;
-
    /**
     * SaveToQuote constructor.
     * @param QuoteRepository $quoteRepository
     */
-    public function __construct(
-        QuoteRepository $quoteRepository
-    ) {
-        $configuration = Configuration::fromStoreConfiguration();
-
-        /* @var $apiClient \Bliskapaczka\ApiClient\Bliskapaczka\Pricing */
-        $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Order(
-            $configuration->getApikey(),
-            $configuration->getEnvironment()
-        );
-
-        $this->quoteRepository = $quoteRepository;
-        $this->apiClient = new Order('782aff82-344b-4f48-9d13-d5913b6b818a', 'test');
-    }
+   public function __construct(
+       QuoteRepository $quoteRepository
+   ) {
+       $this->quoteRepository = $quoteRepository;
+   }
 
    /**
     * @param \Magento\Checkout\Model\ShippingInformationManagement $subject
     * @param $cartId
     * @param \Magento\Checkout\Api\Data\ShippingInformationInterface $addressInformation
     */
-    public function beforeSaveAddressInformation(
-        \Magento\Checkout\Model\ShippingInformationManagement $subject,
-        $cartId,
-        \Magento\Checkout\Api\Data\ShippingInformationInterface $addressInformation
-    ) {
-        if (!$extAttributes = $addressInformation->getExtensionAttributes()) {
-            return;
-        }
+   public function beforeSaveAddressInformation(
+       \Magento\Checkout\Model\ShippingInformationManagement $subject,
+       $cartId,
+       \Magento\Checkout\Api\Data\ShippingInformationInterface $addressInformation
+   ) {
+       if(!$extAttributes = $addressInformation->getExtensionAttributes()) {
+           return;
+       }
 
-        $quote = $this->quoteRepository->getActive($cartId);
- //       $orderData = [
- //           "senderFirstName" => "Paweł",
- //           "senderLastName" => "Karbowniczek",
- //           "senderPhoneNumber" => "512813267",
- //           "senderEmail" => "pkarbowniczek@divante.pl",
- //           "senderStreet" => "Dmowskiego",
- //           "senderBuildingNumber" => "17",
- //           "senderFlatNumber" => "",
- //           "senderPostCode" => "50-203",
- //           "senderCity" => "Wrocłąw",
- //           "receiverFirstName" => "Paweł",
- //           "receiverLastName" => "Karbowniczek",
- //           "receiverPhoneNumber" => "512813267",
- //           "receiverEmail" => "pkarbowniczek@divante.pl",
- //           "operatorName" => $extAttributes->getPosOperator(),
- //           "destinationCode" => $extAttributes->getPosCode(),
- //           "postingCode" => "WRO206",
- //           "codValue" => 1,
- //           "insuranceValue" => 0,
- //           "additionalInformation" => $extAttributes->getPosCodeDescription(),
- //           "parcel" => [
- //               "dimensions" => [
- //                   "height" => 20,
- //                   "length" => 20,
- //                   "width" => 20,
- //                   "weight" => 2
- //               ]
- //           ],
- //           "deliveryType" => "P2P"
- //       ];
-
-        $quote->setPosOperator($extAttributes->getPosOperator());
-        $quote->setPosCode($extAttributes->getPosCode());
-        $quote->setPosCodeDescription($extAttributes->getPosCodeDescription());
+       $deliiveryType = 'P2P';
+       if ($addressInformation->getShippingCarrierCode() === 'courier') {
+           $deliiveryType = 'D2D';
+           if ($extAttributes->getPosOperator() === 'POCZTA') {
+               $deliiveryType = 'P2D';
+           }
+       }
+       $quote = $this->quoteRepository->getActive($cartId);
+       $quote->setPosOperator($extAttributes->getPosOperator());
+       $quote->setPosCode($extAttributes->getPosCode());
+       $quote->setPosCodeDescription($extAttributes->getPosCodeDescription());
+       $quote->setDeliveryType($deliiveryType);
     }
 }
