@@ -90,10 +90,6 @@
                        showInStore="1">
                     <label>Sender city</label>
                 </field>
-                <field id="sort_order" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
-                       showInStore="0">
-                    <label>Sort Order</label>
-                </field>
                 <field id="title" translate="label" type="text" sortOrder="21" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Title</label>
@@ -161,10 +157,6 @@
                        showInStore="0">
                     <label>Handling Fee</label>
                     <validate>validate-number validate-zero-or-greater</validate>
-                </field>
-                <field id="sort_order" translate="label" type="text" sortOrder="29" showInDefault="1" showInWebsite="1"
-                       showInStore="0">
-                    <label>Sort Order</label>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
                        showInStore="1">

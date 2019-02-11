@@ -50,7 +50,8 @@ class Data extends AbstractHelper
 
     public function __construct()
     {
-        $this->configuration = Configuration::fromStoreConfiguration();;
+        $this->configuration = Configuration::fromStoreConfiguration();
+        ;
     }
 
     /**
@@ -254,26 +255,26 @@ class Data extends AbstractHelper
         return json_encode($operators);
     }
 
-    // /**
-    //  * Get Bliskapaczka API Client
-    //  *
-    //  * @return \Bliskapaczka\ApiClient\Bliskapaczka
-    //  */
-    // public function getApiClientPricing()
-    // {
-    //     $scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
-    //     $apiKey = $scopeConfig
-    //         ->getValue('carriers/bliskapaczka/api_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-    //     $testMode = $scopeConfig
-    //         ->getValue('carriers/bliskapaczka/sandbox', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+    /**
+     * Get Bliskapaczka API Client
+     *
+     * @return \Bliskapaczka\ApiClient\Bliskapaczka
+     */
+    public function getApiClientPricing()
+    {
+        $scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
+        $apiKey = $scopeConfig
+            ->getValue('carriers/bliskapaczka/api_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $testMode = $scopeConfig
+            ->getValue('carriers/bliskapaczka/sandbox', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-    //     $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
-    //         $apiKey,
-    //         $this->getApiMode(Mage::getStoreConfig(self::API_TEST_MODE_XML_PATH))
-    //     );
+        $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
+            $apiKey,
+            $this->getApiMode(Mage::getStoreConfig(self::API_TEST_MODE_XML_PATH))
+        );
 
-    //     return $apiClient;
-    // }
+        return $apiClient;
+    }
 
     /**
      * Get Bliskapaczka API Client

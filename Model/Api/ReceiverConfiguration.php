@@ -38,7 +38,9 @@ class ReceiverConfiguration
     protected $additionalInformation;
 
 
-    private function __construct(){}
+    private function __construct()
+    {
+    }
 
     /**
      * @return ReceiverConfiguration
@@ -53,9 +55,9 @@ class ReceiverConfiguration
         $rc->receiverLastName = $addressData['lastname'];
         $rc->receiverPhoneNumber = $addressData['telephone'];
         $rc->receiverEmail = $addressData['email'];
-        $rc->receiverStreet = explode(PHP_EOL,$addressData["street"])[0];
-        $rc->receiverBuildingNumber = explode(PHP_EOL,$addressData["street"])[1];
-        $rc->receiverFlatNumber = explode(PHP_EOL,$addressData["street"])[2];
+        $rc->receiverStreet = explode(PHP_EOL, $addressData["street"])[0];
+        $rc->receiverBuildingNumber = explode(PHP_EOL, $addressData["street"])[1];
+        $rc->receiverFlatNumber = explode(PHP_EOL, $addressData["street"])[2];
         $rc->receiverPostCode = $addressData['postcode'];
         $rc->receiverCity = $addressData['city'];
         $rc->receiverCountryCode = $addressData['country_id'];

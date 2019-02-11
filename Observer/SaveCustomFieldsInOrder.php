@@ -23,36 +23,39 @@ class SaveCustomFieldsInOrder implements \Magento\Framework\Event\ObserverInterf
     * @param \Magento\Framework\Event\Observer $observer
     * @return $this
     */
-   public function execute(\Magento\Framework\Event\Observer $observer)
-  {
+    public function execute(\Magento\Framework\Event\Observer $observer)
+    {
 
-    $order = $observer->getEvent()->getOrder();
-    $quote = $observer->getEvent()->getQuote();
-    if (empty($quote->getPosOperator()) || empty($quote->getPosCode())) {
-        return $this;
-    }
-    $conf = Configuration::fromStoreConfiguration();
-    $orderApiClient = OrderApiClient::fromConfiguration($conf);
-    $senderConfiguration = SenderConfiguration::fromStoreConfiguration();
-    $receiverConfiguration = ReceiverConfiguration::fromQuote($quote);
-    $senderConfArray = $senderConfiguration->toArray();
-    $receiverConfigurationArray = $receiverConfiguration->toArray();
-    $data = array_merge($senderConfArray, $receiverConfigurationArray,
-        [
+        $order = $observer->getEvent()->getOrder();
+        $quote = $observer->getEvent()->getQuote();
+        if (empty($quote->getPosOperator()) || empty($quote->getPosCode())) {
+              return $this;
+        }
+        $conf = Configuration::fromStoreConfiguration();
+        $orderApiClient = OrderApiClient::fromConfiguration($conf);
+        $senderConfiguration = SenderConfiguration::fromStoreConfiguration();
+        $receiverConfiguration = ReceiverConfiguration::fromQuote($quote);
+        $senderConfArray = $senderConfiguration->toArray();
+        $receiverConfigurationArray = $receiverConfiguration->toArray();
+        $data = array_merge(
+            $senderConfArray,
+            $receiverConfigurationArray,
+            [
             "postingCode" => "WRO206",
             "deliveryType" => "P2P"
-        ]);
-    $resp = $orderApiClient->create($data);
-    $resp = json_decode($resp);
-    $order->setData("pos_operator", $quote->getPosOperator());
-    $order->setData("pos_code", $quote->getPosCode());
-    $order->setData("pos_code_description", $quote->getPosCodeDescription());
-    $order->setData("number", $resp->number);
-    $order->setData("delivery_type", $resp->deliveryType);
-    $order->setData("tracking_number", $resp->trackingNumber);
-    $order->setData("advice_date", $resp->adviceDate);
+            ]
+        );
+        // $resp = $orderApiClient->create($data);
+        // $resp = json_decode($resp);
+        // $order->setData("pos_operator", $quote->getPosOperator());
+        // $order->setData("pos_code", $quote->getPosCode());
+        // $order->setData("pos_code_description", $quote->getPosCodeDescription());
+        // $order->setData("number", $resp->number);
+        // $order->setData("delivery_type", $resp->deliveryType);
+        // $order->setData("tracking_number", $resp->trackingNumber);
+        // $order->setData("advice_date", $resp->adviceDate);
 
 
-     return $this;
-  }
+        return $this;
+    }
 }

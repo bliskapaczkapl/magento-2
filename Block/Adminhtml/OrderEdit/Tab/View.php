@@ -10,6 +10,7 @@ namespace Sendit\Bliskapaczka\Block\Adminhtml\OrderEdit\Tab;
 
 use Sendit\Bliskapaczka\Model\Api\Configuration;
 use Sendit\Bliskapaczka\Model\Api\OrderApiClient;
+
 class View extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     protected $_template = 'tab/view/my_order_info.phtml';
@@ -34,7 +35,6 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         $orderApiClient->setOrderId($this->getOrder()->getNumber());
         $resp = $orderApiClient->get();
         $this->_dataFromApi = json_decode($resp, true);
-
     }
 
     /**

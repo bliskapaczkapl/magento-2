@@ -31,10 +31,9 @@ class Courier extends AbstractBliskapaczka
         \Psr\Log\LoggerInterface $logger,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
-        array $data = [],
-        SenditHelper $senditHelper
-    )
-    {
+        SenditHelper $senditHelper,
+        array $data = []
+    ) {
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
         $this->senditHelper = $senditHelper;

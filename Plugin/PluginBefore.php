@@ -8,7 +8,6 @@
 
 namespace Sendit\Bliskapaczka\Plugin;
 
-
 class PluginBefore
 {
     public function beforePushButtons(
@@ -18,23 +17,34 @@ class PluginBefore
     ) {
 
         $this->_request = $context->getRequest();
-        if($this->_request->getFullActionName() == 'sales_order_view'){
+        if ($this->_request->getFullActionName() == 'sales_order_view') {
             $buttonList->add(
                 'update_bliska_paczka',
-                ['label' => __('Aktualizuj Bliską paczkę'), 'onclick' => 'setLocation(window.location.href)', 'class' => 'reset'],
+                [
+                    'label' => __('Aktualizuj Bliską paczkę'),
+                    'onclick' => 'setLocation(window.location.href)',
+                    'class' => 'reset'
+                ],
                 -1
             );
             $buttonList->add(
                 'waybill_bliska_paczka',
-                ['label' => __('List przewozowy'), 'onclick' => 'setLocation(window.location.href)', 'class' => 'reset'],
+                [
+                    'label' => __('List przewozowy'),
+                    'onclick' => 'setLocation(window.location.href)',
+                    'class' => 'reset'
+                ],
                 -1
             );
             $buttonList->add(
                 'delete_bliska_paczka',
-                ['label' => __('Anuluj Bliską paczkę'), 'onclick' => 'setLocation(window.location.href)', 'class' => 'reset'],
+                [
+                    'label' => __('Anuluj Bliską paczkę'),
+                    'onclick' => 'setLocation(window.location.href)',
+                    'class' => 'reset'
+                ],
                 -1
             );
         }
-
     }
 }

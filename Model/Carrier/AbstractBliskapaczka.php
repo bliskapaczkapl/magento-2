@@ -3,7 +3,7 @@
 namespace Sendit\Bliskapaczka\Model\Carrier;
 
 abstract class AbstractBliskapaczka extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
-	\Magento\Shipping\Model\Carrier\CarrierInterface
+    \Magento\Shipping\Model\Carrier\CarrierInterface
 {
     /**
      * Get allowed shipping methods
