@@ -9,11 +9,14 @@
 namespace Sendit\Bliskapaczka\Model\Api;
 
 use Bliskapaczka\ApiClient\Bliskapaczka\Order;
+
 class OrderApiClient
 {
     /** @var Order */
     protected $apiClient;
-    private function __construct(){}
+    private function __construct()
+    {
+    }
     public static function fromConfiguration(Configuration $configuration)
     {
         $apiClient = new OrderApiClient;
@@ -34,7 +37,6 @@ class OrderApiClient
         $response = json_decode($this->apiClient->create($data));
         $this->validateResponse($response);
         return $response;
-
     }
 
     /**

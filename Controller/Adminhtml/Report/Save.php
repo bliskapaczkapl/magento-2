@@ -8,7 +8,6 @@
 
 namespace Sendit\Bliskapaczka\Controller\Adminhtml\Report;
 
-
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
@@ -30,7 +29,6 @@ class Save extends \Magento\Framework\App\Action\Action
         $isPost = $this->getRequest()->getPost();
         if ($isPost) {
             $formData = $this->getRequest()->getParam('report');
-
         }
         $conf = Configuration::fromStoreConfiguration();
         $apiClient = ReportApiClient::fromConfiguration($conf);
@@ -55,14 +53,12 @@ class Save extends \Magento\Framework\App\Action\Action
             if (strpos($pdf, 'error') === false) {
                 $zip->addFromString($value, $pdf);
             }
-
-
         }
 
         $fileName = $zip->filename;
         $zip->close();
         return $this->_fileFactory->create(
-        //File name you would like to download it by
+            //File name you would like to download it by
             $fileName,
             [
                 'type'  => "filename", //type has to be "filename"
@@ -87,6 +83,5 @@ class Save extends \Magento\Framework\App\Action\Action
         $zip = new \ZipArchive();
         $zip->open($path, \ZipArchive::CREATE);
         return $zip;
-
     }
 }

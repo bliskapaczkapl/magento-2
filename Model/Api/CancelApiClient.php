@@ -9,11 +9,14 @@
 namespace Sendit\Bliskapaczka\Model\Api;
 
 use Bliskapaczka\ApiClient\Bliskapaczka\Order;
+
 class CancelApiClient
 {
     /** @var Order\Cancel */
     protected $apiClient;
-    private function __construct(){}
+    private function __construct()
+    {
+    }
     public static function fromConfiguration(Configuration $configuration)
     {
         $apiClient = new CancelApiClient();
@@ -34,7 +37,7 @@ class CancelApiClient
         if (isset($response->errors)) {
             throw new \Exception($response->errors[0]->message);
         }
-       return $response;
+        return $response;
     }
 
     /**
@@ -44,5 +47,4 @@ class CancelApiClient
     {
         $this->apiClient->setOrderId($orderId);
     }
-
 }

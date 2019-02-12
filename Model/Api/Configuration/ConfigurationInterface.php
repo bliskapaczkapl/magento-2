@@ -6,8 +6,8 @@ use \Sendit\Bliskapaczka\Model\Api\Configuration;
 
 interface ConfigurationInterface
 {
-	public function set(
-		Configuration $configuration,
-		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-	) : Configuration;
+    public function set(
+        Configuration $configuration,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+    ) : Configuration;
 }

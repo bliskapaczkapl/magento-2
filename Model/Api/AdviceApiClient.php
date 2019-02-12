@@ -9,11 +9,14 @@
 namespace Sendit\Bliskapaczka\Model\Api;
 
 use Bliskapaczka\ApiClient\Bliskapaczka\Order;
+
 class AdviceApiClient
 {
     /** @var Order */
     protected $apiClient;
-    private function __construct(){}
+    private function __construct()
+    {
+    }
     public static function fromConfiguration(Configuration $configuration)
     {
         $apiClient = new AdviceApiClient;
@@ -35,7 +38,6 @@ class AdviceApiClient
         if (isset($response->errors)) {
             throw new \Exception($response->errors[0]->message);
         }
-       return $response;
+        return $response;
     }
-
 }

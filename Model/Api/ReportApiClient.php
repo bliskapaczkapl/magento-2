@@ -8,7 +8,6 @@
 
 namespace Sendit\Bliskapaczka\Model\Api;
 
-
 use Bliskapaczka\ApiClient\Bliskapaczka\Report;
 
 class ReportApiClient
@@ -26,7 +25,9 @@ class ReportApiClient
 
     /** @var Report */
     protected $apiClient;
-    private function __construct(){}
+    private function __construct()
+    {
+    }
     public static function fromConfiguration(Configuration $configuration)
     {
         $apiClient = new ReportApiClient();
@@ -37,7 +38,7 @@ class ReportApiClient
         return $apiClient;
     }
 
-    public function get( string $operator, ?string $startDate = null, ?string $endDate = null)
+    public function get(string $operator, ?string $startDate = null, ?string $endDate = null)
     {
         if (!empty($startDate)) {
             $this->apiClient->setStartPeriod($startDate);

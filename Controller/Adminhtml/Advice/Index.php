@@ -8,7 +8,6 @@
 
 namespace Sendit\Bliskapaczka\Controller\Adminhtml\Advice;
 
-
 use Sendit\Bliskapaczka\Model\Api\AdviceApiClient;
 use Sendit\Bliskapaczka\Model\Api\OrderApiClient;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
@@ -23,9 +22,7 @@ class Index extends \Magento\Backend\App\Action
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
-
-    )
-    {
+    ) {
         parent::__construct($context);
         $this->resultFactory = $resultJsonFactory;
     }
@@ -51,6 +48,5 @@ class Index extends \Magento\Backend\App\Action
 
         $resultRedirect->setUrl($this->_redirect->getRefererUrl());
         return $resultRedirect;
-
     }
 }

@@ -8,7 +8,6 @@
 
 namespace Sendit\Bliskapaczka\Block\Adminhtml\Report\Edit;
 
-
 use Magento\Backend\Block\Widget\Form\Generic;
 
 class Form extends Generic
