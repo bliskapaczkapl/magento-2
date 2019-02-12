@@ -8,8 +8,8 @@
 
 namespace Sendit\Bliskapaczka\Controller\Adminhtml\Cancel;
 
-use Sendit\Bliskapaczka\Model\Api\CancelApiClient;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
+use Bliskapaczka\ApiClient\Bliskapaczka\Order\Cancel;
 
 class Index extends \Magento\Backend\App\Action
 {
@@ -29,11 +29,8 @@ class Index extends \Magento\Backend\App\Action
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();
-        $orderId = $this->getRequest()->getParam('order_id');
-        $order = $this->_objectManager->get('Magento\Sales\Model\Order')->load($orderId);
-        $conf = Configuration::fromStoreConfiguration();
-        $cancel = CancelApiClient::fromConfiguration($conf);
-        $cancel->setOrderId($order->getNumber());
+        $cancel = $this->getCancelApiClient();
+        $cancel->setOrderId($this->getOrderNumber());
         try {
             $cancel->cancel();
             $this->messageManager->addSuccessMessage(__('Order Bliskapaczka canceled'));
@@ -43,5 +40,29 @@ class Index extends \Magento\Backend\App\Action
 
         $resultRedirect->setUrl($this->_redirect->getRefererUrl());
         return $resultRedirect;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getOrderNumber()
+    {
+        $orderId = $this->getRequest()->getParam('order_id');
+        $order = $this->_objectManager->get('Magento\Sales\Model\Order')->load($orderId);
+        return $order->getNumber();
+    }
+
+    /**
+     * @return Cancel
+     */
+    protected function getCancelApiClient()
+    {
+        $configuration = Configuration::fromStoreConfiguration();
+        $apiClient = new Cancel(
+            $configuration->getApikey(),
+            $configuration->getEnvironment()
+        );
+
+        return $apiClient;
     }
 }

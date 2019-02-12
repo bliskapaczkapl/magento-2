@@ -8,8 +8,8 @@
 
 namespace Sendit\Bliskapaczka\Controller\Adminhtml\Waybill;
 
-use Sendit\Bliskapaczka\Model\Api\WaybillApiClient;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
+use Bliskapaczka\ApiClient\Bliskapaczka\Order\Waybill;
 
 class Index extends \Magento\Backend\App\Action
 {
@@ -29,11 +29,8 @@ class Index extends \Magento\Backend\App\Action
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();
-        $orderId = $this->getRequest()->getParam('order_id');
-        $order = $this->_objectManager->get('Magento\Sales\Model\Order')->load($orderId);
-        $conf = Configuration::fromStoreConfiguration();
-        $waybill = WaybillApiClient::fromConfiguration($conf);
-        $waybill->setOrderId($order->getNumber());
+        $waybill = $this->getWaybillApiClient();
+        $waybill->setOrderId($this->getOrderNumber());
         try {
             $resp = $waybill->get();
             $url = $resp[0]->url;
@@ -45,5 +42,27 @@ class Index extends \Magento\Backend\App\Action
 
 
         return $resultRedirect;
+    }
+
+
+    /**
+     * @return string
+     */
+    protected function getOrderNumber()
+    {
+        $orderId = $this->getRequest()->getParam('order_id');
+        $order = $this->_objectManager->get('Magento\Sales\Model\Order')->load($orderId);
+        return $order->getNumber();
+    }
+
+    protected function getWaybillApiClient()
+    {
+        $configuration = Configuration::fromStoreConfiguration();
+        $apiClient = new Waybill(
+            $configuration->getApikey(),
+            $configuration->getEnvironment()
+        );
+
+        return $apiClient;
     }
 }

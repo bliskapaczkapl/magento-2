@@ -8,8 +8,8 @@
 
 namespace Sendit\Bliskapaczka\Controller\Adminhtml\Recreate;
 
-use Sendit\Bliskapaczka\Model\Api\RetryApiClient;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
+use Bliskapaczka\ApiClient\Bliskapaczka\Order\Retry;
 
 class Index extends \Magento\Backend\App\Action
 {
@@ -29,11 +29,8 @@ class Index extends \Magento\Backend\App\Action
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();
-        $orderId = $this->getRequest()->getParam('order_id');
-        $order = $this->_objectManager->get('Magento\Sales\Model\Order')->load($orderId);
-        $conf = Configuration::fromStoreConfiguration();
-        $retryApiClient = RetryApiClient::fromConfiguration($conf);
-        $retryApiClient->setOrderId($order->getNumber());
+        $retryApiClient = $this->getRecreateApiClient();
+        $retryApiClient->setOrderId($this->getOrderNumber());
         try {
             $retryApiClient->retry();
             $this->messageManager->addSuccessMessage(__('Order Bliskapaczka retried'));
@@ -42,5 +39,29 @@ class Index extends \Magento\Backend\App\Action
         }
         $resultRedirect->setUrl($this->_redirect->getRefererUrl());
         return $resultRedirect;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getOrderNumber()
+    {
+        $orderId = $this->getRequest()->getParam('order_id');
+        $order = $this->_objectManager->get('Magento\Sales\Model\Order')->load($orderId);
+        return $order->getNumber();
+    }
+
+    /**
+     * @return Retry
+     */
+    protected function getRecreateApiClient()
+    {
+        $configuration = Configuration::fromStoreConfiguration();
+        $apiClient = new Retry(
+            $configuration->getApikey(),
+            $configuration->getEnvironment()
+        );
+
+        return $apiClient;
     }
 }

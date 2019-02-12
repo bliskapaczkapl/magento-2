@@ -9,12 +9,22 @@
 namespace Sendit\Bliskapaczka\Controller\Adminhtml\Report;
 
 use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\Stdlib\DateTime\DateTime;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
-use Sendit\Bliskapaczka\Model\Api\ReportApiClient;
+use Bliskapaczka\ApiClient\Bliskapaczka\Report;
 
 class Save extends \Magento\Framework\App\Action\Action
 {
+
+    const OPERATORS = [
+        'RUCH' => 'Ruch',
+        'POCZTA' => 'Poczta',
+        'INPOST' => 'Inpost',
+        'DPD' => 'DPD',
+        'UPS' => 'UPS',
+        'FEDEX' => 'FedEx',
+        'GLS' => 'GLS',
+        'XPRESS' => 'X-press Couriers'
+    ];
 
     /**
      * Execute action based on request and return result
@@ -30,13 +40,12 @@ class Save extends \Magento\Framework\App\Action\Action
         if ($isPost) {
             $formData = $this->getRequest()->getParam('report');
         }
-        $conf = Configuration::fromStoreConfiguration();
-        $apiClient = ReportApiClient::fromConfiguration($conf);
+        $apiClient = $this->getReportApiclient();
         $zip = $this->createZipFile();
 
-        foreach (ReportApiClient::OPERATORS as $key => $value) {
-            $startPeriod = $formData[$key.'from'];
-            $stopPeriod = $formData[$key.'to'];
+        foreach (self::OPERATORS as $key => $value) {
+            $startPeriod = $formData[$key . 'from'];
+            $stopPeriod = $formData[$key . 'to'];
             if (!empty($startPeriod)) {
                 $startPeriod = new \DateTime($startPeriod);
                 $startPeriod = $startPeriod->format('c');
@@ -57,24 +66,12 @@ class Save extends \Magento\Framework\App\Action\Action
 
         $fileName = $zip->filename;
         $zip->close();
-        return $this->_fileFactory->create(
-            //File name you would like to download it by
-            $fileName,
-            [
-                'type'  => "filename", //type has to be "filename"
-                'value' => "folder/{$fileName}", // path will append to the
-                // base dir
-                'rm'    => true, // add this only if you would like the file to be
-                // deleted after being downloaded from server
-            ],
-            \Magento\Framework\App\Filesystem\DirectoryList::MEDIA
-        );
     }
 
     /**
      * @return \ZipArchive
      */
-    private function createZipFile() :\ZipArchive
+    private function createZipFile(): \ZipArchive
     {
         $directory = $this->_objectManager->get('\Magento\Framework\Filesystem\DirectoryList');
         $tmpDirectory = $directory->getPath('tmp');
@@ -83,5 +80,16 @@ class Save extends \Magento\Framework\App\Action\Action
         $zip = new \ZipArchive();
         $zip->open($path, \ZipArchive::CREATE);
         return $zip;
+    }
+
+    private function getReportApiclient()
+    {
+        $configuration = Configuration::fromStoreConfiguration();
+        $apiClient = new Report(
+            $configuration->getApikey(),
+            $configuration->getEnvironment()
+        );
+
+        return $apiClient;
     }
 }
