@@ -18,7 +18,7 @@ class Edit extends \Magento\Framework\App\Action\Action
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->_pageFactory->create();
         $resultPage->setActiveMenu('Sendit_Bliskapaczka::raports');
-        $resultPage->getConfig()->getTitle()->prepend(__('Simple News'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Bliskapaczka raports'));
 
         return $resultPage;
     }

@@ -16,7 +16,7 @@ class Tabs extends WidgetTabs
         parent::_construct();
         $this->setId('report_edit_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(__('News Information'));
+        $this->setTitle(__('Report'));
     }
 
     /**
@@ -27,8 +27,8 @@ class Tabs extends WidgetTabs
         $this->addTab(
             'report_info',
             [
-                'label' => __('General'),
-                'title' => __('General'),
+                'label' => __('Report'),
+                'title' => __('Report'),
                 'content' => $this->getLayout()->createBlock(
                     'Sendit\Bliskapaczka\Block\Adminhtml\Report\Edit\Tab\Info'
                 )->toHtml(),

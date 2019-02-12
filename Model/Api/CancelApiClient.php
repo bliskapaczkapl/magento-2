@@ -8,7 +8,7 @@
 
 namespace Sendit\Bliskapaczka\Model\Api;
 
-use Sendit\Bliskapaczka\ApiClient\Bliskapaczka\Order;
+use Bliskapaczka\ApiClient\Bliskapaczka\Order;
 class CancelApiClient
 {
     /** @var Order\Cancel */

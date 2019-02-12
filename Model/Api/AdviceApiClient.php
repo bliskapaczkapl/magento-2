@@ -8,7 +8,7 @@
 
 namespace Sendit\Bliskapaczka\Model\Api;
 
-use Sendit\Bliskapaczka\ApiClient\Bliskapaczka\Order;
+use Bliskapaczka\ApiClient\Bliskapaczka\Order;
 class AdviceApiClient
 {
     /** @var Order */
@@ -35,7 +35,7 @@ class AdviceApiClient
         if (isset($response->errors)) {
             throw new \Exception($response->errors[0]->message);
         }
-       return $this->apiClient->create($data);
+       return $response;
     }
 
 }

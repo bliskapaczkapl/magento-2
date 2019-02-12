@@ -8,7 +8,7 @@
 
 namespace Sendit\Bliskapaczka\Model\Api;
 
-use Sendit\Bliskapaczka\ApiClient\Bliskapaczka\Order;
+use Bliskapaczka\ApiClient\Bliskapaczka\Order;
 class WaybillApiClient
 {
     /** @var Order */
@@ -26,7 +26,7 @@ class WaybillApiClient
 
     /**
      * @return \Sendit\Bliskapaczka\ApiClient\Bliskapaczka\json
-     * @throws \Sendit\Bliskapaczka\ApiClient\Exception
+     * @throws \Bliskapaczka\ApiClient\Exception
      */
     public function get()
     {
