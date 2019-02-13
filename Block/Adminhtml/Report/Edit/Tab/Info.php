@@ -14,7 +14,7 @@ use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Registry;
 use Magento\Framework\Data\FormFactory;
 use Magento\Cms\Model\Wysiwyg\Config;
-use Sendit\Bliskapaczka\Model\Api\ReportApiClient;
+use Sendit\Bliskapaczka\Controller\Adminhtml\Report\Save;
 
 class Info extends Generic implements TabInterface
 {
@@ -64,7 +64,7 @@ class Info extends Generic implements TabInterface
             'base_fieldset',
             ['legend' => __('Report')]
         );
-        foreach (ReportApiClient::OPERATORS as $operator => $name) {
+        foreach (Save::OPERATORS as $operator => $name) {
             $fieldset->addField(
                 $name,
                 'label',
