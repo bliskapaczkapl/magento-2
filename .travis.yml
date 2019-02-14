@@ -5,16 +5,20 @@ php:
 
 env:
   global:
+    - VENDOR_DIR=app/code/community/Sendit/Bliskapaczka/vendor
     - COMMIT=${TRAVIS_COMMIT::8}
 
 services:
   - docker
 
-before_script:
-  - echo "Test"
-
 script:
-  - echo "Test"
+  - composer global require install
+  - $VENDOR_DIR/bin/phpcs -s --colors --standard=./$VENDOR_DIR/magento-ecg/coding-standard/Ecg app/ --ignore=app/code/community/Sendit/Bliskapaczka/vendor/*
+  - $VENDOR_DIR/bin/phpmd app/ text codesize --exclude app/code/community/Sendit/Bliskapaczka/vendor
+  - $VENDOR_DIR/bin/phpcpd --exclude vendor app/
+  - $VENDOR_DIR/bin/phpdoccheck --directory=app --exclude=code/community/Sendit/Bliskapaczka/vendor
+  - $VENDOR_DIR/bin/phploc app/
+  - $VENDOR_DIR/bin/phpunit --bootstrap dev/tests/bootstrap.php dev/tests/unit/
 
 after_success:
   - docker build -t bliskapaczkapl/magento-2:$COMMIT -t bliskapaczkapl/magento-2:latest -t bliskapaczkapl/magento-2:develop -f dev/docker/Dockerfile .

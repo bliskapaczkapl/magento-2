@@ -6,10 +6,6 @@
         "magento/product-community-edition": "~2.1",
         "bliskapaczkapl/bliskapaczka-api-client": "^3.2"
     },
-    "require-dev": {
-        "phploc/phploc":"^4.0",
-        "sensiolabs/security-checker": "4.*"
-    },
     "authors": [
         {
             "name": "Marcin Dykas",
