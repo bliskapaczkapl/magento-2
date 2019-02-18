@@ -10,7 +10,7 @@ services:
       - ./dev/docker/mysql/env
     environment:
       DB_HOST: db
-      DOMAIN: localhost:8080
+      DOMAIN: 127.0.0.1:8080
     depends_on:
       - db
   db:

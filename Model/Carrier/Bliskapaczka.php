@@ -2,11 +2,12 @@
 
 namespace Sendit\Bliskapaczka\Model\Carrier;
 
+use Sendit\Bliskapaczka\Model\Carrier\AbstractBliskapaczka;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Rate\Result;
+use Sendit\Bliskapaczka\Helper\Data;
 
-class Bliskapaczka extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
-    \Magento\Shipping\Model\Carrier\CarrierInterface
+class Bliskapaczka extends AbstractBliskapaczka
 {
     /**
      * @var string
@@ -30,8 +31,7 @@ class Bliskapaczka extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
         array $data = []
-    )
-    {
+    ) {
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);

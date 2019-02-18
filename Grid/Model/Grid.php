@@ -134,5 +134,4 @@ class Grid extends \Magento\Framework\Model\AbstractModel
     {
         return $this->getData(self::CREATION_DATE);
     }
-
 }

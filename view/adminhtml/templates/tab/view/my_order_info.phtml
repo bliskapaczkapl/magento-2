@@ -1,0 +1,70 @@
+<?php
+/**
+ * @var $block \Sendit\Bliskapaczka\Block\Adminhtml\OrderEdit\Tab\View
+ */
+?>
+
+<div class="fieldset-wrapper order-information">
+    <div class="fieldset-wrapper-title">
+        <span class="title"><?php /* @escapeNotVerified */
+            echo __('Bliskapaczka informacje o zamówieniu') ?></span>
+    </div>
+    <table class="admin__table-secondary">
+        <tbody>
+        <?php echo $block->getChildHtml(); ?>
+        <tr>
+            <th><?php /* @escapeNotVerified */
+                echo __('Numer:') ?></th>
+            <td><?php echo $block->getDataFromApi()['number']; ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */
+                echo __('Status:') ?></th>
+            <td><?php echo $block->getDataFromApi()['status']; ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */
+                echo __('Powód błędu:') ?></th>
+            <td><?php echo $block->getDataFromApi()['errorReason']; ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */
+                echo __('Delivery type:') ?></th>
+            <td><?php echo $block->getDataFromApi()['deliveryType']; ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */
+                echo __('Creation date:') ?></th>
+            <td><?php echo $block->formatDate($block->getDataFromApi()['creationDate']); ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */
+                echo __('Operator Name:') ?></th>
+            <td><?php echo $block->getDataFromApi()['operatorName']; ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */
+                echo __('Destination Code:') ?></th>
+            <td><?php echo $block->getDataFromApi()['destinationCode']; ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */
+                echo __('Destination Point Description:') ?></th>
+            <td><?php echo $block->getDataFromApi()['additionalInformation']; ?></td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */
+                echo __('Advice date:') ?></th>
+            <td>
+                <?php echo !is_null($block->getDataFromApi()['adviceDate']) ?  $block->formatDate($block->getDataFromApi()['adviceDate']) : null; ?>
+            </td>
+        </tr>
+        <tr>
+            <th><?php /* @escapeNotVerified */
+                echo __('Tracking link:') ?></th>
+            <td><a href="<?php echo $block->getDataFromApi()['trackingNumber']; ?>">            <td><a href=" <?php echo $block->getDataFromApi()['trackingNumber']; ?>"</td>
+            </a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

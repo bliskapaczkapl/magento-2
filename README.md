@@ -12,7 +12,6 @@ W celu poprawnej instalacji modułu wymagane są:
 ### Instalacja modułu
 
 ### Tryb testowy
-
 Tryb testowy, czli komunikacja z testową wersją znajdującą się pod adresem [sandbox-bliskapaczka.pl](https://sandbox-bliskapaczka.pl/) można uruchomić przełączają w ustwieniach modułu opcję `Test mode enabled` na `Yes`.
 
 ## Możliwości modułu

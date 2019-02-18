@@ -8,7 +8,6 @@
 
 namespace Sendit\Bliskapaczka\Test\Unit;
 
-
 class Test extends \PHPUnit\Framework\TestCase
 {
 

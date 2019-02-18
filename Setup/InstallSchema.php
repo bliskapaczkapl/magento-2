@@ -64,6 +64,21 @@ class InstallSchema implements InstallSchemaInterface
                 'nullable' => true,
                 'comment' => 'Advice date field',
             ],
+            'pos_code' => [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'nullable' => true,
+                'comment' => 'Pos code field',
+            ],
+            'pos_operator' => [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'nullable' => true,
+                'comment' => 'Pos operator field',
+            ],
+            'pos_code_description' => [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'nullable' => true,
+                'comment' => 'Pos code description type field',
+            ]
         ];
 
         $connection = $installer->getConnection();

@@ -9,36 +9,40 @@ sleep 10
 
 runuser -s /bin/sh -c "cd /var/www/magento && /usr/local/bin/composer config http-basic.repo.magento.com bc4c30862f0179e4fb6588d87b42fabc cb1289ea2905db7d27baffcd717c6ed8" www-data
 
-info "Install Magento"
-runuser -s /bin/sh -c "php /var/www/magento/bin/magento setup:install --base-url=http://$DOMAIN \
---db-host=$DB_HOST --db-name=$MYSQL_DATABASE --db-user=$MYSQL_USER --db-password=$MYSQL_PASSWORD \
---backend-frontname=admin --admin-firstname=Magento --admin-lastname=User \
---admin-email=admin@magento.localhost --admin-user=admin --admin-password=password123 \
---language=pl_PL --currency=PLN --timezone=America/New_York --use-rewrites=1" www-data
+if [ $(mysql -N -s -h $DB_HOST -u $MYSQL_USER -p$MYSQL_PASSWORD -e "select count(*) from information_schema.tables where table_schema='$MYSQL_DATABASE' and table_name='core_config_data';") -eq 1 ]; then
+    info "Upgrade Magento"
+	runuser -s /bin/sh -c "php /var/www/magento/bin/magento setup:upgrade" www-data
+else
+	runuser -s /bin/sh -c "composer require bliskapaczkapl/bliskapaczka-api-client '^3.0'" www-data
 
-runuser -s /bin/sh -c "php /var/www/magento/bin/magento module:enable \
-Magento_CustomerSampleData \
-Magento_MsrpSampleData \
-Magento_CatalogSampleData \
-Magento_DownloadableSampleData \
-Magento_OfflineShippingSampleData \
-Magento_BundleSampleData \
-Magento_ConfigurableSampleData \
-Magento_ThemeSampleData \
-Magento_ProductLinksSampleData \
-Magento_ReviewSampleData \
-Magento_CatalogRuleSampleData \
-Magento_SwatchesSampleData \
-Magento_GroupedProductSampleData \
-Magento_TaxSampleData \
-Magento_CmsSampleData \
-Magento_SalesRuleSampleData \
-Magento_SalesSampleData \
-Magento_WidgetSampleData \
-Magento_WishlistSampleData" www-data
+	info "Install Magento"
+	runuser -s /bin/sh -c "php /var/www/magento/bin/magento setup:install --base-url=http://$DOMAIN \
+	--db-host=$DB_HOST --db-name=$MYSQL_DATABASE --db-user=$MYSQL_USER --db-password=$MYSQL_PASSWORD \
+	--backend-frontname=admin --admin-firstname=Magento --admin-lastname=User \
+	--admin-email=admin@magento.localhost --admin-user=admin --admin-password=password123 \
+	--language=pl_PL --currency=PLN --timezone=America/New_York --use-rewrites=1" www-data
 
-info "Upgrade Magento"
-runuser -s /bin/sh -c "php /var/www/magento/bin/magento setup:upgrade" www-data
+	runuser -s /bin/sh -c "php /var/www/magento/bin/magento module:enable \
+	Magento_CustomerSampleData \
+	Magento_MsrpSampleData \
+	Magento_CatalogSampleData \
+	Magento_DownloadableSampleData \
+	Magento_OfflineShippingSampleData \
+	Magento_BundleSampleData \
+	Magento_ConfigurableSampleData \
+	Magento_ThemeSampleData \
+	Magento_ProductLinksSampleData \
+	Magento_ReviewSampleData \
+	Magento_CatalogRuleSampleData \
+	Magento_SwatchesSampleData \
+	Magento_GroupedProductSampleData \
+	Magento_TaxSampleData \
+	Magento_CmsSampleData \
+	Magento_SalesRuleSampleData \
+	Magento_SalesSampleData \
+	Magento_WidgetSampleData \
+	Magento_WishlistSampleData" www-data
+fi
 
 cron
 
