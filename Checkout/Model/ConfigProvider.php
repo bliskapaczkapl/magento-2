@@ -9,7 +9,7 @@ class ConfigProvider implements ConfigProviderInterface
     /**
      * Shipping constructor.
      *
-     * @param 
+     * @param SenditHelper $senditHelper
      */
     public function __construct(
         SenditHelper $senditHelper
