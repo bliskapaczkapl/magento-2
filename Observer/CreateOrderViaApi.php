@@ -43,6 +43,11 @@ class CreateOrderViaApi implements ObserverInterface
             $data = $mapper->getData($order);
 
             $response = $apiClient->create($data);
+            $response = json_decode($response);
+            $order->setData("number", $response->number);
+            $order->setData("delivery_type", $response->deliveryType);
+            $order->setData("tracking_number", $response->trackingNumber);
+            $order->setData("advice_date", $response->adviceDate);
         } catch (Exception $e) {
         }
     }

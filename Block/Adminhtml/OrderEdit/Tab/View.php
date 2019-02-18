@@ -9,7 +9,7 @@
 namespace Sendit\Bliskapaczka\Block\Adminhtml\OrderEdit\Tab;
 
 use Sendit\Bliskapaczka\Model\Api\Configuration;
-use Sendit\Bliskapaczka\Model\Api\OrderApiClient;
+use Bliskapaczka\ApiClient\Bliskapaczka\Order as BliskapaczkaOrder;
 
 class View extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
@@ -30,10 +30,15 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
 
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
-        $conf = Configuration::fromStoreConfiguration();
-        $orderApiClient = OrderApiClient::fromConfiguration($conf);
-        $orderApiClient->setOrderId($this->getOrder()->getNumber());
-        $resp = $orderApiClient->get();
+
+        $configuration = Configuration::fromStoreConfiguration();
+        $apiClient = new BliskapaczkaOrder(
+            $configuration->getApikey(),
+            $configuration->getEnvironment()
+        );
+        $apiClient->setOrderId($this->getOrder()->getNumber());
+        $resp = $apiClient->get();
+
         $this->_dataFromApi = json_decode($resp, true);
     }
 
