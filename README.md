@@ -2,6 +2,10 @@
 
 # Moduł Bliskapaczka dla Magento >= 2.1
 
+## Wersja alfa
+
+Moduł jest ciągle przez nas rozwijany i na razie znajduje się w fazie alpha. Nie zalecany używania moduły w systemach produkcyjnych.
+
 ## Instalacja modułu
 
 ### Wymagania
