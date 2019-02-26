@@ -75,7 +75,6 @@ class Save extends \Magento\Framework\App\Action\Action
             readfile($fileName);
             exit;
         }
-
     }
 
     /**
