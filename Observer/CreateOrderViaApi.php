@@ -30,7 +30,7 @@ class CreateOrderViaApi implements ObserverInterface
 
             $configuration = Configuration::fromStoreConfiguration();
 
-            if ($order) {
+            if ($order->getPosCode()) {
                 $apiClient = new BliskapaczkaOrder(
                     $configuration->getApikey(),
                     $configuration->getEnvironment()

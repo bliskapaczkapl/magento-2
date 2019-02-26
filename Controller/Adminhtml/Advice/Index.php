@@ -8,9 +8,14 @@
 
 namespace Sendit\Bliskapaczka\Controller\Adminhtml\Advice;
 
-use Bliskapaczka\ApiClient\Bliskapaczka\Order\Advice;
-use Bliskapaczka\ApiClient\Bliskapaczka\Order;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
+use Bliskapaczka\ApiClient\Bliskapaczka\Order as BliskapaczkaOrder;
+use Bliskapaczka\ApiClient\Bliskapaczka\Todoor as BliskapaczkaTodoor;
+use Bliskapaczka\ApiClient\Bliskapaczka\Order\Advice as BliskapaczkaOrderAdvice;
+use Bliskapaczka\ApiClient\Bliskapaczka\Order\Todoor as BliskapaczkaOrderTodoor;
+use Sendit\Bliskapaczka\Model\Mapper\Order;
+use Sendit\Bliskapaczka\Model\Mapper\Todoor;
+use Sendit\Bliskapaczka\Helper\Data as SenditHelper;
 
 class Index extends \Magento\Backend\App\Action
 {
@@ -25,64 +30,49 @@ class Index extends \Magento\Backend\App\Action
     ) {
         parent::__construct($context);
         $this->resultFactory = $resultJsonFactory;
+
+        $this->todoor = $this->_objectManager->get('Sendit\Bliskapaczka\Model\Mapper\Todoor');
+        $this->order = $this->_objectManager->get('Sendit\Bliskapaczka\Model\Mapper\Order');
     }
 
     public function execute()
     {
-
-        $resultRedirect = $this->resultRedirectFactory->create();
-        $adviceApiClient = $this->getAdviceApiClient();
-        $orderApiClient = $this->getOrderApiClient();
-        $orderApiClient->setOrderId($this->getOrderNumber());
-        $resp = json_decode($orderApiClient->get(), true);
-        $resp['parcel'] = $resp['parcels'][0];
         try {
-            $adviceApiClient->create($resp);
-            $this->messageManager->addSuccessMessage(__('Order Bliskapaczka adviced'));
-        } catch (\Exception $exception) {
-            $this->messageManager->addError($exception->getMessage());
+            $resultRedirect = $this->resultRedirectFactory->create();
+
+            $orderId = $this->getRequest()->getParam('order_id');
+            $order = $this->_objectManager->get('Magento\Sales\Model\Order')->load($orderId);
+
+            $configuration = Configuration::fromStoreConfiguration();
+
+            if ($order->getPosCode()) {
+                $apiClient = new BliskapaczkaOrderAdvice(
+                    $configuration->getApikey(),
+                    $configuration->getEnvironment()
+                );
+
+                $mapper = $this->order;
+            } else {
+                $apiClient = new BliskapaczkaTodoorAdvice(
+                    $configuration->getApikey(),
+                    $configuration->getEnvironment()
+                );
+
+                $mapper = $this->todoor;
+            }
+
+            $data = $mapper->getData($order);
+
+            $apiClient->setOrderId($order->getNumber());
+            $response = $apiClient->create($data);
+            $response = json_decode($response);
+            $order->setData("tracking_number", $response->trackingNumber);
+            $order->setData("advice_date", $response->adviceDate);
+        } catch (\Exception $e) {
+            $this->messageManager->addError($e->getMessage());
         }
 
         $resultRedirect->setUrl($this->_redirect->getRefererUrl());
         return $resultRedirect;
-    }
-
-    /**
-     * @return Advice
-     */
-    protected function getAdviceApiClient()
-    {
-        $configuration = Configuration::fromStoreConfiguration();
-
-        $apiClient = new Advice(
-            $configuration->getApikey(),
-            $configuration->getEnvironment()
-        );
-
-        return $apiClient;
-    }
-
-    /**
-     * @return Order
-     */
-    protected function getOrderApiClient()
-    {
-        $configuration = Configuration::fromStoreConfiguration();
-        $apiClient = new Order(
-            $configuration->getApikey(),
-            $configuration->getEnvironment()
-        );
-
-        return $apiClient;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getOrderNumber()
-    {
-        $orderId = $this->getRequest()->getParam('order_id');
-        $order = $this->_objectManager->get('Magento\Sales\Model\Order')->load($orderId);
-        return $order->getNumber();
     }
 }
