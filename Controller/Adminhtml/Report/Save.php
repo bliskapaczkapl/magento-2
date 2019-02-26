@@ -49,23 +49,33 @@ class Save extends \Magento\Framework\App\Action\Action
             if (!empty($startPeriod)) {
                 $startPeriod = new \DateTime($startPeriod);
                 $startPeriod = $startPeriod->format('c');
-            } else {
-                $startPeriod = null;
+                $apiClient->setStartPeriod($startPeriod);
             }
             if (!empty($stopPeriod)) {
                 $stopPeriod = new \DateTime($stopPeriod);
                 $stopPeriod = $stopPeriod->format('c');
-            } else {
-                $stopPeriod = null;
+                $apiClient->setEndPeriod($stopPeriod);
             }
-            $pdf = $apiClient->get($key, $startPeriod, $stopPeriod);
-            if (strpos($pdf, 'error') === false) {
-                $zip->addFromString($value, $pdf);
+            $apiClient->setOperator($key);
+            try {
+                $zip->addFromString(sprintf('%s.pdf', $value), $apiClient->get());
+            } catch (\Exception $exception) {
+                continue;
             }
         }
 
         $fileName = $zip->filename;
         $zip->close();
+        if (is_file($fileName)) {
+            header($_SERVER['SERVER_PROTOCOL'].' 200 OK');
+            header("Content-Type: application/zip");
+            header("Content-Transfer-Encoding: Binary");
+            header("Content-Length: ".filesize($fileName));
+            header("Content-Disposition: attachment; filename=\"".basename($fileName)."\"");
+            readfile($fileName);
+            exit;
+        }
+
     }
 
     /**
