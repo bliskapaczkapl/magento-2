@@ -2,7 +2,8 @@ FROM bliskapaczkapl/magento_base:7.2_2.3.0
 
 MAINTAINER Mateusz Koszutowski <mkoszutowski@divante.pl>
 
-RUN php ${magento_path}/bin/magento sampledata:deploy
+RUN composer require bliskapaczkapl/bliskapaczka-api-client ^3.2 \
+	&& php ${magento_path}/bin/magento sampledata:deploy
 
 # Install module 
 COPY ./ ${magento_path}/app/code/Sendit/Bliskapaczka/
