@@ -32,7 +32,7 @@ class Index extends \Magento\Backend\App\Action
         $waybill = $this->getWaybillApiClient();
         $waybill->setOrderId($this->getOrderNumber());
         try {
-            $resp = $waybill->get();
+            $resp = json_decode($waybill->get());
             $url = $resp[0]->url;
             $resultRedirect->setUrl($url);
         } catch (\Exception $exception) {
