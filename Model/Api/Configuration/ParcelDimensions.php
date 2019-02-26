@@ -4,8 +4,18 @@ namespace Sendit\Bliskapaczka\Model\Api\Configuration;
 
 use \Sendit\Bliskapaczka\Model\Api\Configuration;
 
+/**
+ * ParcelDimensions configuration class for bliskapaczka shippine method
+ */
 class ParcelDimensions extends \Sendit\Bliskapaczka\Model\Api\Configuration implements ConfigurationInterface
 {
+    /**
+     * Map configuration from database to class variable
+     *
+     * @param \Sendit\Bliskapaczka\Model\Api\Configuration $configuration
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @return \Sendit\Bliskapaczka\Model\Api\Configuration
+     */
     public function set(
         Configuration $configuration,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig

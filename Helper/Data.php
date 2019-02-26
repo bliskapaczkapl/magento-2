@@ -48,6 +48,9 @@ class Data extends AbstractHelper
 
     const LOG_FILE = 'sendit.log';
 
+    /**
+     * Construct method
+     */
     public function __construct()
     {
         $this->configuration = Configuration::fromStoreConfiguration();

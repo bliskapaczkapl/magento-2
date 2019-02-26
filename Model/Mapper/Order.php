@@ -10,9 +10,7 @@ class Order extends AbstractMapper implements MapperInterface
     /**
      * Prepare mapped data for Bliskapaczka API
      *
-     * @param Mage_Sales_Model_Order $order
-     * @param Sendit_Bliskapaczka_Helper_Data $helper
-     * @param bool $reference
+     * @param Magento\Sales\Model\Order $order
      * @return array
      */
     public function getData($order)
