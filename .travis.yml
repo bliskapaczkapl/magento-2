@@ -5,24 +5,20 @@ php:
 
 env:
   global:
-    - VENDOR_DIR=app/code/community/Sendit/Bliskapaczka/vendor
     - COMMIT=${TRAVIS_COMMIT::8}
 
 services:
   - docker
 
 script:
-  - composer global require install
-  - $VENDOR_DIR/bin/phpcs -s --colors --standard=./$VENDOR_DIR/magento-ecg/coding-standard/Ecg app/ --ignore=app/code/community/Sendit/Bliskapaczka/vendor/*
-  - $VENDOR_DIR/bin/phpmd app/ text codesize --exclude app/code/community/Sendit/Bliskapaczka/vendor
-  - $VENDOR_DIR/bin/phpcpd --exclude vendor app/
-  - $VENDOR_DIR/bin/phpdoccheck --directory=app --exclude=code/community/Sendit/Bliskapaczka/vendor
-  - $VENDOR_DIR/bin/phploc app/
-  - $VENDOR_DIR/bin/phpunit --bootstrap dev/tests/bootstrap.php dev/tests/unit/
+  - echo "$DIVANTE_DOCKER_PASSWORD" | docker login -u "$DIVANTE_DOCKER_USERNAME" --password-stdin registry-1.divante.pl:5000
+  - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpcs --colors --exclude=PSR2.Methods.MethodDeclaration,PSR2.Classes.PropertyDeclaration --extensions=php --standard=PSR2,Security --ignore=vendor/* -s .
+  - docker run --rm --volume `pwd`:/project jolicode/phaudit phpmd ./ text codesize --exclude vendor
+  - docker run --rm --volume `pwd`:/project jolicode/phaudit phploc .
 
 after_success:
   - docker build -t bliskapaczkapl/magento-2:$COMMIT -t bliskapaczkapl/magento-2:latest -t bliskapaczkapl/magento-2:develop -f dev/docker/Dockerfile .
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push bliskapaczkapl/magento-2:$COMMIT
   - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
     docker push bliskapaczkapl/magento-2:latest;
