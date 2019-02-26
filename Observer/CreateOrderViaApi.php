@@ -13,8 +13,17 @@ use Sendit\Bliskapaczka\Model\Mapper\Order;
 use Sendit\Bliskapaczka\Model\Mapper\Todoor;
 use Sendit\Bliskapaczka\Helper\Data as SenditHelper;
 
+/**
+ * Send data to bliskapaczka.pl
+ */
 class CreateOrderViaApi implements ObserverInterface
 {
+    /**
+     * Construct method
+     *
+     * @param Sendit\Bliskapaczka\Model\Mapper\Todoor $todoor
+     * @param Sendit\Bliskapaczka\Model\Mapper\Order $order
+     */
     public function __construct(
         Todoor $todoor,
         Order $order
@@ -23,6 +32,11 @@ class CreateOrderViaApi implements ObserverInterface
         $this->order = $order;
     }
 
+    /**
+     * Create new order in Bliska Paczka if shipping method is bliskapaczka
+     *
+     * @param Magento\Framework\Event\Observer $observer
+     */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         try {

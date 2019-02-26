@@ -2,6 +2,9 @@
 
 namespace Sendit\Bliskapaczka\Model\Carrier;
 
+/**
+ * Abstract class for bliskapaczka shippine method carrier
+ */
 abstract class AbstractBliskapaczka extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
     \Magento\Shipping\Model\Carrier\CarrierInterface
 {

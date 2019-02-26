@@ -2,8 +2,18 @@
 
 namespace Sendit\Bliskapaczka\Model\Api\Configuration;
 
+/**
+ * Sender configuration class for bliskapaczka shippine method
+ */
 class Sender extends \Sendit\Bliskapaczka\Model\Api\Configuration implements ConfigurationInterface
 {
+    /**
+     * Map configuration from database to class variable
+     *
+     * @param \Sendit\Bliskapaczka\Model\Api\Configuration $configuration
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @return \Sendit\Bliskapaczka\Model\Api\Configuration
+     */
     public function set(
         \Sendit\Bliskapaczka\Model\Api\Configuration $configuration,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
