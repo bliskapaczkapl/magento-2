@@ -14,6 +14,7 @@ use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Registry;
 use Magento\Framework\Data\FormFactory;
 use Magento\Cms\Model\Wysiwyg\Config;
+use Sendit\Bliskapaczka\Controller\Adminhtml\Report\Save;
 
 class Info extends Generic implements TabInterface
 {
@@ -56,33 +57,44 @@ class Info extends Generic implements TabInterface
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-        $form->setHtmlIdPrefix('news_');
-        $form->setFieldNameSuffix('news');
+        $form->setHtmlIdPrefix('report_');
+        $form->setFieldNameSuffix('report');
 
         $fieldset = $form->addFieldset(
             'base_fieldset',
-            ['legend' => __('General')]
+            ['legend' => __('Report')]
         );
-        $fieldset->addField(
-            'to',
-            'date',
-            [
-                'name'        => 'to',
-                'label'    => __('To'),
-                'required'     => true,
-                'format' => 'DD:MM:YY'
-            ]
-        );
-        $fieldset->addField(
-            'from',
-            'date',
-            [
-                'name'        => 'from',
-                'label'    => __('From'),
-                'required'     => true,
-                'format' => 'DD:MM:YY'
-            ]
-        );
+        foreach (Save::OPERATORS as $operator => $name) {
+            $fieldset->addField(
+                $name,
+                'label',
+                [
+                    'name' => $name,
+                    'label' => $name
+                ]
+            );
+            $fieldset->addField(
+                $operator . 'to',
+                'date',
+                [
+                    'name'        => $operator . 'to',
+                    'label'    => __('To'),
+                    'required'     => false,
+                    'format' => 'Y-m-d'
+                ]
+            );
+            $fieldset->addField(
+                $operator . 'from',
+                'date',
+                [
+                    'name'        => $operator . 'from',
+                    'label'    => __('From'),
+                    'required'     => false,
+                    'format' => 'Y-m-d'
+                ]
+            );
+        }
+
 
         $this->setForm($form);
 

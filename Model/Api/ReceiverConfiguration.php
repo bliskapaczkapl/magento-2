@@ -94,6 +94,5 @@ class ReceiverConfiguration
 
     protected function createDeliveryTypeFromOperatorName(string $operatorName)
     {
-
     }
 }

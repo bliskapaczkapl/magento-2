@@ -23,7 +23,7 @@ class Order extends AbstractMapper implements MapperInterface
 
         $data['receiverFirstName'] = $shippingAddress->getFirstname();
         $data['receiverLastName'] = $shippingAddress->getLastname();
-        $data['receiverPhoneNumber'] = $helper->telephoneNumberCleaning($shippingAddress->getTelephone());
+        $data['receiverPhoneNumber'] = $this->senditHelper->telephoneNumberCleaning($shippingAddress->getTelephone());
         $data['receiverEmail'] = $shippingAddress->getEmail();
 
         $data['deliveryType'] = 'P2P';
@@ -32,21 +32,19 @@ class Order extends AbstractMapper implements MapperInterface
             $data['codValue'] = (string)round(floatval($order->getGrandTotal()), 2);
         }
 
-        $operatorName = str_replace('_COD', '', $shippingAddress->getPosOperator());
-        $data['operatorName'] = $operatorName;
-
-        $data['destinationCode'] = $shippingAddress->getPosCode();
+        $data['operatorName'] = $order->getPosOperator();
+        $data['destinationCode'] = $order->getPosCode();
 
         $data['additionalInformation'] = $order->getIncrementId();
-        if ($reference) {
-            $data['reference'] = $order->getIncrementId();
-        }
+        // if ($reference) {
+        //     $data['reference'] = $order->getIncrementId();
+        // }
 
         $data['parcel'] = [
-            'dimensions' => $this->_getParcelDimensions($helper)
+            'dimensions' => $this->senditHelper->getParcelDimensions('fixed')
         ];
 
-        $data = $this->_prepareSenderData($data, $helper);
+        $data = $this->_prepareSenderData($data);
 
         return $data;
     }

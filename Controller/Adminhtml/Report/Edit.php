@@ -7,8 +7,8 @@ class Edit extends \Magento\Framework\App\Action\Action
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $pageFactory)
-    {
+        \Magento\Framework\View\Result\PageFactory $pageFactory
+    ) {
         $this->_pageFactory = $pageFactory;
         return parent::__construct($context);
     }
@@ -18,11 +18,8 @@ class Edit extends \Magento\Framework\App\Action\Action
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->_pageFactory->create();
         $resultPage->setActiveMenu('Sendit_Bliskapaczka::raports');
-        $resultPage->getConfig()->getTitle()->prepend(__('Simple News'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Bliskapaczka raports'));
 
         return $resultPage;
     }
-
 }
-
-  

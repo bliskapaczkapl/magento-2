@@ -4,12 +4,11 @@ namespace Sendit\Bliskapaczka\Model\Api\Configuration;
 
 class Sender extends \Sendit\Bliskapaczka\Model\Api\Configuration implements ConfigurationInterface
 {
-	public function set(
-		\Sendit\Bliskapaczka\Model\Api\Configuration $configuration,
-		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-	) : \Sendit\Bliskapaczka\Model\Api\Configuration 
-	{
-		$firstname = $scopeConfig
+    public function set(
+        \Sendit\Bliskapaczka\Model\Api\Configuration $configuration,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+    ) : \Sendit\Bliskapaczka\Model\Api\Configuration {
+        $firstname = $scopeConfig
             ->getValue('carriers/bliskapaczka/sender_first_name', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
         $lastname = $scopeConfig
@@ -53,5 +52,5 @@ class Sender extends \Sendit\Bliskapaczka\Model\Api\Configuration implements Con
         $configuration->countryCode = $countryCode;
 
         return $configuration;
-	}
+    }
 }

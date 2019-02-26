@@ -51,7 +51,6 @@ class Data extends AbstractHelper
     public function __construct()
     {
         $this->configuration = Configuration::fromStoreConfiguration();
-        ;
     }
 
     /**
@@ -191,7 +190,10 @@ class Data extends AbstractHelper
      */
     public function getPriceList($cod = null, $parcelDimensionsType = 'fixed')
     {
-        $apiClient = $this->getApiClientPricing();
+        $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
+            $this->configuration->getApikey(),
+            $this->configuration->getEnvironment()
+        );
 
         $data = array("parcel" => array('dimensions' => $this->getParcelDimensions($parcelDimensionsType)));
         if ($cod) {
@@ -225,30 +227,30 @@ class Data extends AbstractHelper
      *
      * @return string
      */
-    public function getOperatorsForWidget($allRates, $priceList = null, $cod = null)
+    public function getOperatorsForWidget($priceList = null, $cod = null)
     {
         if ($priceList == null) {
             $priceList = $this->getPriceList($cod);
         }
 
         $operators = array();
-        $rates = array();
-        foreach ($allRates as $rate) {
-            $rates[$rate->getCode()] = $rate;
-        }
+        // $rates = array();
+        // foreach ($allRates as $rate) {
+        //     $rates[$rate->getCode()] = $rate;
+        // }
 
         foreach ($priceList as $carrier) {
-            if ($carrier->availabilityStatus == false
-                || !$rates['sendit_bliskapaczka_' . $carrier->operatorName . ($cod ? '_COD' : '')]
-            ) {
-                continue;
-            }
+            // if ($carrier->availabilityStatus == false
+            //     || !$rates['sendit_bliskapaczka_' . $carrier->operatorName . ($cod ? '_COD' : '')]
+            // ) {
+            //     continue;
+            // }
 
-            $price = $this->_getPriceWithCartRules($carrier, $rates, $cod);
+            // $price = $this->_getPriceWithCartRules($carrier, $rates, $cod);
 
             $operators[] = array(
                 "operator" => $carrier->operatorName,
-                "price"    => $price
+                "price"    => $carrier->price->gross
             );
         }
 
@@ -262,18 +264,18 @@ class Data extends AbstractHelper
      */
     public function getApiClientPricing()
     {
-        $scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
-        $apiKey = $scopeConfig
-            ->getValue('carriers/bliskapaczka/api_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        $testMode = $scopeConfig
-            ->getValue('carriers/bliskapaczka/sandbox', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        // $scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
+        // $apiKey = $scopeConfig
+        //     ->getValue('carriers/bliskapaczka/api_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        // $testMode = $scopeConfig
+        //     ->getValue('carriers/bliskapaczka/sandbox', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
-            $apiKey,
-            $this->getApiMode(Mage::getStoreConfig(self::API_TEST_MODE_XML_PATH))
-        );
+        // $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
+        //     $apiKey,
+        //     $this->getApiMode(Mage::getStoreConfig(self::API_TEST_MODE_XML_PATH))
+        // );
 
-        return $apiClient;
+        // return $apiClient;
     }
 
     /**
