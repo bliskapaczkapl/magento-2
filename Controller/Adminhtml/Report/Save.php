@@ -119,6 +119,9 @@ class Save extends \Magento\Backend\App\Action
         return $zip;
     }
 
+    /**
+     * @return Report
+     */
     private function getReportApiclient()
     {
         $configuration = Configuration::fromStoreConfiguration();

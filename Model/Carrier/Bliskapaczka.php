@@ -7,6 +7,9 @@ use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Rate\Result;
 use Sendit\Bliskapaczka\Helper\Data;
 
+/**
+ * P2P class for bliskapaczka shippine method carrier
+ */
 class Bliskapaczka extends AbstractBliskapaczka
 {
     /**

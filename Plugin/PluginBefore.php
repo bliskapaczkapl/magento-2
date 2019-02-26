@@ -8,8 +8,14 @@
 
 namespace Sendit\Bliskapaczka\Plugin;
 
+/**
+ * Buttons on order page for bliskapaczka
+ */
 class PluginBefore
 {
+    /**
+     * Add buttons
+     */
     public function beforePushButtons(
         \Magento\Backend\Block\Widget\Button\Toolbar\Interceptor $subject,
         \Magento\Framework\View\Element\AbstractBlock $context,

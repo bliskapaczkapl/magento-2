@@ -14,6 +14,7 @@ abstract class AbstractMapper implements MapperInterface
      * Shipping constructor.
      *
      * @param SenditHelper $senditHelper
+     * @param Configuration $configuration
      */
     public function __construct(
         SenditHelper $senditHelper,
@@ -27,7 +28,6 @@ abstract class AbstractMapper implements MapperInterface
      * Prepare sender data in fomrat accptable by Bliskapaczka API
      *
      * @param array $data
-     * @param Sendit_Bliskapaczka_Helper_Data $helper
      * @return array
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)

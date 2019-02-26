@@ -8,6 +8,9 @@ use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Rate\Result;
 use Sendit\Bliskapaczka\Helper\Data as SenditHelper;
 
+/**
+ * Courier class for bliskapaczka shippine method carrier
+ */
 class Courier extends AbstractBliskapaczka
 {
     /**
@@ -23,6 +26,7 @@ class Courier extends AbstractBliskapaczka
      * @param \Psr\Log\LoggerInterface                                    $logger
      * @param \Magento\Shipping\Model\Rate\ResultFactory                  $rateResultFactory
      * @param \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
+     * @param \Sendit\Bliskapaczka\Helper\Data                            $senditHelper
      * @param array                                                       $data
      */
     public function __construct(
@@ -84,6 +88,12 @@ class Courier extends AbstractBliskapaczka
         return json_decode($D2DPriceList);
     }
 
+    /**
+     * Collect rates
+     *
+     * @param \Magento\Quote\Model\Quote\Address\RateRequest $request
+     * @return \Magento\Shipping\Model\Rate\Result $result
+     */
     public function collectRates(RateRequest $request)
     {
         /** @var \Magento\Shipping\Model\Rate\Result $result */

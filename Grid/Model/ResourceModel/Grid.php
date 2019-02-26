@@ -8,6 +8,9 @@
 
 namespace Sendit\Bliskapaczka\Grid\Model\ResourceModel;
 
+/**
+ * Grid of bliskapaczka.pl on order page
+ */
 class Grid extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     /**

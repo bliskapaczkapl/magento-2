@@ -10,8 +10,7 @@ interface MapperInterface
     /**
      * Prepare mapped data for Bliskapaczka API
      *
-     * @param Mage_Sales_Model_Order $order
-     * @param Sendit_Bliskapaczka_Helper_Data $helper
+     * @param Magento\Sales\Model\Order $order
      * @return array
      */
     public function getData($order);

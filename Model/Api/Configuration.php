@@ -2,8 +2,16 @@
 
 namespace Sendit\Bliskapaczka\Model\Api;
 
+/**
+ * Configuration class for bliskapaczka shippine method
+ */
 class Configuration
 {
+    /**
+     * Prepare configuration for bliskapaczka shippine method
+     *
+     * @return \Sendit\Bliskapaczka\Model\Api\Configuration
+     */
     public static function fromStoreConfiguration()
     {
         $parcelDimensions = new Configuration\ParcelDimensions();
@@ -38,7 +46,8 @@ class Configuration
     /**
      * Magento style getter from https://stackoverflow.com/questions/4478661/getter-and-setter
      *
-     * @param
+     * @param string $name
+     * @param mixed $arguments
      */
     public function __call($name, $arguments)
     {

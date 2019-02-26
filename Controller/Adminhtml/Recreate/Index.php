@@ -11,6 +11,9 @@ namespace Sendit\Bliskapaczka\Controller\Adminhtml\Recreate;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
 use Bliskapaczka\ApiClient\Bliskapaczka\Order\Retry;
 
+/**
+ * Controller class for retry action
+ */
 class Index extends \Magento\Backend\App\Action
 {
     /**
@@ -18,6 +21,9 @@ class Index extends \Magento\Backend\App\Action
      */
     protected $resultJsonFactory;
 
+    /**
+     * Construct method
+     */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
@@ -26,6 +32,9 @@ class Index extends \Magento\Backend\App\Action
         $this->resultFactory = $resultJsonFactory;
     }
 
+    /**
+     * Retry advice action
+     */
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();
