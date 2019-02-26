@@ -10,8 +10,21 @@ namespace Sendit\Bliskapaczka\Model\Report;
 
 use Sendit\Bliskapaczka\Model\ResourceModel\Report\CollectionFactory;
 
+/**
+ * Class DataProvider
+ * @package Sendit\Bliskapaczka\Model\Report
+ */
 class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {
+    /**
+     * DataProvider constructor.
+     * @param $name
+     * @param $primaryFieldName
+     * @param $requestFieldName
+     * @param CollectionFactory $contactCollectionFactory
+     * @param array $meta
+     * @param array $data
+     */
     public function __construct(
         $name,
         $primaryFieldName,

@@ -10,6 +10,10 @@ namespace Sendit\Bliskapaczka\Block\Adminhtml\Report\Edit;
 
 use Magento\Backend\Block\Widget\Form\Generic;
 
+/**
+ * Class Form
+ * @package Sendit\Bliskapaczka\Block\Adminhtml\Report\Edit
+ */
 class Form extends Generic
 {
     /**

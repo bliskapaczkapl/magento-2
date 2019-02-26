@@ -16,6 +16,10 @@ use Magento\Framework\Data\FormFactory;
 use Magento\Cms\Model\Wysiwyg\Config;
 use Sendit\Bliskapaczka\Controller\Adminhtml\Report\Save;
 
+/**
+ * Class Info
+ * @package Sendit\Bliskapaczka\Block\Adminhtml\Report\Edit\Tab
+ */
 class Info extends Generic implements TabInterface
 {
     /**

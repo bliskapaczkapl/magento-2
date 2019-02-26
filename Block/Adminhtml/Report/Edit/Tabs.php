@@ -4,6 +4,10 @@ namespace Sendit\Bliskapaczka\Block\Adminhtml\Report\Edit;
 
 use Magento\Backend\Block\Widget\Tabs as WidgetTabs;
 
+/**
+ * Class Tabs
+ * @package Sendit\Bliskapaczka\Block\Adminhtml\Report\Edit
+ */
 class Tabs extends WidgetTabs
 {
     /**

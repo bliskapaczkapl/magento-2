@@ -4,6 +4,10 @@ namespace Sendit\Bliskapaczka\Checkout\Model;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Sendit\Bliskapaczka\Helper\Data as SenditHelper;
 
+/**
+ * Class ConfigProvider
+ * @package Sendit\Bliskapaczka\Checkout\Model
+ */
 class ConfigProvider implements ConfigProviderInterface
 {
     /**
@@ -17,6 +21,9 @@ class ConfigProvider implements ConfigProviderInterface
         $this->senditHelper = $senditHelper;
     }
 
+    /**
+     * @return array
+     */
     public function getConfig()
     {
         $config = [];

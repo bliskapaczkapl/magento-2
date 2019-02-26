@@ -12,9 +12,14 @@ use Magento\Framework\App\ResponseInterface;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
 use Bliskapaczka\ApiClient\Bliskapaczka\Report;
 
+/**
+ * Class Save
+ * @package Sendit\Bliskapaczka\Controller\Adminhtml\Report
+ */
 class Save extends \Magento\Backend\App\Action
 {
 
+    /** @var array  */
     const OPERATORS = [
         'RUCH' => 'Ruch',
         'POCZTA' => 'Poczta',

@@ -168,7 +168,6 @@ class Grid extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param $orderId
      * @return Grid
      */
     public function getCreationDate()

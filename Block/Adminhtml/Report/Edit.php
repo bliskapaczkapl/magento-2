@@ -12,6 +12,10 @@ use Magento\Backend\Block\Widget\Form\Container;
 use Magento\Backend\Block\Widget\Context;
 use Magento\Framework\Registry;
 
+/**
+ * Class Edit
+ * @package Sendit\Bliskapaczka\Block\Adminhtml\Report
+ */
 class Edit extends Container
 {
     /**

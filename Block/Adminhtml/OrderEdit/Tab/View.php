@@ -11,10 +11,20 @@ namespace Sendit\Bliskapaczka\Block\Adminhtml\OrderEdit\Tab;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
 use Bliskapaczka\ApiClient\Bliskapaczka\Order as BliskapaczkaOrder;
 
+/**
+ * Class View
+ * @package Sendit\Bliskapaczka\Block\Adminhtml\OrderEdit\Tab
+ */
 class View extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'tab/view/my_order_info.phtml';
 
+    /**
+     * @var array|mixed
+     */
     protected $_dataFromApi = [];
     /**
      * View constructor.
@@ -75,7 +85,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      */
     public function getTabLabel()
     {
-        return __('Biska Paczka');
+        return __('Bliska Paczka');
     }
 
     /**
@@ -83,7 +93,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      */
     public function getTabTitle()
     {
-        return __('Biska Paczka');
+        return __('Bliska Paczka');
     }
 
     /**
@@ -102,6 +112,9 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         return false;
     }
 
+    /**
+     * @return array|mixed
+     */
     public function getDataFromApi()
     {
         return $this->_dataFromApi;

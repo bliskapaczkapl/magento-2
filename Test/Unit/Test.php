@@ -8,6 +8,10 @@
 
 namespace Sendit\Bliskapaczka\Test\Unit;
 
+/**
+ * Class Test
+ * @package Sendit\Bliskapaczka\Test\Unit
+ */
 class Test extends \PHPUnit\Framework\TestCase
 {
 
