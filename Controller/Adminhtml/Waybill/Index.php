@@ -11,6 +11,9 @@ namespace Sendit\Bliskapaczka\Controller\Adminhtml\Waybill;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
 use Bliskapaczka\ApiClient\Bliskapaczka\Order\Waybill;
 
+/**
+ * Controller class for waybill action
+ */
 class Index extends \Magento\Backend\App\Action
 {
     /**
@@ -18,6 +21,9 @@ class Index extends \Magento\Backend\App\Action
      */
     protected $resultJsonFactory;
 
+    /**
+     * Construct method
+     */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
@@ -26,6 +32,9 @@ class Index extends \Magento\Backend\App\Action
         $this->resultFactory = $resultJsonFactory;
     }
 
+    /**
+     * Get waybill
+     */
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();
@@ -44,7 +53,6 @@ class Index extends \Magento\Backend\App\Action
         return $resultRedirect;
     }
 
-
     /**
      * @return string
      */
@@ -55,6 +63,9 @@ class Index extends \Magento\Backend\App\Action
         return $order->getNumber();
     }
 
+    /**
+     * @return Waybill
+     */
     protected function getWaybillApiClient()
     {
         $configuration = Configuration::fromStoreConfiguration();

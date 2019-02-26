@@ -17,6 +17,9 @@ use Sendit\Bliskapaczka\Model\Mapper\Order;
 use Sendit\Bliskapaczka\Model\Mapper\Todoor;
 use Sendit\Bliskapaczka\Helper\Data as SenditHelper;
 
+/**
+ * Controller class for advice action
+ */
 class Index extends \Magento\Backend\App\Action
 {
     /**
@@ -24,6 +27,9 @@ class Index extends \Magento\Backend\App\Action
      */
     protected $resultJsonFactory;
 
+    /**
+     * Construct method
+     */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
@@ -35,6 +41,9 @@ class Index extends \Magento\Backend\App\Action
         $this->order = $this->_objectManager->get('Sendit\Bliskapaczka\Model\Mapper\Order');
     }
 
+    /**
+     * Advice order
+     */
     public function execute()
     {
         try {

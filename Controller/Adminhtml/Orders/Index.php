@@ -1,6 +1,9 @@
 <?php
 namespace Sendit\Bliskapaczka\Controller\Adminhtml\Orders;
 
+/**
+ * Controller class for orders action
+ */
 class Index extends \Magento\Backend\App\Action
 {
     /**

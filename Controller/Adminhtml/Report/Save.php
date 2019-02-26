@@ -12,6 +12,9 @@ use Magento\Framework\App\ResponseInterface;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
 use Bliskapaczka\ApiClient\Bliskapaczka\Report;
 
+/**
+ * Controller class for report action
+ */
 class Save extends \Magento\Framework\App\Action\Action
 {
 
@@ -91,6 +94,9 @@ class Save extends \Magento\Framework\App\Action\Action
         return $zip;
     }
 
+    /**
+     * @return Report
+     */
     private function getReportApiclient()
     {
         $configuration = Configuration::fromStoreConfiguration();
