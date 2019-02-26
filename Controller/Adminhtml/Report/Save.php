@@ -12,7 +12,7 @@ use Magento\Framework\App\ResponseInterface;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
 use Bliskapaczka\ApiClient\Bliskapaczka\Report;
 
-class Save extends \Magento\Framework\App\Action\Action
+class Save extends \Magento\Backend\App\Action
 {
 
     const OPERATORS = [
@@ -25,6 +25,33 @@ class Save extends \Magento\Framework\App\Action\Action
         'GLS' => 'GLS',
         'XPRESS' => 'X-press Couriers'
     ];
+
+    /** @var string  */
+    protected $fileName = '';
+    /**
+     * @var \Magento\Framework\App\Response\Http\FileFactory
+     */
+    protected $fileFactory;
+
+    /**
+     * @var \Magento\Backend\Model\View\Result\ForwardFactory
+     */
+    protected $resultForwardFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
+    ) {
+        $this->fileFactory = $fileFactory;
+        parent::__construct($context);
+        $this->resultForwardFactory = $resultForwardFactory;
+    }
 
     /**
      * Execute action based on request and return result
@@ -64,17 +91,18 @@ class Save extends \Magento\Framework\App\Action\Action
             }
         }
 
-        $fileName = $zip->filename;
+        $this->fileName = $zip->filename;
         $zip->close();
-        if (is_file($fileName)) {
-            header($_SERVER['SERVER_PROTOCOL'].' 200 OK');
-            header("Content-Type: application/zip");
-            header("Content-Transfer-Encoding: Binary");
-            header("Content-Length: ".filesize($fileName));
-            header("Content-Disposition: attachment; filename=\"".basename($fileName)."\"");
-            readfile($fileName);
-            exit;
-        }
+        $this->fileFactory->create(
+            'reports.zip',
+            [
+                'type' => 'filename',
+                'value' => $this->fileName,
+                'rm' => true
+            ],
+            \Magento\Framework\App\Filesystem\DirectoryList::ROOT,
+            'application/zip'
+        );
     }
 
     /**
