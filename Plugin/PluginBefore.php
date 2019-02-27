@@ -35,6 +35,7 @@ class PluginBefore
         $waybillUrl = $context->getUrl('waybill/waybill/', ['order_id' => $orderId]);
         $cancelUrl = $context->getUrl('cancel/cancel/', ['order_id' => $orderId]);
         $retryUrl = $context->getUrl('recreate/recreate/', ['order_id' => $orderId]);
+        $updateUrl = $context->getUrl('update/update/', ['order_id' => $orderId]);
         if ($this->_request->getFullActionName() == 'sales_order_view') {
             $buttonList->add(
                 'waybill_bliska_paczka',
@@ -56,7 +57,7 @@ class PluginBefore
                 'advice_bliska_paczka',
                 ['label' => __('Awizuj Bliską paczkę'),
                     'onclick' => sprintf("setLocation('%s')", $adviceUrl),
-                    'class' => 'reset'
+                    'class' => 'advice'
                 ],
                 -1
             );
@@ -65,6 +66,14 @@ class PluginBefore
                 ['label' => __('Ponów Bliską paczkę'),
                     'onclick' => sprintf("setLocation('%s')", $retryUrl),
                     'class' => 'reset'
+                ],
+                -1
+            );
+            $buttonList->add(
+                'update_bliska_paczka',
+                ['label' => __('Aktualizuj Bliską paczkę'),
+                    'onclick' => sprintf("setLocation('%s')", $updateUrl),
+                    'class' => 'update'
                 ],
                 -1
             );

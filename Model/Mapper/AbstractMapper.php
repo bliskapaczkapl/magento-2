@@ -60,9 +60,7 @@ abstract class AbstractMapper implements MapperInterface
             $data['senderBuildingNumber'] = $this->configuration->senderBuildingNumber;
         }
 
-        if ($this->configuration->senderFlatNumber) {
-            $data['senderFlatNumber'] = $this->configuration->senderFlatNumber;
-        }
+        $data['senderFlatNumber'] = $this->configuration->senderFlatNumber;
 
         if ($this->configuration->senderPostCode) {
             $data['senderPostCode'] = $this->configuration->senderPostCode;

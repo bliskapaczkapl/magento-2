@@ -18,5 +18,8 @@
         <route id="report" frontName="report">
             <module name="Sendit_Bliskapaczka" before="Magento_Backend"/>
         </route>
+        <route id="update" frontName="update">
+            <module name="Sendit_Bliskapaczka" before="Magento_Backend"/>
+        </route>
     </router>
 </config>
