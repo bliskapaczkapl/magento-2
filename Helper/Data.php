@@ -193,18 +193,19 @@ class Data extends AbstractHelper
      */
     public function getPriceList($cod = null, $parcelDimensionsType = 'fixed')
     {
-        $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
-            $this->configuration->getApikey(),
-            $this->configuration->getEnvironment()
-        );
-
         $data = array("parcel" => array('dimensions' => $this->getParcelDimensions($parcelDimensionsType)));
         if ($cod) {
             $data['codValue'] = 1;
         }
 
         try {
+            $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
+                $this->configuration->getApikey(),
+                $this->configuration->getEnvironment()
+            );
+
             $priceList = json_decode($apiClient->get($data));
+
             $priceListCleared = array();
             foreach ($priceList as $carrier) {
                 if ($carrier->availabilityStatus == false) {
@@ -213,9 +214,9 @@ class Data extends AbstractHelper
 
                 $priceListCleared[] = $carrier;
             }
-        } catch (Exception $e) {
+        } catch (\Bliskapaczka\ApiClient\Exception $e) {
             $priceListCleared = array();
-            Mage::log($e->getMessage(), null, Sendit_Bliskapaczka_Helper_Data::LOG_FILE);
+            // Mage::log($e->getMessage(), null, $this::LOG_FILE);
         }
 
         return $priceListCleared;
