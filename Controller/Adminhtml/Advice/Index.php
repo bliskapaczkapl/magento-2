@@ -29,6 +29,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Construct method
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,

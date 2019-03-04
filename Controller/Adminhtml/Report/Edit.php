@@ -10,6 +10,8 @@ class Edit extends \Magento\Framework\App\Action\Action
 
     /**
      * Construct method
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\View\Result\PageFactory $pageFactory
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,

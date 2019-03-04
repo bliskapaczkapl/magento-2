@@ -65,7 +65,7 @@ class Grid extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param $orderId
+     * @param string $orderId
      * @return Grid
      */
     public function setOderId($orderId)
@@ -82,7 +82,7 @@ class Grid extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param $number
+     * @param string $number
      * @return Grid
      */
     public function setNumber($number)
@@ -99,7 +99,7 @@ class Grid extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param $status
+     * @param boolean $status
      * @return Grid
      */
     public function setStatus($status)
@@ -108,7 +108,7 @@ class Grid extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param $deliveryType
+     * @param string $deliveryType
      * @return Grid
      */
     public function setDeliveryType($deliveryType)
@@ -125,7 +125,7 @@ class Grid extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param $trackingNumber
+     * @param string $trackingNumber
      * @return Grid
      */
     public function setTrackingNumber($trackingNumber)
@@ -142,7 +142,7 @@ class Grid extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param $adviceDate
+     * @param string $adviceDate
      * @return Grid
      */
     public function setAdviceDate($adviceDate)
@@ -159,7 +159,7 @@ class Grid extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param $creationDate
+     * @param string $creationDate
      * @return Grid
      */
     public function setCreationDate($creationDate)

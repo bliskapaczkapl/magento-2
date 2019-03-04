@@ -9,7 +9,8 @@
 namespace Sendit\Bliskapaczka\Controller\Adminhtml\Update;
 
 use Sendit\Bliskapaczka\Model\Api\Configuration;
-use Bliskapaczka\ApiClient\Bliskapaczka\Order\Waybill;
+use Bliskapaczka\ApiClient\Bliskapaczka\Order as BliskapaczkaOrder;
+use Bliskapaczka\ApiClient\Bliskapaczka\Todoor as BliskapaczkaTodoor;
 
 /**
  * Controller class for waybill action
@@ -21,8 +22,12 @@ class Index extends \Magento\Backend\App\Action
      */
     protected $resultJsonFactory;
 
+    protected $order;
+
     /**
      * Construct method
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -38,12 +43,13 @@ class Index extends \Magento\Backend\App\Action
     public function execute()
     {
         $resultRedirect = $this->resultRedirectFactory->create();
-        $waybill = $this->getWaybillApiClient();
-        $waybill->setOrderId($this->getOrderNumber());
+        $this->order = $this->getOrder();
+        $order = $this->getOrderApiClient();
+        $order->setOrderId($this->order->getNumber());
         try {
-            $resp = json_decode($waybill->get());
-            $url = $resp[0]->url;
-            $resultRedirect->setUrl($url);
+//            $resp = json_decode($waybill->get());
+//            $url = $resp[0]->url;
+//            $resultRedirect->setUrl($url);
         } catch (\Exception $exception) {
             $this->messageManager->addError($exception->getMessage());
             $resultRedirect->setUrl($this->_redirect->getRefererUrl());
@@ -54,25 +60,33 @@ class Index extends \Magento\Backend\App\Action
     }
 
     /**
-     * @return string
+     * @return Magento\Sales\Model\Order
      */
-    protected function getOrderNumber()
+    protected function getOrder()
     {
         $orderId = $this->getRequest()->getParam('order_id');
         $order = $this->_objectManager->get('Magento\Sales\Model\Order')->load($orderId);
-        return $order->getNumber();
+        return $order;
     }
 
     /**
-     * @return Waybill
+     * @return BliskapaczkaOrder|BliskapaczkaTodoor
      */
-    protected function getWaybillApiClient()
+    protected function getOrderApiClient()
     {
         $configuration = Configuration::fromStoreConfiguration();
-        $apiClient = new Waybill(
-            $configuration->getApikey(),
-            $configuration->getEnvironment()
-        );
+        if ($this->order->getPosCode()) {
+            $apiClient = new BliskapaczkaOrder(
+                $configuration->getApikey(),
+                $configuration->getEnvironment()
+            );
+        } else {
+            $apiClient = new BliskapaczkaTodoor(
+                $configuration->getApikey(),
+                $configuration->getEnvironment()
+            );
+        }
+
 
         return $apiClient;
     }
