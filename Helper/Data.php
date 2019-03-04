@@ -15,31 +15,10 @@ class Data extends AbstractHelper
 {
     const DEFAULT_GOOGLE_API_KEY = 'AIzaSyCUyydNCGhxGi5GIt5z5I-X6hofzptsRjE';
 
-    const PARCEL_SIZE_TYPE_XML_PATH = 'carriers/sendit_bliskapaczka/parcel_size_type';
-    const PARCEL_TYPE_FIXED_SIZE_X_XML_PATH = 'carriers/sendit_bliskapaczka/parcel_size_type_fixed_size_x';
-    const PARCEL_TYPE_FIXED_SIZE_Y_XML_PATH = 'carriers/sendit_bliskapaczka/parcel_size_type_fixed_size_y';
-    const PARCEL_TYPE_FIXED_SIZE_Z_XML_PATH = 'carriers/sendit_bliskapaczka/parcel_size_type_fixed_size_z';
-    const PARCEL_TYPE_FIXED_SIZE_WEIGHT_XML_PATH = 'carriers/sendit_bliskapaczka/parcel_size_type_fixed_size_weight';
     const PARCEL_DEFAULT_SIZE_X = 12;
     const PARCEL_DEFAULT_SIZE_Y = 12;
     const PARCEL_DEFAULT_SIZE_Z = 16;
     const PARCEL_DEFAULT_SIZE_WEIGHT = 1;
-    
-    const SENDER_EMAIL = 'carriers/sendit_bliskapaczka/sender_email';
-    const SENDER_FIRST_NAME = 'carriers/sendit_bliskapaczka/sender_first_name';
-    const SENDER_LAST_NAME = 'carriers/sendit_bliskapaczka/sender_last_name';
-    const SENDER_PHONE_NUMBER = 'carriers/sendit_bliskapaczka/sender_phone_number';
-    const SENDER_STREET = 'carriers/sendit_bliskapaczka/sender_street';
-    const SENDER_BUILDING_NUMBER = 'carriers/sendit_bliskapaczka/sender_building_number';
-    const SENDER_FLAT_NUMBER = 'carriers/sendit_bliskapaczka/sender_flat_number';
-    const SENDER_POST_CODE = 'carriers/sendit_bliskapaczka/sender_post_code';
-    const SENDER_CITY = 'carriers/sendit_bliskapaczka/sender_city';
-
-    const API_KEY_XML_PATH = 'carriers/sendit_bliskapaczka/bliskapaczkaapikey';
-    const API_TEST_MODE_XML_PATH = 'carriers/sendit_bliskapaczka/test_mode';
-    const API_AUTO_ADVICE_XML_PATH = 'carriers/sendit_bliskapaczka/auto_advice';
-
-    const GOOGLE_MAP_API_KEY_XML_PATH = 'carriers/sendit_bliskapaczka/google_map_api_key';
 
     const SLOW_STATUSES = array('READY_TO_SEND', 'POSTED', 'ON_THE_WAY', 'READY_TO_PICKUP', 'OUT_FOR_DELIVERY',
             'REMINDER_SENT', 'PICKUP_EXPIRED', 'AVIZO', 'RETURNED', 'OTHER', 'MARKED_FOR_CANCELLATION');
@@ -237,20 +216,8 @@ class Data extends AbstractHelper
         }
 
         $operators = array();
-        // $rates = array();
-        // foreach ($allRates as $rate) {
-        //     $rates[$rate->getCode()] = $rate;
-        // }
 
         foreach ($priceList as $carrier) {
-            // if ($carrier->availabilityStatus == false
-            //     || !$rates['sendit_bliskapaczka_' . $carrier->operatorName . ($cod ? '_COD' : '')]
-            // ) {
-            //     continue;
-            // }
-
-            // $price = $this->_getPriceWithCartRules($carrier, $rates, $cod);
-
             $operators[] = array(
                 "operator" => $carrier->operatorName,
                 "price"    => $carrier->price->gross
@@ -258,42 +225,6 @@ class Data extends AbstractHelper
         }
 
         return json_encode($operators);
-    }
-
-    /**
-     * Get Bliskapaczka API Client
-     *
-     * @return \Bliskapaczka\ApiClient\Bliskapaczka
-     */
-    public function getApiClientPricing()
-    {
-        // $scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
-        // $apiKey = $scopeConfig
-        //     ->getValue('carriers/bliskapaczka/api_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        // $testMode = $scopeConfig
-        //     ->getValue('carriers/bliskapaczka/sandbox', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-
-        // $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
-        //     $apiKey,
-        //     $this->getApiMode(Mage::getStoreConfig(self::API_TEST_MODE_XML_PATH))
-        // );
-
-        // return $apiClient;
-    }
-
-    /**
-     * Get Bliskapaczka API Client
-     *
-     * @return \Bliskapaczka\ApiClient\Bliskapaczka
-     */
-    public function getApiClientPricingTodoor()
-    {
-        // $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing\Todoor(
-        //     Mage::getStoreConfig(self::API_KEY_XML_PATH),
-        //     $this->getApiMode(Mage::getStoreConfig(self::API_TEST_MODE_XML_PATH))
-        // );
-
-        // return $apiClient;
     }
 
     /**
@@ -311,101 +242,5 @@ class Data extends AbstractHelper
         }
         
         return $phoneNumber;
-    }
-
-    /**
-     * Get API mode
-     *
-     * @param string $configValue
-     * @return string
-     */
-    public function getApiMode($configValue = null)
-    {
-        $mode = '';
-
-        switch ($configValue) {
-            case '1':
-                $mode = 'test';
-                break;
-
-            default:
-                $mode = 'prod';
-                break;
-        }
-
-        return $mode;
-    }
-
-    /**
-     * Check if shipping method is courier
-     *
-     * @param string $method
-     * @return string
-     */
-    public function isCourier($method)
-    {
-        $shortMethodName = $this->_getShortMethodName($method);
-
-        if ($shortMethodName == 'courier') {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Check if shipping method is to point
-     *
-     * @param string $method
-     * @return string
-     */
-    public function isPoint($method)
-    {
-        $shortMethodName = $this->_getShortMethodName($method);
-
-        if ($shortMethodName == 'point') {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param int $bliskaOrderId
-     */
-    public function cancel($bliskaOrderId)
-    {
-        // $bliskaOrder = Mage::getModel('sendit_bliskapaczka/order')->load($bliskaOrderId);
-        // $bliskaOrder->cancel()->save();
-    }
-
-    /**
-     * @param int $bliskaOrderId
-     */
-    public function advice($bliskaOrderId)
-    {
-        // $bliskaOrder = Mage::getModel('sendit_bliskapaczka/order')->load($bliskaOrderId);
-        // $bliskaOrder->advice();
-    }
-
-    /**
-     * Short name for shipping method
-     *
-     * @param string $method
-     * @return string
-     */
-    protected function _getShortMethodName($method)
-    {
-        switch ($method) {
-            case 'bliskapaczka_sendit_bliskapaczka':
-            case 'bliskapaczka_sendit_bliskapaczka_COD':
-                $shortMethod = 'point';
-                break;
-
-            default:
-                $shortMethod = 'courier';
-        }
-
-        return $shortMethod;
     }
 }

@@ -41,15 +41,6 @@ class Bliskapaczka extends AbstractBliskapaczka
     }
 
     /**
-     * get allowed methods
-     * @return array
-     */
-    public function getAllowedMethods()
-    {
-        return [$this->_code => $this->getConfigData('name')];
-    }
-
-    /**
      * @param RateRequest $request
      *
      * @return bool|Result
