@@ -11,7 +11,7 @@ use Sendit\Bliskapaczka\Helper\Data as SenditHelper;
 /**
  * Courier class for bliskapaczka shippine method carrier
  */
-class Courier extends AbstractBliskapaczka
+class Courier extends AbstractBliskapaczka implements BliskapaczkaInterface
 {
     /**
      * @var string
@@ -59,7 +59,7 @@ class Courier extends AbstractBliskapaczka
      * @param boot $cod
      * @param string $type
      *
-     * @return json
+     * @return array
      */
     public function _getPricing($cod = null, $type = 'fixed')
     {
@@ -120,43 +120,5 @@ class Courier extends AbstractBliskapaczka
         }
 
         return $result;
-    }
-
-    /**
-     * Set shipping method for operator
-     *
-     * @param Mage_Shipping_Model_Rate_Result_Method $result
-     * @param string $operator
-     * @param bool $cod
-     * @param Sendit_Bliskapaczka_Helper_Data $senditHelper
-     * @param float $shippingPrice
-     */
-    protected function _addShippingMethod($result, $operator, $cod, $senditHelper, $shippingPrice)
-    {
-        if ($this->_code != $operator->operatorName) {
-            $methodName = $methodTitle = $operator->operatorName;
-        } else {
-            $methodName = $this->_code;
-            $methodTitle = '';
-        }
-
-        if ($cod) {
-            $methodName .= '_' . Sendit_Bliskapaczka_Model_Carrier_Bliskapaczka::COD;
-            $methodTitle .= (($methodTitle) ? ' - ' : '') . $senditHelper->__('Cash on Delivery');
-        }
-
-        /** @var \Magento\Quote\Model\Quote\Address\RateResult\Method $method */
-        $method = $this->_rateMethodFactory->create();
-
-        $method->setCarrier($this->_code);
-        $method->setCarrierTitle($this->getConfigData('title'));
-
-        $method->setMethod($methodName);
-        $method->setMethodTitle($methodTitle);
-
-        $method->setPrice($shippingPrice);
-        $method->setCost($shippingPrice);
-
-        $result->append($method);
     }
 }

@@ -93,26 +93,13 @@ class Data extends AbstractHelper
      * @param boot $cod
      * @return float
      */
-    public function getLowestPrice($priceList, $allRates, $cod = false)
+    public function getLowestPrice($priceList)
     {
         $lowestPrice = null;
 
-        $rates = array();
-        foreach ($allRates as $rate) {
-            $rates[$rate->getCode()] = $rate;
-        }
-
         foreach ($priceList as $carrier) {
-            if ($carrier->availabilityStatus == false
-                || !$rates['sendit_bliskapaczka_' . $carrier->operatorName . ($cod ? '_COD' : '')]
-            ) {
-                continue;
-            }
-
-            $price = $this->_getPriceWithCartRules($carrier, $rates, $cod);
-
-            if ($lowestPrice == null || $lowestPrice > $price) {
-                $lowestPrice = $price;
+            if ($lowestPrice == null || $lowestPrice > $carrier->price->gross) {
+                $lowestPrice = $carrier->price->gross;
             }
         }
 

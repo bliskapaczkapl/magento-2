@@ -6,11 +6,12 @@ use Sendit\Bliskapaczka\Model\Carrier\AbstractBliskapaczka;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Rate\Result;
 use Sendit\Bliskapaczka\Helper\Data;
+use Sendit\Bliskapaczka\Helper\Data as SenditHelper;
 
 /**
  * P2P class for bliskapaczka shippine method carrier
  */
-class Bliskapaczka extends AbstractBliskapaczka
+class Bliskapaczka extends AbstractBliskapaczka implements BliskapaczkaInterface
 {
     /**
      * @var string
@@ -25,6 +26,7 @@ class Bliskapaczka extends AbstractBliskapaczka
      * @param \Psr\Log\LoggerInterface                                    $logger
      * @param \Magento\Shipping\Model\Rate\ResultFactory                  $rateResultFactory
      * @param \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
+     * @param \Sendit\Bliskapaczka\Helper\Data                            $senditHelper
      * @param array                                                       $data
      */
     public function __construct(
@@ -33,42 +35,52 @@ class Bliskapaczka extends AbstractBliskapaczka
         \Psr\Log\LoggerInterface $logger,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
+        SenditHelper $senditHelper,
         array $data = []
     ) {
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
+        $this->senditHelper = $senditHelper;
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
     }
 
     /**
-     * @param RateRequest $request
+     * Get price list for carrier
      *
-     * @return bool|Result
+     * @param boot $cod
+     * @param string $type
+     *
+     * @return array
+     */
+    public function _getPricing($cod = null, $type = 'fixed')
+    {
+        $priceList = $this->senditHelper->getPriceList($cod, $type);
+
+        return $priceList;
+    }
+
+    /**
+     * Collect rates
+     *
+     * @param \Magento\Quote\Model\Quote\Address\RateRequest $request
+     * @return \Magento\Shipping\Model\Rate\Result $result
      */
     public function collectRates(RateRequest $request)
     {
-        if (!$this->getConfigFlag('active')) {
-            return false;
-        }
-
         /** @var \Magento\Shipping\Model\Rate\Result $result */
         $result = $this->_rateResultFactory->create();
 
-        /** @var \Magento\Quote\Model\Quote\Address\RateResult\Method $method */
-        $method = $this->_rateMethodFactory->create();
+        $priceList = $this->_getPricing();
 
-        $method->setCarrier($this->_code);
-        $method->setCarrierTitle($this->getConfigData('title'));
+        if (!empty($priceList)) {
+            $price = $this->senditHelper->getLowestPrice($priceList);
 
-        $method->setMethod($this->_code);
-        $method->setMethodTitle($this->getConfigData('name'));
+            $operator = new \StdClass();
+            $operator->operatorName = $this->_code;
+            $operator->operatorFullName = $this->_code;
 
-        $amount = $this->getConfigData('price');
-
-        $method->setPrice($amount);
-        $method->setCost($amount);
-
-        $result->append($method);
+            $this->_addShippingMethod($result, $operator, false, $this->senditHelper, $price);
+        }
 
         return $result;
     }

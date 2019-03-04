@@ -14,7 +14,7 @@ script:
   - echo "$DIVANTE_DOCKER_PASSWORD" | docker login -u "$DIVANTE_DOCKER_USERNAME" --password-stdin registry-1.divante.pl:5000
   - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpcs --colors --exclude=PSR2.Methods.MethodDeclaration,PSR2.Classes.PropertyDeclaration --extensions=php --standard=PSR2,Security --ignore=vendor/* -s .
   - docker run --rm --volume `pwd`:/project jolicode/phaudit phpmd ./ text codesize --exclude vendor
-#  - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpdoccheck --directory=./ --exclude=vendor
+  - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpdoccheck --directory=./ --exclude=vendor
   - docker run --rm --volume `pwd`:/project jolicode/phaudit phploc .
 
 after_success:
