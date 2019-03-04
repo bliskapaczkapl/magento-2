@@ -45,6 +45,15 @@ class Courier extends AbstractBliskapaczka
     }
 
     /**
+     * get allowed methods
+     * @return array
+     */
+    public function getAllowedMethods()
+    {
+        return [$this->_code => $this->getConfigData('name')];
+    }
+
+    /**
      * Get price list for carrier
      *
      * @param boot $cod
@@ -55,12 +64,6 @@ class Courier extends AbstractBliskapaczka
     public function _getPricing($cod = null, $type = 'fixed')
     {
         $configuration = Configuration::fromStoreConfiguration();
-
-        /* @var $apiClient \Bliskapaczka\ApiClient\Bliskapaczka\Pricing */
-        $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
-            $configuration->getApikey(),
-            $configuration->getEnvironment()
-        );
 
         $D2DData = array(
             "parcel" => array('dimensions' => $this->senditHelper->getParcelDimensions($type)),
@@ -79,9 +82,16 @@ class Courier extends AbstractBliskapaczka
         }
 
         try {
+            /* @var $apiClient \Bliskapaczka\ApiClient\Bliskapaczka\Pricing */
+            $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
+                $configuration->getApikey(),
+                $configuration->getEnvironment()
+            );
+
             $D2DPriceList = $apiClient->get($D2DData);
-        } catch (Exception $e) {
+        } catch (\Bliskapaczka\ApiClient\Exception $e) {
             $D2DPriceList = $P2DPriceList = '{}';
+            // $this->logger->info($e->getMessage());
             // Mage::log($e->getMessage(), null, Sendit_Bliskapaczka_Helper_Data::LOG_FILE);
         }
 
