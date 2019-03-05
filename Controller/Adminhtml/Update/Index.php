@@ -47,15 +47,16 @@ class Index extends \Magento\Backend\App\Action
         $order = $this->getOrderApiClient();
         $order->setOrderId($this->order->getNumber());
         try {
-//            $resp = json_decode($waybill->get());
-//            $url = $resp[0]->url;
-//            $resultRedirect->setUrl($url);
+            $data = json_decode($order->get());
+            $this->order->setData("tracking_number", $data->trackingNumber);
+            $this->order->setData("advice_date", $data->adviceDate);
+            $this->order->save();
+            $this->messageManager->addSuccessMessage(__('Order Bliskapaczka updated'));
         } catch (\Exception $exception) {
             $this->messageManager->addError($exception->getMessage());
-            $resultRedirect->setUrl($this->_redirect->getRefererUrl());
         }
 
-
+        $resultRedirect->setUrl($this->_redirect->getRefererUrl());
         return $resultRedirect;
     }
 
