@@ -26,6 +26,9 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      * @var array|mixed
      */
     protected $_dataFromApi = [];
+
+    /** @var string */
+    protected $_trackingUrl;
     /**
      * View constructor.
      * @param \Magento\Backend\Block\Template\Context $context
@@ -50,6 +53,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         $resp = $apiClient->get();
 
         $this->_dataFromApi = json_decode($resp, true);
+        $this->setUrlToTrackingByEnv($configuration->getEnvironment());
     }
 
     /**
@@ -118,5 +122,25 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     public function getDataFromApi()
     {
         return $this->_dataFromApi;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTrackingLink()
+    {
+        return $this->_trackingUrl . $this->getDataFromApi()['trackingNumber'];
+    }
+
+    /**
+     * @param string $env
+     */
+    protected function setUrlToTrackingByEnv(string $env)
+    {
+        if ($env === 'test') {
+            $this->_trackingUrl = 'https://sandbox-bliskapaczka.pl/sledzenie/';
+        } else {
+            $this->_trackingUrl = 'https://bliskapaczka.pl/sledzenie/';
+        }
     }
 }

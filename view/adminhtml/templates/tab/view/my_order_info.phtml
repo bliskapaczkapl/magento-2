@@ -62,7 +62,7 @@
         <tr>
             <th><?php /* @escapeNotVerified */
                 echo __('Tracking number:') ?></th>
-            <td><?php echo $block->getDataFromApi()['trackingNumber']; ?></td>
+            <td><a href="<?php echo $block->getTrackingLink()?>"><?php echo $block->getDataFromApi()['trackingNumber']; ?></a></td>
         </tr>
         </tbody>
     </table>
