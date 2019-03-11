@@ -99,7 +99,13 @@ class Courier extends AbstractBliskapaczka implements BliskapaczkaInterface
             if (!empty($priceList)) {
                 foreach ($priceList as $operator) {
                     if ($operator->availabilityStatus != false) {
-                        $this->_addShippingMethod($result, $operator, $cod, $this->senditHelper, $operator->price->gross);
+                        $this->_addShippingMethod(
+                            $result,
+                            $operator,
+                            $cod,
+                            $this->senditHelper,
+                            $operator->price->gross
+                        );
                     }
                 }
             }

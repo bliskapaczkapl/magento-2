@@ -155,6 +155,7 @@ class Data extends AbstractHelper
      *
      * @param boot $cod
      * @param string $parcelDimensionsType
+     * @param string $deliveryType
      * @return array
      */
     public function getPriceList($cod = null, $parcelDimensionsType = 'fixed', $deliveryType = 'P2P')
