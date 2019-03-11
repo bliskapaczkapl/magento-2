@@ -43,6 +43,7 @@ class Order extends AbstractMapper implements MapperInterface
         ];
 
         $data = $this->_prepareSenderData($data);
+        $data = $this->_prepareCodData($data, $order);
 
         return $data;
     }

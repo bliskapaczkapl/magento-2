@@ -32,10 +32,6 @@ class Todoor extends AbstractMapper implements MapperInterface
         $data['receiverPostCode'] = $shippingAddress->getPostcode();
         $data['receiverCity'] = $shippingAddress->getCity();
 
-        if (strpos($shippingAddress->getPosOperator(), '_COD') !== false) {
-            $data['codValue'] = (string)round(floatval($order->getGrandTotal()), 2);
-        }
-
         $data['operatorName'] = str_replace('_COD', '', $order->getShippingMethod(true)->getMethod());
 
         $data['deliveryType'] = 'D2D';
@@ -54,6 +50,7 @@ class Todoor extends AbstractMapper implements MapperInterface
         ];
 
         $data = $this->_prepareSenderData($data);
+        $data = $this->_prepareCodData($data, $order);
 
         return $data;
     }

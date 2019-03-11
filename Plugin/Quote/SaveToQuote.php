@@ -1,10 +1,4 @@
 <?php
-/**
-* *
-*  @author DCKAP Team
-*  @copyright Copyright (c) 2018 DCKAP (https://www.dckap.com)
-*  @package Dckap_CustomFields
-*/
 
 namespace Sendit\Bliskapaczka\Plugin\Quote;
 
@@ -54,6 +48,7 @@ class SaveToQuote
                 $deliiveryType = 'P2D';
             }
         }
+
         $quote = $this->quoteRepository->getActive($cartId);
         $quote->setPosOperator($extAttributes->getPosOperator());
         $quote->setPosCode($extAttributes->getPosCode());

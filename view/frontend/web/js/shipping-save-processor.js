@@ -39,7 +39,11 @@ define(
                var posOperator = null;
                var posCodeDescription = null;
                console.log(shippingMethod);
-               if(shippingMethod == "bliskapaczka_bliskapaczka" || shippingMethod == "courier_courier") {
+                if (
+                  shippingMethod == "bliskapaczka_bliskapaczka"
+                  || shippingMethod == "bliskapaczka_COD_bliskapaczka"
+                  || shippingMethod == "courier_courier"
+                ) {
                  posCode = jQuery('[name="bliskapaczka[sendit_bliskapaczka_sendit_bliskapaczka_posCode]"]').val();
                  posOperator = jQuery('[name="bliskapaczka[sendit_bliskapaczka_sendit_bliskapaczka_posOperator]"]').val();
                  posCodeDescription = jQuery('[name="bliskapaczka[sendit_bliskapaczka_sendit_bliskapaczka_posCodeDescription]"]').val();
