@@ -41,6 +41,7 @@ class Courier extends AbstractBliskapaczka implements BliskapaczkaInterface
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
         $this->senditHelper = $senditHelper;
+        $this->configuration = Configuration::fromStoreConfiguration();
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
     }
 
@@ -63,40 +64,62 @@ class Courier extends AbstractBliskapaczka implements BliskapaczkaInterface
      */
     public function _getPricing($cod = null, $type = 'fixed')
     {
-        $configuration = Configuration::fromStoreConfiguration();
+        $deliveryTypes = ["D2D", "P2D"];
 
-        $D2DData = array(
-            "parcel" => array('dimensions' => $this->senditHelper->getParcelDimensions($type)),
-            "deliveryType" => "D2D"
-        );
-        if ($cod) {
-            $D2DData['codValue'] = 1;
-        }
+        $priceListMerged = [];
 
-        $P2DData = array(
-            "parcel" => array('dimensions' => $this->senditHelper->getParcelDimensions($type)),
-            "deliveryType" => "P2D"
-        );
-        if ($cod) {
-            $P2DData['codValue'] = 1;
-        }
-
-        try {
-            /* @var $apiClient \Bliskapaczka\ApiClient\Bliskapaczka\Pricing */
-            $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
-                $configuration->getApikey(),
-                $configuration->getEnvironment()
+        foreach ($deliveryTypes as $deliveryType) {
+            $priceListMerged = array_merge(
+                $priceListMerged,
+                $this->senditHelper->getPriceList($cod, $type, $deliveryType)
             );
-
-            $D2DPriceList = $apiClient->get($D2DData);
-        } catch (\Bliskapaczka\ApiClient\Exception $e) {
-            $D2DPriceList = $P2DPriceList = '{}';
-            // $this->logger->info($e->getMessage());
-            // Mage::log($e->getMessage(), null, Sendit_Bliskapaczka_Helper_Data::LOG_FILE);
         }
 
-        return json_decode($D2DPriceList);
+        return $priceListMerged;
     }
+
+    // /**
+    //  * Get price list for carrier
+    //  *
+    //  * @param boot $cod
+    //  * @param string $type
+    //  *
+    //  * @return array
+    //  */
+    // public function _getPricing($cod = null, $type = 'fixed')
+    // {
+    //     $D2DData = array(
+    //         "parcel" => array('dimensions' => $this->senditHelper->getParcelDimensions($type)),
+    //         "deliveryType" => "D2D"
+    //     );
+    //     if ($cod) {
+    //         $D2DData['codValue'] = 1;
+    //     }
+
+    //     $P2DData = array(
+    //         "parcel" => array('dimensions' => $this->senditHelper->getParcelDimensions($type)),
+    //         "deliveryType" => "P2D"
+    //     );
+    //     if ($cod) {
+    //         $P2DData['codValue'] = 1;
+    //     }
+
+    //     try {
+    //         /* @var $apiClient \Bliskapaczka\ApiClient\Bliskapaczka\Pricing */
+    //         $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
+    //             $this->configuration->getApikey(),
+    //             $this->configuration->getEnvironment()
+    //         );
+
+    //         $D2DPriceList = $apiClient->get($D2DData);
+    //     } catch (\Bliskapaczka\ApiClient\Exception $e) {
+    //         $D2DPriceList = $P2DPriceList = '{}';
+    //         // $this->logger->info($e->getMessage());
+    //         // Mage::log($e->getMessage(), null, Sendit_Bliskapaczka_Helper_Data::LOG_FILE);
+    //     }
+
+    //     return json_decode($D2DPriceList);
+    // }
 
     /**
      * Collect rates
@@ -118,6 +141,18 @@ class Courier extends AbstractBliskapaczka implements BliskapaczkaInterface
                 }
             }
         }
+
+        // if ($this->configuration->cod) {
+        //     $priceList = $this->_getPricing(true);
+
+            if (!empty($priceList)) {
+                foreach ($priceList as $operator) {
+                    if ($operator->availabilityStatus != false) {
+                        $this->_addShippingMethod($result, $operator, true, $this->senditHelper, $operator->price->gross);
+                    }
+                }
+            }
+        // }
 
         return $result;
     }

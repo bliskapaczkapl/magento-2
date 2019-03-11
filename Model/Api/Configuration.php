@@ -32,10 +32,14 @@ class Configuration
             $environment = 'prod';
         }
 
+        $cod = $scopeConfig
+            ->getValue('carriers/bliskapaczka/cod', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
         $configuration = new Configuration;
         $configuration->apikey = $apiKey;
         $configuration->environment = $environment;
         $configuration->autoAdvice = (bool)$autoAdvice;
+        $configuration->cod = (bool)$cod;
 
         $parcelDimensions->set($configuration, $scopeConfig);
         $sender->set($configuration, $scopeConfig);
