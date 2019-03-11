@@ -21,5 +21,8 @@
         <route id="update" frontName="update">
             <module name="Sendit_Bliskapaczka" before="Magento_Backend"/>
         </route>
+        <route id="confirm" frontName="confirm">
+            <module name="Sendit_Bliskapaczka" before="Magento_Backend"/>
+        </route>
     </router>
 </config>

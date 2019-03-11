@@ -48,12 +48,12 @@ Bliskapaczka.pointSelected = function(data, operators, rateCode)
     aboutPoint = document.getElementById('bpWidget_aboutPoint_sendit_bliskapaczka_sendit_bliskapaczka');
     aboutPoint.style.display = 'block';
 
-    // posDataBlock = document.getElementById('bpWidget_aboutPoint_posData_' + rateCode);
+    selectedPoint = document.getElementById('bpWidget_aboutPoint_posData_sendit_bliskapaczka_sendit_bliskapaczka');
 
-    // posDataBlock.innerHTML =  data.operator + '</br>'
-    //     + ((data.description) ? data.description + '</br>': '')
-    //     + data.street + '</br>'
-    //     + ((data.postalCode) ? data.postalCode + ' ': '') + data.city
+    selectedPoint.innerHTML =  data.operator + '</br>'
+        + ((data.description) ? data.description + '</br>': '')
+        + data.street + '</br>'
+        + ((data.postalCode) ? data.postalCode + ' ': '') + data.city
 }
 
 Bliskapaczka.updatePrice = function (posOperator, operators) {

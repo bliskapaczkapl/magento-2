@@ -36,6 +36,7 @@ class PluginBefore
         $cancelUrl = $context->getUrl('cancel/cancel/', ['order_id' => $orderId]);
         $retryUrl = $context->getUrl('recreate/recreate/', ['order_id' => $orderId]);
         $updateUrl = $context->getUrl('update/update/', ['order_id' => $orderId]);
+        $confirmPocztaUrl = $context->getUrl('confirm/confirm/', ['operator_name' => 'Poczta']);
         if ($this->_request->getFullActionName() == 'sales_order_view') {
             $buttonList->add(
                 'waybill_bliska_paczka',
@@ -74,6 +75,14 @@ class PluginBefore
                 ['label' => __('Aktualizuj Bliską paczkę'),
                     'onclick' => sprintf("setLocation('%s')", $updateUrl),
                     'class' => 'update'
+                ],
+                -1
+            );
+            $buttonList->add(
+                'confirm_poczta',
+                ['label' => __('Wyczyść bufor Poczty Polskiej'),
+                    'onclick' => sprintf("setLocation('%s')", $confirmPocztaUrl),
+                    'class' => 'confirm_poczta'
                 ],
                 -1
             );
