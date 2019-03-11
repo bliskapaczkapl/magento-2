@@ -111,7 +111,6 @@ define(
 
     var shippingMethod = quote.shippingMethod().method_code+'_'+quote.shippingMethod().carrier_code;
 
-    console.log(shippingMethod);
     if (
       this.source.get('customShippingMethodFields')
       && (
@@ -120,7 +119,6 @@ define(
         || shippingMethod == "courier_courier"
       )
     ) {
-      console.log('Jestem w środku');
       this.source.set('params.invalid', false);
       this.source.trigger('customShippingMethodFields.data.validate');
       if (this.source.get('params.invalid')) {
@@ -128,7 +126,6 @@ define(
       }
     }
 
-    console.log('Przeszło walidację');
     return true;
   }
   };
