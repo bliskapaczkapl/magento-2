@@ -82,6 +82,7 @@ class CreateOrderViaApi implements ObserverInterface
             $order->setData("delivery_type", $response->deliveryType);
             $order->setData("tracking_number", $response->trackingNumber);
             $order->setData("advice_date", $response->adviceDate);
+            $order->setData('bliskapaczka_status', $response->status);
         } catch (Exception $e) {
         }
     }

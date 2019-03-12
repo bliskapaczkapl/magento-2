@@ -80,6 +80,11 @@ class InstallSchema implements InstallSchemaInterface
                 'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                 'nullable' => true,
                 'comment' => 'Pos code description type field',
+            ],
+            'bliskapaczka_status' => [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'nullable' => true,
+                'comment' => 'Order status for bliskapaczka',
             ]
         ];
 
