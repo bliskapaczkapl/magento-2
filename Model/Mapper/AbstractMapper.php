@@ -72,4 +72,26 @@ abstract class AbstractMapper implements MapperInterface
 
         return $data;
     }
+
+    /**
+     * Prepare CoD data in fomrat accptable by Bliskapaczka API
+     *
+     * @param array $data
+     * @param Magento\Sales\Model\Order $order
+     * @return array
+     */
+    protected function _prepareCodData($data, $order)
+    {
+        if (strpos($order->getShippingMethod(true)->getMethod(), '_COD') !== false) {
+            $grandTotal = (string)round(floatval($order->getGrandTotal()), 2);
+            $data['codValue'] = $grandTotal;
+            $data['parcel']['insuranceValue'] = $grandTotal;
+
+            if ($this->configuration->codBankAccountNumber) {
+                $data['codPayoutBankAccountNumber'] = $this->configuration->codBankAccountNumber;
+            }
+        }
+
+        return $data;
+    }
 }

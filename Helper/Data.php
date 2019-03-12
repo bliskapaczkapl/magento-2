@@ -155,11 +155,16 @@ class Data extends AbstractHelper
      *
      * @param boot $cod
      * @param string $parcelDimensionsType
+     * @param string $deliveryType
      * @return array
      */
-    public function getPriceList($cod = null, $parcelDimensionsType = 'fixed')
+    public function getPriceList($cod = null, $parcelDimensionsType = 'fixed', $deliveryType = 'P2P')
     {
-        $data = array("parcel" => array('dimensions' => $this->getParcelDimensions($parcelDimensionsType)));
+        $data = array(
+            "parcel" => array('dimensions' => $this->getParcelDimensions($parcelDimensionsType)),
+            "deliveryType" => $deliveryType
+        );
+
         if ($cod) {
             $data['codValue'] = 1;
         }

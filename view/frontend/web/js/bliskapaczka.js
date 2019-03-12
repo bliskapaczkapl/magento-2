@@ -6,7 +6,7 @@ function Bliskapaczka()
 Bliskapaczka.showMap = function(operators, googleMapApiKey, testMode, rateCode, codOnly = false)
 {
     var now = new Date().getTime();
-    while(new Date().getTime() < now + 5000){ /* do nothing */ } 
+    while(new Date().getTime() < now + 5000){ /* do nothing */ }
 
     aboutPoint = document.getElementById('bpWidget_aboutPoint_sendit_bliskapaczka_sendit_bliskapaczka');
     // aboutPoint.style.display = 'none';
@@ -56,7 +56,8 @@ Bliskapaczka.pointSelected = function(data, operators, rateCode)
         + ((data.postalCode) ? data.postalCode + ' ': '') + data.city
 }
 
-Bliskapaczka.updatePrice = function (posOperator, operators) {
+Bliskapaczka.updatePrice = function (posOperator, operators)
+{
     // boxSpan = document.getElementsByClassName('bliskapaczka_price_box')[0];
     // if (boxSpan) {
     //     if (boxSpan.getElementsByClassName('price')) {

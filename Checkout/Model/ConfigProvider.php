@@ -28,6 +28,7 @@ class ConfigProvider implements ConfigProviderInterface
     {
         $config = [];
         $config['operatorsForWidget'] = $this->senditHelper->getOperatorsForWidget();
+        $config['operatorsForWidgetCod'] = $this->senditHelper->getOperatorsForWidget(null, true);
 
         return $config;
     }

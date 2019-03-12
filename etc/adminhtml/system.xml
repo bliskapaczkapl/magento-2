@@ -126,10 +126,14 @@
                 </field>
                 <field id="cod" translate="label" type="select" sortOrder="28" showInDefault="1" showInWebsite="1"
                        showInStore="1">
-                    <label>COD</label>
+                    <label>CoD</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="use_reference" translate="label" type="select" sortOrder="29" showInDefault="1" showInWebsite="1"
+                <field id="cod_bank_account_number" translate="label" type="text" sortOrder="29" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>CoD Payout Bank Account Number</label>
+                </field>
+                <field id="use_reference" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Use reference</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

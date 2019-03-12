@@ -5,113 +5,132 @@
 *  @package Dckap_CustomFields
 */
 define(
-   [
-       'jquery',
-       'underscore',
-       'Magento_Ui/js/form/form',
-       'ko',
-       'Magento_Customer/js/model/customer',
-       'Magento_Customer/js/model/address-list',
-       'Magento_Checkout/js/model/address-converter',
-       'Magento_Checkout/js/model/quote',
-       'Magento_Checkout/js/action/create-shipping-address',
-       'Magento_Checkout/js/action/select-shipping-address',
-       'Magento_Checkout/js/model/shipping-rates-validator',
-       'Magento_Checkout/js/model/shipping-address/form-popup-state',
-       'Magento_Checkout/js/model/shipping-service',
-       'Magento_Checkout/js/action/select-shipping-method',
-       'Magento_Checkout/js/model/shipping-rate-registry',
-       'Magento_Checkout/js/action/set-shipping-information',
-       'Magento_Checkout/js/model/step-navigator',
-       'Magento_Ui/js/modal/modal',
-       'Magento_Checkout/js/model/checkout-data-resolver',
-       'Magento_Checkout/js/checkout-data',
-       'uiRegistry',
-       'mage/translate',
-       'Magento_Checkout/js/model/shipping-rate-service',
-       'Sendit_Bliskapaczka/js/bliskapaczka',
-       'https://widget.bliskapaczka.pl/v5/main.js'
-   ],function (
-       $,
-       _,
-       Component,
-       ko,
-       customer,
-       addressList,
-       addressConverter,
-       quote,
-       createShippingAddress,
-       selectShippingAddress,
-       shippingRatesValidator,
-       formPopUpState,
-       shippingService,
-       selectShippingMethodAction,
-       rateRegistry,
-       setShippingInformationAction,
-       stepNavigator,
-       modal,
-       checkoutDataResolver,
-       checkoutData,
-       registry,
-       $t
-   ) {
-   'use strict';
+  [
+    'jquery',
+    'underscore',
+    'Magento_Ui/js/form/form',
+    'ko',
+    'Magento_Customer/js/model/customer',
+    'Magento_Customer/js/model/address-list',
+    'Magento_Checkout/js/model/address-converter',
+    'Magento_Checkout/js/model/quote',
+    'Magento_Checkout/js/action/create-shipping-address',
+    'Magento_Checkout/js/action/select-shipping-address',
+    'Magento_Checkout/js/model/shipping-rates-validator',
+    'Magento_Checkout/js/model/shipping-address/form-popup-state',
+    'Magento_Checkout/js/model/shipping-service',
+    'Magento_Checkout/js/action/select-shipping-method',
+    'Magento_Checkout/js/model/shipping-rate-registry',
+    'Magento_Checkout/js/action/set-shipping-information',
+    'Magento_Checkout/js/model/step-navigator',
+    'Magento_Ui/js/modal/modal',
+    'Magento_Checkout/js/model/checkout-data-resolver',
+    'Magento_Checkout/js/checkout-data',
+    'uiRegistry',
+    'mage/translate',
+    'Magento_Checkout/js/model/shipping-rate-service',
+    'Sendit_Bliskapaczka/js/bliskapaczka',
+    'https://widget.bliskapaczka.pl/v5/main.js'
+  ],function (
+    $,
+    _,
+    Component,
+    ko,
+    customer,
+    addressList,
+    addressConverter,
+    quote,
+    createShippingAddress,
+    selectShippingAddress,
+    shippingRatesValidator,
+    formPopUpState,
+    shippingService,
+    selectShippingMethodAction,
+    rateRegistry,
+    setShippingInformationAction,
+    stepNavigator,
+    modal,
+    checkoutDataResolver,
+    checkoutData,
+    registry,
+    $t
+  ) {
+  'use strict';
 
-   var mixin = {
+  var mixin = {
 
-       initObservable: function () {
-           this._super();
+  initObservable: function () {
+    this._super();
 
-           this.selectedMethod = ko.computed(function() {
-               var method = quote.shippingMethod();
-               var selectedMethod = method != null ? method.carrier_code + '_' + method.method_code : null;
-               var operatorsForWidget = window.checkoutConfig.operatorsForWidget;
+    this.selectedMethod = ko.computed(function() {
+    var method = quote.shippingMethod();
+    var selectedMethod = method != null ? method.carrier_code + '_' + method.method_code : null;
+    var operatorsForWidget = window.checkoutConfig.operatorsForWidget;
+    var operatorsForWidgetCod = window.checkoutConfig.operatorsForWidgetCod;
 
-               if ((selectedMethod === 'bliskapaczka_bliskapaczka') || (selectedMethod === 'courier_courier') ) {
-                 Bliskapaczka.showMap(
-                   JSON.parse(operatorsForWidget),
-                   "AIzaSyCUyydNCGhxGi5GIt5z5I-X6hofzptsRjE",
-                   true,
-                   "sendit_bliskapaczka_sendit_bliskapaczka",
-                   false                                    )
-               }
+    if (selectedMethod === 'bliskapaczka_bliskapaczka') {
+      Bliskapaczka.showMap(
+      JSON.parse(operatorsForWidget),
+      "AIzaSyCUyydNCGhxGi5GIt5z5I-X6hofzptsRjE",
+      true,
+      "sendit_bliskapaczka_sendit_bliskapaczka",
+      false
+      )
+    }
 
-               return selectedMethod;
-           }, this);
+    if (selectedMethod === 'bliskapaczka_bliskapaczka_COD') {
+      Bliskapaczka.showMap(
+        JSON.parse(operatorsForWidgetCod),
+        "AIzaSyCUyydNCGhxGi5GIt5z5I-X6hofzptsRjE",
+        true,
+        "sendit_bliskapaczka_sendit_bliskapaczka",
+        true
+      )
+    }
 
-           return this;
-       },
+    return selectedMethod;
+    }, this);
 
-       /**
-        * Set shipping information handler
-        */
-       setShippingInformation: function () {
-           if (this.validateCustomFieldsShipping() && this.validateShippingInformation()) {
-               setShippingInformationAction().done(
-                   function () {
-                       stepNavigator.next();
-                   }
-               );
-           }
-       },
+    return this;
+  },
 
-       validateCustomFieldsShipping: function () {
+  /**
+  * Set shipping information handler
+  */
+  setShippingInformation: function () {
+    if (this.validateCustomFieldsShipping() && this.validateShippingInformation()) {
+      setShippingInformationAction().done(
+        function () {
+          stepNavigator.next();
+        }
+      );
+    }
+  },
 
-           var shippingMethod = quote.shippingMethod().method_code+'_'+quote.shippingMethod().carrier_code;
+  validateCustomFieldsShipping: function () {
 
-           console.log(shippingMethod);
-           if (this.source.get('customShippingMethodFields') && (shippingMethod == "bliskapaczka_bliskapaczka" || shippingMethod == "courier_courier")) {
-               this.source.set('params.invalid', false);
-               this.source.trigger('customShippingMethodFields.data.validate');
-               if(this.source.get('params.invalid')) {
-                   return false;
-               }
-           }
-           return true;
-       }
-   };
+    var shippingMethod = quote.shippingMethod().method_code+'_'+quote.shippingMethod().carrier_code;
 
-   return function (target) {
-       return target.extend(mixin);
-   };
+    if (
+      this.source.get('customShippingMethodFields')
+      && (
+        shippingMethod == "bliskapaczka_bliskapaczka"
+        || shippingMethod == "bliskapaczka_COD_bliskapaczka"
+        || shippingMethod == "courier_courier"
+      )
+    ) {
+      this.source.set('params.invalid', false);
+      this.source.trigger('customShippingMethodFields.data.validate');
+      if (this.source.get('params.invalid')) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+  };
+
+  return function (target) {
+    return target.extend(mixin);
+  };
 });

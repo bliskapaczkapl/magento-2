@@ -30,7 +30,7 @@ class Order extends AbstractMapper implements MapperInterface
             $data['codValue'] = (string)round(floatval($order->getGrandTotal()), 2);
         }
 
-        $data['operatorName'] = $order->getPosOperator();
+        $data['operatorName'] = str_replace('_COD', '', $order->getPosOperator());
         $data['destinationCode'] = $order->getPosCode();
 
         $data['additionalInformation'] = $order->getIncrementId();
@@ -43,6 +43,7 @@ class Order extends AbstractMapper implements MapperInterface
         ];
 
         $data = $this->_prepareSenderData($data);
+        $data = $this->_prepareCodData($data, $order);
 
         return $data;
     }

@@ -8,6 +8,8 @@ namespace Sendit\Bliskapaczka\Model\Carrier;
 abstract class AbstractBliskapaczka extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
     \Magento\Shipping\Model\Carrier\CarrierInterface
 {
+    const COD = 'COD';
+
     /**
      * Get allowed shipping methods
      *
@@ -46,8 +48,8 @@ abstract class AbstractBliskapaczka extends \Magento\Shipping\Model\Carrier\Abst
         }
 
         if ($cod) {
-            $methodName .= '_' . Sendit_Bliskapaczka_Model_Carrier_Bliskapaczka::COD;
-            $methodTitle .= (($methodTitle) ? ' - ' : '') . $senditHelper->__('Cash on Delivery');
+            $methodName .= '_' . $this::COD;
+            $methodTitle .= (($methodTitle) ? ' - ' : '') . 'Cash on Delivery';
         }
 
         /** @var \Magento\Quote\Model\Quote\Address\RateResult\Method $method */

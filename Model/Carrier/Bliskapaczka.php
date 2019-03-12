@@ -2,6 +2,7 @@
 
 namespace Sendit\Bliskapaczka\Model\Carrier;
 
+use Sendit\Bliskapaczka\Model\Api\Configuration;
 use Sendit\Bliskapaczka\Model\Carrier\AbstractBliskapaczka;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Rate\Result;
@@ -41,6 +42,7 @@ class Bliskapaczka extends AbstractBliskapaczka implements BliskapaczkaInterface
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
         $this->senditHelper = $senditHelper;
+        $this->configuration = Configuration::fromStoreConfiguration();
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
     }
 
@@ -70,16 +72,22 @@ class Bliskapaczka extends AbstractBliskapaczka implements BliskapaczkaInterface
         /** @var \Magento\Shipping\Model\Rate\Result $result */
         $result = $this->_rateResultFactory->create();
 
-        $priceList = $this->_getPricing();
+        foreach ([false, true] as $cod) {
+            if (!$this->configuration->cod && $cod == true) {
+                break;
+            }
 
-        if (!empty($priceList)) {
-            $price = $this->senditHelper->getLowestPrice($priceList);
+            $priceList = $this->_getPricing();
 
-            $operator = new \StdClass();
-            $operator->operatorName = $this->_code;
-            $operator->operatorFullName = $this->_code;
+            if (!empty($priceList)) {
+                $price = $this->senditHelper->getLowestPrice($priceList);
 
-            $this->_addShippingMethod($result, $operator, false, $this->senditHelper, $price);
+                $operator = new \StdClass();
+                $operator->operatorName = $this->_code;
+                $operator->operatorFullName = $this->_code;
+
+                $this->_addShippingMethod($result, $operator, $cod, $this->senditHelper, $price);
+            }
         }
 
         return $result;
