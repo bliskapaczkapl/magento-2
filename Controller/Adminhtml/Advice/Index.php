@@ -48,12 +48,16 @@ class Index extends \Magento\Backend\App\Action
      */
     public function execute()
     {
+        $resultRedirect = $this->resultRedirectFactory->create();
         try {
-            $resultRedirect = $this->resultRedirectFactory->create();
-
             $orderId = $this->getRequest()->getParam('order_id');
             $order = $this->_objectManager->get('Magento\Sales\Model\Order')->load($orderId);
+        } catch (\Exception $exception) {
+            $this->messageManager->addError($exception->getMessage());
+            return $resultRedirect;
+        }
 
+        try {
             $configuration = Configuration::fromStoreConfiguration();
 
             if ($order->getPosCode()) {
@@ -81,6 +85,8 @@ class Index extends \Magento\Backend\App\Action
             $order->setData("advice_date", $response->adviceDate);
         } catch (\Exception $e) {
             $this->messageManager->addError($e->getMessage());
+            $order->setData('is_error', true);
+            $order->setData('attempts_count', $order->getData('attempts_count') + 1);
         }
 
         $resultRedirect->setUrl($this->_redirect->getRefererUrl());

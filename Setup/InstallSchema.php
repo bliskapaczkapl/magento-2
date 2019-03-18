@@ -85,6 +85,21 @@ class InstallSchema implements InstallSchemaInterface
                 'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                 'nullable' => true,
                 'comment' => 'Order status for bliskapaczka',
+            ],
+            'error_message' => [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'nullable' => true,
+                'comment' => 'Order error for bliskapaczka',
+            ],
+            'attempts_count' => [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                'nullable' => true,
+                'comment' => 'Number attempts for bliskapaczka',
+            ],
+            'is_error' => [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
+                'nullable' => true,
+                'comment' => 'Is error for bliskapaczka',
             ]
         ];
 
