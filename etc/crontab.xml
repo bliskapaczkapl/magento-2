@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="bliskapaczka">
+        <job name="bliskapaczka_update_status_fast" instance="Sendit\Bliskapaczka\Cron\Status" method="executeFast">
+            <schedule>* * * * *</schedule>
+        </job>
+        <job name="bliskapaczka_update_status_slow" instance="Sendit\Bliskapaczka\Cron\Status" method="executeSlow">
+            <schedule>* */2 * * *</schedule>
+        </job>
+        <job name="bliskapaczka_try_re_advice" instance="Sendit\Bliskapaczka\Cron\Advice" method="execute">
+            <schedule>* */2 * * *</schedule>
+        </job>
+    </group>
+</config>

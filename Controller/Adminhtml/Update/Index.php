@@ -50,6 +50,7 @@ class Index extends \Magento\Backend\App\Action
             $data = json_decode($order->get());
             $this->order->setData("tracking_number", $data->trackingNumber);
             $this->order->setData("advice_date", $data->adviceDate);
+            $this->order->setData("bliskapaczka_status", $data->status);
             $this->order->save();
             $this->messageManager->addSuccessMessage(__('Order Bliskapaczka updated'));
         } catch (\Exception $exception) {

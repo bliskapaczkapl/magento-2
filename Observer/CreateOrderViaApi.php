@@ -41,7 +41,9 @@ class CreateOrderViaApi implements ObserverInterface
     {
         try {
             $order = $observer->getEvent()->getOrder();
-
+            if ($this->checksVirtualItemsInOrder($order) === true) {
+                return;
+            }
             $configuration = Configuration::fromStoreConfiguration();
 
             if ($order->getPosCode()) {
@@ -82,7 +84,22 @@ class CreateOrderViaApi implements ObserverInterface
             $order->setData("delivery_type", $response->deliveryType);
             $order->setData("tracking_number", $response->trackingNumber);
             $order->setData("advice_date", $response->adviceDate);
+            $order->setData('bliskapaczka_status', $response->status);
         } catch (Exception $e) {
         }
+    }
+
+    /**
+     * @param object $order
+     * @return bool
+     */
+    protected function checksVirtualItemsInOrder($order)
+    {
+        foreach ($order->getAllItems() as $item) {
+            if ($item->getProductType() === 'virtual') {
+                return true;
+            }
+        }
+        return false;
     }
 }
