@@ -1,5 +1,5 @@
 {
-    "name": "sendit/bliskapaczka",
+    "name": "sendit/bliskapaczka-magento-2",
     "description": "",
     "require": {
         "php": "~7.1",
