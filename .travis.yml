@@ -1,7 +1,7 @@
 language: php
 
 php:
-  - '7.1'
+  - 7.1
 
 env:
   global:
@@ -17,13 +17,22 @@ script:
   - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpdoccheck --directory=./ --exclude=vendor
   - docker run --rm --volume `pwd`:/project jolicode/phaudit phploc .
 
-after_success:
-  - docker build -t bliskapaczkapl/magento-2:$COMMIT -t bliskapaczkapl/magento-2:latest -t bliskapaczkapl/magento-2:develop -f dev/docker/Dockerfile .
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push bliskapaczkapl/magento-2:$COMMIT
-  - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
-    docker push bliskapaczkapl/magento-2:latest;
-    fi
-  - if [ "$TRAVIS_BRANCH" == "develop" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
-    docker push bliskapaczkapl/magento-2:develop;
-    fi
+jobs:
+  include:
+    - stage: push-to-docker
+      script:
+        - docker build -t bliskapaczkapl/magento-2:$COMMIT -t bliskapaczkapl/magento-2:latest -t bliskapaczkapl/magento-2:develop -f dev/docker/Dockerfile .
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push bliskapaczkapl/magento-2:$COMMIT
+        - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
+          docker push bliskapaczkapl/magento-2:latest;
+          fi
+        - if [ "$TRAVIS_BRANCH" == "develop" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
+          docker push bliskapaczkapl/magento-2:develop;
+          fi
+      php: 7.1
+    - stage: push-to-packagist
+      script:
+        - echo 'test'
+      if: tag
+
