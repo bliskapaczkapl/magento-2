@@ -10,15 +10,15 @@ env:
 services:
   - docker
 
-script:
-  - echo "$DIVANTE_DOCKER_PASSWORD" | docker login -u "$DIVANTE_DOCKER_USERNAME" --password-stdin registry-1.divante.pl:5000
-  - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpcs --colors --exclude=PSR2.Methods.MethodDeclaration,PSR2.Classes.PropertyDeclaration --extensions=php --standard=PSR2,Security --ignore=vendor/* -s .
-  - docker run --rm --volume `pwd`:/project jolicode/phaudit phpmd ./ text codesize --exclude vendor
-  - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpdoccheck --directory=./ --exclude=vendor
-  - docker run --rm --volume `pwd`:/project jolicode/phaudit phploc .
-
 jobs:
   include:
+    - stage: sca
+      script:
+        - echo "$DIVANTE_DOCKER_PASSWORD" | docker login -u "$DIVANTE_DOCKER_USERNAME" --password-stdin registry-1.divante.pl:5000
+        - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpcs --colors --exclude=PSR2.Methods.MethodDeclaration,PSR2.Classes.PropertyDeclaration --extensions=php --standard=PSR2,Security --ignore=vendor/* -s .
+        - docker run --rm --volume `pwd`:/project jolicode/phaudit phpmd ./ text codesize --exclude vendor
+        - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpdoccheck --directory=./ --exclude=vendor
+        - docker run --rm --volume `pwd`:/project jolicode/phaudit phploc .
     - stage: push-to-docker
       script:
         - docker build -t bliskapaczkapl/magento-2:$COMMIT -t bliskapaczkapl/magento-2:latest -t bliskapaczkapl/magento-2:develop -f dev/docker/Dockerfile .
@@ -35,4 +35,3 @@ jobs:
       script:
         - echo 'test'
       if: tag
-
