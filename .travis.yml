@@ -30,7 +30,6 @@ jobs:
         - if [ "$TRAVIS_BRANCH" == "develop" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
           docker push bliskapaczkapl/magento-2:develop;
           fi
-      php: 7.1
     - stage: push-to-packagist
       script:
         - echo 'test'
