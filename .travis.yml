@@ -14,22 +14,24 @@ jobs:
   include:
     - stage: sca
       script:
-        - echo "$DIVANTE_DOCKER_PASSWORD" | docker login -u "$DIVANTE_DOCKER_USERNAME" --password-stdin registry-1.divante.pl:5000
-        - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpcs --colors --exclude=PSR2.Methods.MethodDeclaration,PSR2.Classes.PropertyDeclaration --extensions=php --standard=PSR2,Security --ignore=vendor/* -s .
-        - docker run --rm --volume `pwd`:/project jolicode/phaudit phpmd ./ text codesize --exclude vendor
-        - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpdoccheck --directory=./ --exclude=vendor
-        - docker run --rm --volume `pwd`:/project jolicode/phaudit phploc .
+        - echo 'SCA'
+        # - echo "$DIVANTE_DOCKER_PASSWORD" | docker login -u "$DIVANTE_DOCKER_USERNAME" --password-stdin registry-1.divante.pl:5000
+        # - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpcs --colors --exclude=PSR2.Methods.MethodDeclaration,PSR2.Classes.PropertyDeclaration --extensions=php --standard=PSR2,Security --ignore=vendor/* -s .
+        # - docker run --rm --volume `pwd`:/project jolicode/phaudit phpmd ./ text codesize --exclude vendor
+        # - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpdoccheck --directory=./ --exclude=vendor
+        # - docker run --rm --volume `pwd`:/project jolicode/phaudit phploc .
     - stage: push-to-docker
       script:
-        - docker build -t bliskapaczkapl/magento-2:$COMMIT -t bliskapaczkapl/magento-2:latest -t bliskapaczkapl/magento-2:develop -f dev/docker/Dockerfile .
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push bliskapaczkapl/magento-2:$COMMIT
-        - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
-          docker push bliskapaczkapl/magento-2:latest;
-          fi
-        - if [ "$TRAVIS_BRANCH" == "develop" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
-          docker push bliskapaczkapl/magento-2:develop;
-          fi
+        - echo 'Docker'
+        # - docker build -t bliskapaczkapl/magento-2:$COMMIT -t bliskapaczkapl/magento-2:latest -t bliskapaczkapl/magento-2:develop -f dev/docker/Dockerfile .
+        # - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        # - docker push bliskapaczkapl/magento-2:$COMMIT
+        # - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
+        #   docker push bliskapaczkapl/magento-2:latest;
+        #   fi
+        # - if [ "$TRAVIS_BRANCH" == "develop" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
+        #   docker push bliskapaczkapl/magento-2:develop;
+        #   fi
     - stage: push-to-packagist
       script:
         - echo 'test'
