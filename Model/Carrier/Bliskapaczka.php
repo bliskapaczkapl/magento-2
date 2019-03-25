@@ -85,7 +85,9 @@ class Bliskapaczka extends AbstractBliskapaczka implements BliskapaczkaInterface
                 $operator = new \StdClass();
                 $operator->operatorName = $this->_code;
                 $operator->operatorFullName = $this->_code;
-
+                if ($request->getFreeShipping() === true) {
+                    $price = 0;
+                }
                 $this->_addShippingMethod($result, $operator, $cod, $this->senditHelper, $price);
             }
         }

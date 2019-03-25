@@ -10,15 +10,24 @@ use Sendit\Bliskapaczka\Helper\Data as SenditHelper;
  */
 class ConfigProvider implements ConfigProviderInterface
 {
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
     /**
      * Shipping constructor.
      *
      * @param SenditHelper $senditHelper
+     * @param \Magento\Checkout\Model\Session $_checkoutSession
      */
     public function __construct(
-        SenditHelper $senditHelper
+        SenditHelper $senditHelper,
+        \Magento\Checkout\Model\Session $_checkoutSession
     ) {
         $this->senditHelper = $senditHelper;
+        $this->_checkoutSession = $_checkoutSession;
     }
 
     /**
@@ -26,9 +35,21 @@ class ConfigProvider implements ConfigProviderInterface
      */
     public function getConfig()
     {
+        $isFreeShipping = false;
+        if ($this->_checkoutSession->getQuote()->getShippingAddress()->getFreeShipping() == 1) {
+            $isFreeShipping = true;
+        }
         $config = [];
-        $config['operatorsForWidget'] = $this->senditHelper->getOperatorsForWidget();
-        $config['operatorsForWidgetCod'] = $this->senditHelper->getOperatorsForWidget(null, true);
+        $config['operatorsForWidget'] = $this->senditHelper->getOperatorsForWidget(
+            null,
+            null,
+            $isFreeShipping
+        );
+        $config['operatorsForWidgetCod'] = $this->senditHelper->getOperatorsForWidget(
+            null,
+            true,
+            $isFreeShipping
+        );
 
         return $config;
     }
