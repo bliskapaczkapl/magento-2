@@ -196,13 +196,13 @@ class Data extends AbstractHelper
     /**
      * Get widget configuration
      *
-     * @param array $allRates
      * @param array $priceList
      * @param boot $cod
      *
+     * @param bool $isFreePrice
      * @return string
      */
-    public function getOperatorsForWidget($priceList = null, $cod = null)
+    public function getOperatorsForWidget($priceList = null, $cod = null, $isFreePrice = false)
     {
         if ($priceList == null) {
             $priceList = $this->getPriceList($cod);
@@ -213,7 +213,7 @@ class Data extends AbstractHelper
         foreach ($priceList as $carrier) {
             $operators[] = array(
                 "operator" => $carrier->operatorName,
-                "price"    => $carrier->price->gross
+                "price"    => $isFreePrice ? 0 : $carrier->price->gross
             );
         }
 
