@@ -14,7 +14,6 @@ jobs:
   include:
     - stage: sca
       script:
-        - echo 'SCA'
         - echo "$DIVANTE_DOCKER_PASSWORD" | docker login -u "$DIVANTE_DOCKER_USERNAME" --password-stdin registry-1.divante.pl:5000
         - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpcs --colors --exclude=PSR2.Methods.MethodDeclaration,PSR2.Classes.PropertyDeclaration --extensions=php --standard=PSR2,Security --ignore=vendor/* -s .
         - docker run --rm --volume `pwd`:/project jolicode/phaudit phpmd ./ text codesize --exclude vendor
@@ -22,11 +21,11 @@ jobs:
         - docker run --rm --volume `pwd`:/project jolicode/phaudit phploc .
     - stage: push-to-docker
       script:
-        - echo 'Docker'
-        - docker build -t bliskapaczkapl/magento-2:$COMMIT -t bliskapaczkapl/magento-2:$TRAVIS_TAG -f dev/docker/Dockerfile .
+        - docker build -t bliskapaczkapl/magento-2:$COMMIT -f dev/docker/Dockerfile .
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker push bliskapaczkapl/magento-2:$COMMIT
         - if [ "$TRAVIS_TAG"  -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
+          docker tag bliskapaczkapl/magento-2:$COMMIT bliskapaczkapl/magento-2:$TRAVIS_TAG
           docker push bliskapaczkapl/magento-2:$TRAVIS_TAG;
           fi
     - stage: push-to-packagist
