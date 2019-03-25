@@ -67,8 +67,14 @@ define(
     var selectedMethod = method != null ? method.carrier_code + '_' + method.method_code : null;
     var operatorsForWidget = window.checkoutConfig.operatorsForWidget;
     var operatorsForWidgetCod = window.checkoutConfig.operatorsForWidgetCod;
+    var button = document.querySelector("[data-role='opc-continue']");
+    if (button != null) {
+      button.disabled = false;
+    }
+
 
     if (selectedMethod === 'bliskapaczka_bliskapaczka') {
+      button.disabled = true;
       Bliskapaczka.showMap(
       JSON.parse(operatorsForWidget),
       "AIzaSyCUyydNCGhxGi5GIt5z5I-X6hofzptsRjE",
@@ -79,6 +85,7 @@ define(
     }
 
     if (selectedMethod === 'bliskapaczka_bliskapaczka_COD') {
+      button.disabled = true;
       Bliskapaczka.showMap(
         JSON.parse(operatorsForWidgetCod),
         "AIzaSyCUyydNCGhxGi5GIt5z5I-X6hofzptsRjE",

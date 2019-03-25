@@ -28,6 +28,7 @@ Bliskapaczka.showMap = function(operators, googleMapApiKey, testMode, rateCode, 
                     posOperatorForm.value = data.operator;
 
                     Bliskapaczka.pointSelected(data, operators, rateCode);
+          
                 },
                 operators: operators,
                 posType: 'DELIVERY',
@@ -41,7 +42,7 @@ Bliskapaczka.showMap = function(operators, googleMapApiKey, testMode, rateCode, 
 Bliskapaczka.pointSelected = function(data, operators, rateCode)
 {
     Bliskapaczka.updatePrice(data.operator, operators);
-
+    var button = document.querySelector("[data-role='opc-continue']");
     bpWidget = document.getElementById('bpWidget_sendit_bliskapaczka_sendit_bliskapaczka');
     bpWidget.style.display = 'none';
 
@@ -49,7 +50,7 @@ Bliskapaczka.pointSelected = function(data, operators, rateCode)
     aboutPoint.style.display = 'block';
 
     selectedPoint = document.getElementById('bpWidget_aboutPoint_posData_sendit_bliskapaczka_sendit_bliskapaczka');
-
+    button.disabled = false;
     selectedPoint.innerHTML =  data.operator + '</br>'
         + ((data.description) ? data.description + '</br>': '')
         + data.street + '</br>'
