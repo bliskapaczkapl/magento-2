@@ -23,7 +23,7 @@ jobs:
     - stage: push-to-docker
       script:
         - echo 'Docker'
-        - docker build -t bliskapaczkapl/magento-2:$COMMIT -t bliskapaczkapl/magento-2:latest -t bliskapaczkapl/magento-2:develop -f dev/docker/Dockerfile .
+        - docker build -t bliskapaczkapl/magento-2:$COMMIT -t bliskapaczkapl/magento-2:$TRAVIS_TAG -f dev/docker/Dockerfile .
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker push bliskapaczkapl/magento-2:$COMMIT
         - if [ "$TRAVIS_TAG"  -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
