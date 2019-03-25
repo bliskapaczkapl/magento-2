@@ -34,5 +34,5 @@ jobs:
         #   fi
     - stage: push-to-packagist
       script:
-        - curl -XPOST -H'content-type:application/json' 'https://packagist.org/api/update-package?username=Sendit S.A.&apiToken=$PACKAGIST_API_TOKEN' -d'{"repository":{"url":"https://packagist.org/packages/sendit/bliskapaczka-magento-2"}}'
+        - curl -XPOST -H'content-type:application/json' "https://packagist.org/api/update-package?username=Sendit S.A.&apiToken=$PACKAGIST_API_TOKEN" -d'{"repository":{"url":"https://packagist.org/packages/sendit/bliskapaczka-magento-2"}}'
       if: tag
