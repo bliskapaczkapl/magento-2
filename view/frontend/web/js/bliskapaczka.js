@@ -9,12 +9,10 @@ Bliskapaczka.showMap = function(operators, googleMapApiKey, testMode, rateCode, 
     while(new Date().getTime() < now + 5000){ /* do nothing */ }
 
     aboutPoint = document.getElementById('bpWidget_aboutPoint_sendit_bliskapaczka_sendit_bliskapaczka');
-    // aboutPoint.style.display = 'none';
 
     bpWidget = document.getElementById('bpWidget_sendit_bliskapaczka_sendit_bliskapaczka');
     if (bpWidget != null) {
         bpWidget.style.display = 'block';
-
         BPWidget.init(
             bpWidget,
             {
@@ -33,7 +31,8 @@ Bliskapaczka.showMap = function(operators, googleMapApiKey, testMode, rateCode, 
                 operators: operators,
                 posType: 'DELIVERY',
                 testMode: testMode,
-                codOnly: codOnly
+                codOnly: codOnly,
+                showCod: codOnly
             }
         );
     }
