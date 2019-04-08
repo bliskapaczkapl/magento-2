@@ -2,16 +2,11 @@ FROM bliskapaczkapl/magento_base:7.2_2.3.0
 
 MAINTAINER Mateusz Koszutowski <mkoszutowski@divante.pl>
 
+ARG commit
+
 USER www-data
 
-RUN composer require bliskapaczkapl/bliskapaczka-api-client ^3.0 \
+RUN if [ -n "$tag" ] ; then composer require sendit/bliskapaczka-magento-2 $tag ; else composer require sendit/bliskapaczka-magento-2:dev-master#$commit ; fi \
 	&& php ${magento_path}/bin/magento sampledata:deploy
 
-# Install module 
-COPY --chown=www-data:www-data ./ ${magento_path}/app/code/Sendit/Bliskapaczka/
-
 USER root
-
-# Install PECL extension xdebug
-RUN pecl install xdebug \
-	&& docker-php-ext-enable xdebug
