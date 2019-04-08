@@ -19,6 +19,10 @@ jobs:
         - docker run --rm --volume `pwd`:/project jolicode/phaudit phpmd ./ text codesize --exclude vendor
         - docker run --rm --volume `pwd`:/project registry-1.divante.pl:5000/devops/phpdoccheck --directory=./ --exclude=vendor
         - docker run --rm --volume `pwd`:/project jolicode/phaudit phploc .
+    - stage: push-to-packagist
+      script:
+        - curl -XPOST -H'content-type:application/json' "https://packagist.org/api/update-package?username=Sendit S.A.&apiToken=$PACKAGIST_API_TOKEN" -d'{"repository":{"url":"https://packagist.org/packages/sendit/bliskapaczka-magento-2"}}'
+      if: tag
     - stage: push-to-docker
       script:
         - docker build -t bliskapaczkapl/magento-2:$COMMIT -f dev/docker/Dockerfile --build-arg commit=$COMMIT .
@@ -29,7 +33,3 @@ jobs:
           docker tag bliskapaczkapl/magento-2:$COMMIT bliskapaczkapl/magento-2:$TRAVIS_TAG;
           docker push bliskapaczkapl/magento-2:$TRAVIS_TAG;
           fi
-    - stage: push-to-packagist
-      script:
-        - curl -XPOST -H'content-type:application/json' "https://packagist.org/api/update-package?username=Sendit S.A.&apiToken=$PACKAGIST_API_TOKEN" -d'{"repository":{"url":"https://packagist.org/packages/sendit/bliskapaczka-magento-2"}}'
-      if: tag
