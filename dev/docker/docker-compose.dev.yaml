@@ -3,6 +3,6 @@ services:
   magento:
     build:
       context: ./
-      dockerfile: dev/docker/Dockerfile
+      dockerfile: dev/docker/Dockerfile.dev
     volumes:
       - "./:/var/www/magento/app/code/Sendit/Bliskapaczka"
