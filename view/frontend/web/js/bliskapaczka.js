@@ -9,12 +9,10 @@ Bliskapaczka.showMap = function(operators, googleMapApiKey, testMode, rateCode, 
     while(new Date().getTime() < now + 5000){ /* do nothing */ }
 
     aboutPoint = document.getElementById('bpWidget_aboutPoint_sendit_bliskapaczka_sendit_bliskapaczka');
-    // aboutPoint.style.display = 'none';
 
     bpWidget = document.getElementById('bpWidget_sendit_bliskapaczka_sendit_bliskapaczka');
     if (bpWidget != null) {
         bpWidget.style.display = 'block';
-
         BPWidget.init(
             bpWidget,
             {
@@ -28,11 +26,13 @@ Bliskapaczka.showMap = function(operators, googleMapApiKey, testMode, rateCode, 
                     posOperatorForm.value = data.operator;
 
                     Bliskapaczka.pointSelected(data, operators, rateCode);
+          
                 },
                 operators: operators,
                 posType: 'DELIVERY',
                 testMode: testMode,
-                codOnly: codOnly
+                codOnly: codOnly,
+                showCod: codOnly
             }
         );
     }
@@ -41,7 +41,7 @@ Bliskapaczka.showMap = function(operators, googleMapApiKey, testMode, rateCode, 
 Bliskapaczka.pointSelected = function(data, operators, rateCode)
 {
     Bliskapaczka.updatePrice(data.operator, operators);
-
+    var button = document.querySelector("[data-role='opc-continue']");
     bpWidget = document.getElementById('bpWidget_sendit_bliskapaczka_sendit_bliskapaczka');
     bpWidget.style.display = 'none';
 
@@ -49,7 +49,7 @@ Bliskapaczka.pointSelected = function(data, operators, rateCode)
     aboutPoint.style.display = 'block';
 
     selectedPoint = document.getElementById('bpWidget_aboutPoint_posData_sendit_bliskapaczka_sendit_bliskapaczka');
-
+    button.disabled = false;
     selectedPoint.innerHTML =  data.operator + '</br>'
         + ((data.description) ? data.description + '</br>': '')
         + data.street + '</br>'
