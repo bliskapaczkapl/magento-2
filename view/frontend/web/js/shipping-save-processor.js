@@ -41,6 +41,7 @@ define(
           posCode = jQuery('[name="bliskapaczka[sendit_bliskapaczka_sendit_bliskapaczka_posCode]"]').val();
           posOperator = jQuery('[name="bliskapaczka[sendit_bliskapaczka_sendit_bliskapaczka_posOperator]"]').val();
           posCodeDescription = jQuery('[name="bliskapaczka[sendit_bliskapaczka_sendit_bliskapaczka_posCodeDescription]"]').val();
+
         }
 
         if (!quote.billingAddress()) {
