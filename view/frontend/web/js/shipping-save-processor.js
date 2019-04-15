@@ -36,7 +36,7 @@ define(
         if (
           shippingMethod == "bliskapaczka_bliskapaczka"
           || shippingMethod == "bliskapaczka_COD_bliskapaczka"
-          || shippingMethod == "courier_courier"
+          || shippingMethod == "bliskapaczkacourier_bliskapaczkacourier"
         ) {
           posCode = jQuery('[name="bliskapaczka[sendit_bliskapaczka_sendit_bliskapaczka_posCode]"]').val();
           posOperator = jQuery('[name="bliskapaczka[sendit_bliskapaczka_sendit_bliskapaczka_posOperator]"]').val();
