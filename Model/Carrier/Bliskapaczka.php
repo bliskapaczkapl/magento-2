@@ -77,7 +77,7 @@ class Bliskapaczka extends AbstractBliskapaczka implements BliskapaczkaInterface
                 break;
             }
 
-            $priceList = $this->_getPricing();
+            $priceList = $this->_getPricing($cod);
 
             if (!empty($priceList)) {
                 $price = $this->senditHelper->getLowestPrice($priceList);

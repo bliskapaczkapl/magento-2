@@ -12,7 +12,7 @@
                 <type>I</type>
                 <specific_error_msg>This shipping method is not available. To use this shipping method, please contact us.</specific_error_msg>
             </bliskapaczka>
-            <courier>
+            <bliskapaczkacourier>
                 <active>1</active>
                 <sallowspecific>0</sallowspecific>
                 <model>Sendit\Bliskapaczka\Model\Carrier\Courier</model>
@@ -21,7 +21,7 @@
                 <title>Sendit Courier Shipping Method</title>
                 <type>I</type>
                 <specific_error_msg>This shipping method is not available. To use this shipping method, please contact us.</specific_error_msg>
-            </courier>
+            </bliskapaczkacourier>
         </carriers>
     </default>
 </config>

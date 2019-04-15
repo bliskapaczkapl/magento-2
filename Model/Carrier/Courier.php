@@ -16,7 +16,7 @@ class Courier extends AbstractBliskapaczka implements BliskapaczkaInterface
     /**
      * @var string
      */
-    protected $_code = 'courier';
+    protected $_code = 'bliskapaczkacourier';
 
     /**
      * Shipping constructor.

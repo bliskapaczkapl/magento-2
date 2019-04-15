@@ -42,7 +42,7 @@ class SaveToQuote
         }
 
         $deliiveryType = 'P2P';
-        if ($addressInformation->getShippingCarrierCode() === 'courier') {
+        if ($addressInformation->getShippingCarrierCode() === 'bliskapaczkacourier_bliskapaczkacourier') {
             $deliiveryType = 'D2D';
             if ($extAttributes->getPosOperator() === 'POCZTA') {
                 $deliiveryType = 'P2D';

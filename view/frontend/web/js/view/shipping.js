@@ -123,7 +123,7 @@ define(
       && (
         shippingMethod == "bliskapaczka_bliskapaczka"
         || shippingMethod == "bliskapaczka_COD_bliskapaczka"
-        || shippingMethod == "courier_courier"
+        || shippingMethod == "bliskapaczkacourier_bliskapaczkacourier"
       )
     ) {
       this.source.set('params.invalid', false);
