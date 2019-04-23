@@ -42,25 +42,16 @@ class InstallSchema implements InstallSchemaInterface
                 'nullable' => true,
                 'comment' => 'Number field',
             ],
-
-            'status' => [
-                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-                'nullable' => true,
-                'comment' => 'Status field',
-            ],
-
             'delivery_type' => [
                 'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                 'nullable' => true,
                 'comment' => 'Delivery type field',
             ],
-
             'tracking_number' => [
                 'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                 'nullable' => true,
                 'comment' => 'Tracking number field',
             ],
-
             'advice_date' => [
                 'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
                 'nullable' => true,
