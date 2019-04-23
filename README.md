@@ -67,7 +67,7 @@ Panel admina jest dostępny pod adresem  `http://127.0.0.1:8080/admin`, dane dos
 W celu developmentu można uruchomić docker-compose prze komendę:
 
 ```
-docker-compose -f docker-compose.yaml -f dev/docker/docker-compose.dev.yaml up
+docker-compose -f docker-compose.yaml -f dev/docker/magento-2.3.0/docker-compose.dev.yaml up
 ```
 
 ### Jak uruchomić testy jednostkowe 

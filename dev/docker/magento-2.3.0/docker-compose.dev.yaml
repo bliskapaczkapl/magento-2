@@ -1,0 +1,10 @@
+version: "3"
+services:
+  magento:
+    build:
+      context: ./
+      dockerfile: dev/docker/magento-2.3.0/Dockerfile-php7.2.dev
+    volumes:
+      - "./:/var/www/magento/app/code/Sendit/Bliskapaczka"
+    ports:
+      - "9000:9000"
