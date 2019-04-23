@@ -15,54 +15,54 @@
         <tr>
             <th><?php /* @escapeNotVerified */
                 echo __('Numer:') ?></th>
-            <td><?php echo $block->getDataFromApi()['number']; ?></td>
+            <td><?php echo isset($block->getDataFromApi()['number']) ? $block->getDataFromApi()['number'] : ''; ?></td>
         </tr>
         <tr>
             <th><?php /* @escapeNotVerified */
                 echo __('Status:') ?></th>
-            <td><?php echo $block->getDataFromApi()['status']; ?></td>
+            <td><?php echo isset($block->getDataFromApi()['status']) ? $block->getDataFromApi()['status'] : ''; ?></td>
         </tr>
         <tr>
             <th><?php /* @escapeNotVerified */
                 echo __('Powód błędu:') ?></th>
-            <td><?php echo $block->getDataFromApi()['errorReason']; ?></td>
+            <td><?php echo isset($block->getDataFromApi()['errorReason']) ? $block->getDataFromApi()['errorReason'] : ''; ?></td>
         </tr>
         <tr>
             <th><?php /* @escapeNotVerified */
                 echo __('Delivery type:') ?></th>
-            <td><?php echo $block->getDataFromApi()['deliveryType']; ?></td>
+            <td><?php echo isset($block->getDataFromApi()['deliveryType']) ? $block->getDataFromApi()['deliveryType'] : ''; ?></td>
         </tr>
         <tr>
             <th><?php /* @escapeNotVerified */
                 echo __('Creation date:') ?></th>
-            <td><?php echo $block->formatDate($block->getDataFromApi()['creationDate']); ?></td>
+            <td><?php echo isset($block->getDataFromApi()['creationDate']) ? $block->formatDate($block->getDataFromApi()['creationDate']) : ''; ?></td>
         </tr>
         <tr>
             <th><?php /* @escapeNotVerified */
                 echo __('Operator Name:') ?></th>
-            <td><?php echo $block->getDataFromApi()['operatorName']; ?></td>
+            <td><?php echo isset($block->getDataFromApi()['operatorName']) ? $block->getDataFromApi()['operatorName'] : ''; ?></td>
         </tr>
         <tr>
             <th><?php /* @escapeNotVerified */
                 echo __('Destination Code:') ?></th>
-            <td><?php echo $block->getDataFromApi()['destinationCode']; ?></td>
+            <td><?php echo isset($block->getDataFromApi()['destinationCode']) ? $block->getDataFromApi()['destinationCode'] : ''; ?></td>
         </tr>
         <tr>
             <th><?php /* @escapeNotVerified */
                 echo __('Destination Point Description:') ?></th>
-            <td><?php echo $block->getDataFromApi()['additionalInformation']; ?></td>
+            <td><?php echo isset($block->getDataFromApi()['additionalInformation']) ? $block->getDataFromApi()['additionalInformation'] : ''; ?></td>
         </tr>
         <tr>
             <th><?php /* @escapeNotVerified */
                 echo __('Advice date:') ?></th>
             <td>
-                <?php echo !is_null($block->getDataFromApi()['adviceDate']) ?  $block->formatDate($block->getDataFromApi()['adviceDate']) : null; ?>
+                <?php echo isset($block->getDataFromApi()['adviceDate']) ? $block->formatDate($block->getDataFromApi()['adviceDate']) : ''; ?>
             </td>
         </tr>
         <tr>
             <th><?php /* @escapeNotVerified */
                 echo __('Tracking number:') ?></th>
-            <td><a href="<?php echo $block->getTrackingLink()?>"><?php echo $block->getDataFromApi()['trackingNumber']; ?></a></td>
+            <td><a href="<?php echo $block->getTrackingLink()?>"><?php echo isset($block->getDataFromApi()['trackingNumber']) ? $block->getDataFromApi()['trackingNumber'] : ''; ?></a></td>
         </tr>
         </tbody>
     </table>
