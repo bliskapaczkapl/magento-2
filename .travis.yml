@@ -7,6 +7,9 @@ php:
 env:
   global:
     - COMMIT=${TRAVIS_COMMIT::8}
+  matrix:
+    - MAGENTO_VERSION=2.2.5
+    - MAGENTO_VERSION=2.3.0
 
 services:
   - docker
