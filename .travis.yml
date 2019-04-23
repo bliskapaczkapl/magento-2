@@ -52,7 +52,7 @@ jobs:
     - stage: push-to-docker-php-72
       script:
         - PHP_VERSION=$(php -v | grep "^PHP" | awk '{print $2}' | sed "s/-.*//" | grep -o "^[^\.]*\.\?[^\.]*")
-        - docker build -t bliskapaczkapl/magento-2:${PHP_VERSION}_${$MAGENTO_VERSION}_${COMMIT}-f dev/docker/magento-$MAGENTO_VERSION/Dockerfile-php7.2 --build-arg commit=$COMMIT .
+        - docker build -t bliskapaczkapl/magento-2:${PHP_VERSION}_${$MAGENTO_VERSION}_${COMMIT} -f dev/docker/magento-$MAGENTO_VERSION/Dockerfile-php7.2 --build-arg commit=$COMMIT .
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker push bliskapaczkapl/magento-2:${PHP_VERSION}_${$MAGENTO_VERSION}_${COMMIT}
         - if [ "$TRAVIS_TAG" ]; then
