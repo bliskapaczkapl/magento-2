@@ -59,5 +59,9 @@ jobs:
           docker tag bliskapaczkapl/magento-2:$PHP_VERSION_$COMMIT bliskapaczkapl/magento-2:$TRAVIS_TAG;
           docker push bliskapaczkapl/magento-2:$TRAVIS_TAG;
           fi
+        - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
+          docker tag bliskapaczkapl/magento-2:$PHP_VERSION_$COMMIT bliskapaczkapl/magento-2:latest;
+          docker push bliskapaczkapl/magento-2:latest;
+          fi
       php: 7.2
       env: MAGENTO_VERSION=2.3.0
