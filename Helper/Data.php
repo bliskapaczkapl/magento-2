@@ -185,7 +185,7 @@ class Data extends AbstractHelper
 
                 $priceListCleared[] = $carrier;
             }
-        } catch (\Bliskapaczka\ApiClient\Exception $e) {
+        } catch (\Exception $e) {
             $priceListCleared = array();
             // Mage::log($e->getMessage(), null, $this::LOG_FILE);
         }
