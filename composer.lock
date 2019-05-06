@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4e8f807b658809d061a6f6a67dd0218",
+    "content-hash": "6809d1eb032e75038edd71ed3e431fdb",
     "packages": [
         {
             "name": "bliskapaczkapl/bliskapaczka-api-client",
-            "version": "3.3.1",
+            "version": "3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bliskapaczkapl/bliskapaczka-api-client.git",
-                "reference": "3a1bfaf65b1bff36aff193574c1d028ac434afd9"
+                "reference": "9cefa21042207db96fa473338a08c42d5c21f4f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bliskapaczkapl/bliskapaczka-api-client/zipball/3a1bfaf65b1bff36aff193574c1d028ac434afd9",
-                "reference": "3a1bfaf65b1bff36aff193574c1d028ac434afd9",
+                "url": "https://api.github.com/repos/bliskapaczkapl/bliskapaczka-api-client/zipball/9cefa21042207db96fa473338a08c42d5c21f4f8",
+                "reference": "9cefa21042207db96fa473338a08c42d5c21f4f8",
                 "shasum": ""
             },
             "require": {
@@ -33,7 +33,7 @@
                 "sensiolabs/security-checker": "4.*",
                 "squizlabs/php_codesniffer": "2.*"
             },
-            "type": "library",
+            "type": "api-client",
             "autoload": {
                 "files": [
                     "src/helpers.php"
@@ -44,96 +44,19 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "BliczkaPaczka API Client",
-            "time": "2019-01-21T15:01:34+00:00"
+            "time": "2019-05-06T12:42:26+00:00"
         },
-        {
-            "name": "globalcitizen/php-iban",
-            "version": "v2.6.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/globalcitizen/php-iban.git",
-                "reference": "16b8c416e8a4047b52dca00794f161bfa68afb7a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/globalcitizen/php-iban/zipball/16b8c416e8a4047b52dca00794f161bfa68afb7a",
-                "reference": "16b8c416e8a4047b52dca00794f161bfa68afb7a",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "oophp-iban.php",
-                    "php-iban.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "description": "php-iban is a library for parsing and validating IBAN (and IIBAN) bank account information.",
-            "time": "2018-08-14T00:04:02+00:00"
-        },
-        {
-            "name": "psr/log",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/log.git",
-                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
-                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for logging libraries",
-            "homepage": "https://github.com/php-fig/log",
-            "keywords": [
-                "log",
-                "psr",
-                "psr-3"
-            ],
-            "time": "2018-11-20T15:27:04+00:00"
-        }
-    ],
-    "packages-dev": [
         {
             "name": "block8/php-docblock-checker",
             "version": "1.5.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Block8/php-docblock-checker.git",
+                "url": "https://github.com/dancryer/php-docblock-checker.git",
                 "reference": "f979f523a308887ddc3c46db9a144bdb16997f18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Block8/php-docblock-checker/zipball/f979f523a308887ddc3c46db9a144bdb16997f18",
+                "url": "https://api.github.com/repos/dancryer/php-docblock-checker/zipball/f979f523a308887ddc3c46db9a144bdb16997f18",
                 "reference": "f979f523a308887ddc3c46db9a144bdb16997f18",
                 "shasum": ""
             },
@@ -173,6 +96,7 @@
                 "phpci",
                 "testing"
             ],
+            "abandoned": "dancryer/php-docblock-checker",
             "time": "2018-09-25T15:00:29+00:00"
         },
         {
@@ -230,6 +154,34 @@
                 "tls"
             ],
             "time": "2019-01-28T09:30:10+00:00"
+        },
+        {
+            "name": "globalcitizen/php-iban",
+            "version": "v2.6.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/globalcitizen/php-iban.git",
+                "reference": "16b8c416e8a4047b52dca00794f161bfa68afb7a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/globalcitizen/php-iban/zipball/16b8c416e8a4047b52dca00794f161bfa68afb7a",
+                "reference": "16b8c416e8a4047b52dca00794f161bfa68afb7a",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "oophp-iban.php",
+                    "php-iban.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "description": "php-iban is a library for parsing and validating IBAN (and IIBAN) bank account information.",
+            "time": "2018-08-14T00:04:02+00:00"
         },
         {
             "name": "magento-ecg/coding-standard",
@@ -571,6 +523,53 @@
                 "psr"
             ],
             "time": "2017-02-14T16:28:37+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2018-11-20T15:27:04+00:00"
         },
         {
             "name": "sebastian/finder-facade",
@@ -1350,7 +1349,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -1463,6 +1462,7 @@
             "time": "2017-06-30T11:53:12+00:00"
         }
     ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
