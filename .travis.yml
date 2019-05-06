@@ -37,7 +37,7 @@ jobs:
         - curl -XPOST -H'content-type:application/json' "https://packagist.org/api/update-package?username=Sendit S.A.&apiToken=$PACKAGIST_API_TOKEN" -d'{"repository":{"url":"https://packagist.org/packages/sendit/bliskapaczka-magento-2"}}'
       if: tag
       php: 7.2
-    - stage: push-to-docker-php-71
+    - stage: push-to-docker
       script:
         - PHP_VERSION=$(php -v | grep "^PHP" | awk '{print $2}' | sed "s/-.*//" | grep -o "^[^\.]*\.\?[^\.]*")
         - docker build -t bliskapaczkapl/magento-2:${PHP_VERSION}_${MAGENTO_VERSION}_${COMMIT} -f dev/docker/magento-$MAGENTO_VERSION/Dockerfile-php7.1 --build-arg commit=$COMMIT .
@@ -49,8 +49,7 @@ jobs:
           fi
       php: 7.1
       env: MAGENTO_VERSION=2.2.5
-    - stage: push-to-docker-php-72
-      script:
+    - script:
         - PHP_VERSION=$(php -v | grep "^PHP" | awk '{print $2}' | sed "s/-.*//" | grep -o "^[^\.]*\.\?[^\.]*")
         - docker build -t bliskapaczkapl/magento-2:${PHP_VERSION}_${MAGENTO_VERSION}_${COMMIT} -f dev/docker/magento-$MAGENTO_VERSION/Dockerfile-php7.2 --build-arg commit=$COMMIT .
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
