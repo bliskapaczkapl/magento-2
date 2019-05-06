@@ -81,6 +81,11 @@ class Index extends \Magento\Backend\App\Action
             $apiClient->setOrderId($order->getNumber());
             $response = $apiClient->create($data);
             $response = json_decode($response);
+
+            if (!is_a($response, 'stdClass')) {
+                throw new \Exception("Bliskapaczka API response is invalid. Try again.", 1);
+            }
+
             $order->setData("tracking_number", $response->trackingNumber);
             $order->setData("advice_date", $response->adviceDate);
         } catch (\Exception $e) {
