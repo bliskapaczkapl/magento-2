@@ -144,16 +144,20 @@ class Order
         $filterGroupStatus->setFilters([$filterStatus]);
         $searchCriteria = $this->searchCriteriaBuilder->setFilterGroups([$filterGroupStatus]);
         $searchResults  = $this->orderRepository->getList($searchCriteria->create());
+
         /** @var Order $order */
         foreach ($searchResults->getItems() as $order) {
-            $orderApi = $this->getOrderApiClientByOrder($order);
-            $orderApi->setOrderId($order->getNumber());
+            try {
+                $orderApi = $this->getOrderApiClientByOrder($order);
+                $orderApi->setOrderId($order->getNumber());
 
-            $data = json_decode($orderApi->get());
-            $order->setData("tracking_number", $data->trackingNumber);
-            $order->setData("advice_date", $data->adviceDate);
-            $order->setData("bliskapaczka_status", $data->status);
-            $order->save();
+                $data = json_decode($orderApi->get());
+                $order->setData("tracking_number", $data->trackingNumber);
+                $order->setData("advice_date", $data->adviceDate);
+                $order->setData("bliskapaczka_status", $data->status);
+                $order->save();
+            } catch (\Exception $e) {
+            }
         }
     }
 }
