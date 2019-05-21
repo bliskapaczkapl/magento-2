@@ -3,4 +3,5 @@
 	<type name="Magento\Checkout\Model\ShippingInformationManagement">
 	    <plugin name="save_to_quote_table" type="Sendit\Bliskapaczka\Plugin\Quote\SaveToQuote" sortOrder="10"/>
 	</type>
+	<preference for="Sendit\Bliskapaczka\Model\Api\ConfigurationInterface" type="Sendit\Bliskapaczka\Model\Api\Configuration" />
 </config>

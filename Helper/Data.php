@@ -2,7 +2,7 @@
 
 namespace Sendit\Bliskapaczka\Helper;
 
-use \Sendit\Bliskapaczka\Model\Api\Configuration;
+use \Sendit\Bliskapaczka\Model\Api\ConfigurationInterface;
 use \Bliskapaczka\ApiClient\Pricing;
 use \Magento\Framework\App\Helper\AbstractHelper;
 
@@ -29,10 +29,12 @@ class Data extends AbstractHelper
 
     /**
      * Construct method
+     *
+     * @param ConfigurationInterface $configuration
      */
-    public function __construct()
+    public function __construct(ConfigurationInterface $configuration)
     {
-        $this->configuration = Configuration::fromStoreConfiguration();
+        $this->configuration = $configuration::fromStoreConfiguration();
     }
 
     /**
@@ -160,6 +162,8 @@ class Data extends AbstractHelper
      */
     public function getPriceList($cod = null, $parcelDimensionsType = 'fixed', $deliveryType = 'P2P')
     {
+        $apiClient = $this->getApiClientPricing();
+
         $data = array(
             "parcel" => array('dimensions' => $this->getParcelDimensions($parcelDimensionsType)),
             "deliveryType" => $deliveryType
@@ -170,11 +174,6 @@ class Data extends AbstractHelper
         }
 
         try {
-            $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
-                $this->configuration->getApikey(),
-                $this->configuration->getEnvironment()
-            );
-
             $priceList = json_decode($apiClient->get($data));
 
             $priceListCleared = array();
@@ -183,11 +182,14 @@ class Data extends AbstractHelper
                     continue;
                 }
 
+                if ($deliveryType == 'P2D' && $carrier->operatorName == 'POCZTA') {
+                    $carrier->operatorName = 'POCZTA_P2D';
+                }
+
                 $priceListCleared[] = $carrier;
             }
         } catch (\Exception $e) {
             $priceListCleared = array();
-            // Mage::log($e->getMessage(), null, $this::LOG_FILE);
         }
 
         return $priceListCleared;
@@ -218,6 +220,21 @@ class Data extends AbstractHelper
         }
 
         return json_encode($operators);
+    }
+
+    /**
+     * Get Bliskapaczka API Client
+     *
+     * @return \Bliskapaczka\ApiClient\Bliskapaczka
+     */
+    public function getApiClientPricing()
+    {
+        $apiClient = new \Bliskapaczka\ApiClient\Bliskapaczka\Pricing(
+            $this->configuration->getApikey(),
+            $this->configuration->getEnvironment()
+        );
+
+        return $apiClient;
     }
 
     /**
