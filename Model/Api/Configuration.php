@@ -5,7 +5,7 @@ namespace Sendit\Bliskapaczka\Model\Api;
 /**
  * Configuration class for bliskapaczka shippine method
  */
-class Configuration
+class Configuration implements ConfigurationInterface
 {
     /**
      * Prepare configuration for bliskapaczka shippine method
