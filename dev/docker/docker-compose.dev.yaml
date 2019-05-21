@@ -6,5 +6,4 @@ services:
       dockerfile: dev/docker/Dockerfile.dev
     volumes:
       - "./:/var/www/magento/app/code/Sendit/Bliskapaczka"
-    ports:
-      - "9000:9000"
+      - "./dev/docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini"
