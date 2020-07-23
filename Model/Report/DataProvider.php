@@ -8,8 +8,6 @@
 
 namespace Sendit\Bliskapaczka\Model\Report;
 
-use Sendit\Bliskapaczka\Model\ResourceModel\Report\CollectionFactory;
-
 /**
  * Class DataProvider
  * @package Sendit\Bliskapaczka\Model\Report
@@ -21,7 +19,6 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      * @param string $name
      * @param string $primaryFieldName
      * @param string $requestFieldName
-     * @param CollectionFactory $contactCollectionFactory
      * @param array $meta
      * @param array $data
      */
@@ -29,11 +26,9 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $name,
         $primaryFieldName,
         $requestFieldName,
-        CollectionFactory $contactCollectionFactory,
         array $meta = [],
         array $data = []
     ) {
-        $this->collection = $contactCollectionFactory->create();
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
     }
 
