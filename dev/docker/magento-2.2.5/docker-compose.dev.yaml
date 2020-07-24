@@ -3,7 +3,7 @@ services:
   magento:
     build:
       context: ./
-      dockerfile: dev/docker/Dockerfile.dev
+      dockerfile: dev/docker/magento-2.2.5/Dockerfile-php7.1.dev
     volumes:
       - "./:/var/www/magento/app/code/Sendit/Bliskapaczka"
     ports:

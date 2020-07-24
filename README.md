@@ -14,6 +14,10 @@ W celu poprawnej instalacji modułu wymagane są:
 - composer
 
 ### Instalacja modułu
+W katalogu głownym Magento należy wykonać polecenie poniżej, pod zmienną `$version` należy wstawić wersję modułu, która ma zostać zainstalowana lub usunąć w przypadku instalacji najnowszej wersji. W większości przypadków instalacja najnowszej wersji jest polecanym rozwiązaniem.
+```
+composer require sendit/bliskapaczka-magento-2 $version
+```
 
 ### Tryb testowy
 Tryb testowy, czli komunikacja z testową wersją znajdującą się pod adresem [sandbox-bliskapaczka.pl](https://sandbox-bliskapaczka.pl/) można uruchomić przełączają w ustwieniach modułu opcję `Test mode enabled` na `Yes`.
@@ -63,7 +67,7 @@ Panel admina jest dostępny pod adresem  `http://127.0.0.1:8080/admin`, dane dos
 W celu developmentu można uruchomić docker-compose prze komendę:
 
 ```
-docker-compose -f docker-compose.yaml -f dev/docker/docker-compose.dev.yaml up
+docker-compose -f docker-compose.yaml -f dev/docker/magento-2.3.0/docker-compose.dev.yaml up
 ```
 
 ### Jak uruchomić testy jednostkowe 

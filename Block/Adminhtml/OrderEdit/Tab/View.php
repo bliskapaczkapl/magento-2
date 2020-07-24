@@ -20,7 +20,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     /**
      * @var string
      */
-    protected $_template = 'tab/view/my_order_info.phtml';
+    protected $_template = 'tab/view/bliskapaczka_order_info.phtml';
 
     /**
      * @var array|mixed
@@ -44,16 +44,19 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
 
-        $configuration = Configuration::fromStoreConfiguration();
-        $apiClient = new BliskapaczkaOrder(
-            $configuration->getApikey(),
-            $configuration->getEnvironment()
-        );
-        $apiClient->setOrderId($this->getOrder()->getNumber());
-        $resp = $apiClient->get();
+        try {
+            $configuration = Configuration::fromStoreConfiguration();
+            $apiClient = new BliskapaczkaOrder(
+                $configuration->getApikey(),
+                $configuration->getEnvironment()
+            );
+            $apiClient->setOrderId($this->getOrder()->getNumber());
+            $resp = $apiClient->get();
 
-        $this->_dataFromApi = json_decode($resp, true);
-        $this->setUrlToTrackingByEnv($configuration->getEnvironment());
+            $this->_dataFromApi = json_decode($resp, true);
+            $this->setUrlToTrackingByEnv($configuration->getEnvironment());
+        } catch (\Exception $e) {
+        }
     }
 
     /**
@@ -129,7 +132,9 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      */
     public function getTrackingLink()
     {
-        return $this->_trackingUrl . $this->getDataFromApi()['trackingNumber'];
+        if (isset($this->getDataFromApi()['trackingNumber'])) {
+            return $this->_trackingUrl . $this->getDataFromApi()['trackingNumber'];
+        }
     }
 
     /**

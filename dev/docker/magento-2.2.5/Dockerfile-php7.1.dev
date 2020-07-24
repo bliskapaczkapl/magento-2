@@ -1,0 +1,19 @@
+FROM bliskapaczkapl/magento_base:7.1_2.2.5
+
+MAINTAINER Mateusz Koszutowski <mkoszutowski@divante.pl>
+
+USER www-data
+
+# https://stackoverflow.com/questions/34784809/how-to-use-a-specific-tag-version-with-composer-and-a-private-git-repository
+
+RUN composer require bliskapaczkapl/bliskapaczka-api-client ^3.0 \
+	&& php ${magento_path}/bin/magento sampledata:deploy
+
+# Install module 
+COPY --chown=www-data:www-data ./ ${magento_path}/app/code/Sendit/Bliskapaczka/
+
+USER root
+
+# Install PECL extension xdebug
+RUN pecl install xdebug \
+	&& docker-php-ext-enable xdebug

@@ -12,7 +12,7 @@ use Sendit\Bliskapaczka\Model\Api\Configuration;
 use Bliskapaczka\ApiClient\Bliskapaczka\Order as BliskapaczkaOrder;
 use Bliskapaczka\ApiClient\Bliskapaczka\Todoor as BliskapaczkaTodoor;
 use Bliskapaczka\ApiClient\Bliskapaczka\Order\Advice as BliskapaczkaOrderAdvice;
-use Bliskapaczka\ApiClient\Bliskapaczka\Order\Todoor as BliskapaczkaOrderTodoor;
+use Bliskapaczka\ApiClient\Bliskapaczka\Todoor\Advice as BliskapaczkaTodoorAdvice;
 use Sendit\Bliskapaczka\Model\Mapper\Order;
 use Sendit\Bliskapaczka\Model\Mapper\Todoor;
 use Sendit\Bliskapaczka\Helper\Data as SenditHelper;
@@ -81,6 +81,11 @@ class Index extends \Magento\Backend\App\Action
             $apiClient->setOrderId($order->getNumber());
             $response = $apiClient->create($data);
             $response = json_decode($response);
+
+            if (!is_a($response, 'stdClass')) {
+                throw new \Exception("Bliskapaczka API response is invalid. Try again.", 1);
+            }
+
             $order->setData("tracking_number", $response->trackingNumber);
             $order->setData("advice_date", $response->adviceDate);
         } catch (\Exception $e) {

@@ -8,6 +8,8 @@
 
 namespace Sendit\Bliskapaczka\Plugin;
 
+use Sendit\Bliskapaczka\Helper\Order as SenditOrderHelper;
+
 /**
  * Buttons on order page for bliskapaczka
  */
@@ -17,6 +19,23 @@ namespace Sendit\Bliskapaczka\Plugin;
  */
 class PluginBefore
 {
+   /**
+    * @var OrderRepository
+    */
+    protected $orderRepository;
+
+   /**
+    * SaveToQuote constructor.
+    * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+    * @param Sendit\Bliskapaczka\Helper\Order $senditOrderHelper
+    */
+    public function __construct(
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
+        SenditOrderHelper $senditOrderHelper
+    ) {
+        $this->orderRepository = $orderRepository;
+        $this->senditOrderHelper = $senditOrderHelper;
+    }
     /**
      * Add buttons
      * @param \Magento\Backend\Block\Widget\Button\Toolbar\Interceptor $subject
@@ -28,48 +47,59 @@ class PluginBefore
         \Magento\Framework\View\Element\AbstractBlock $context,
         \Magento\Backend\Block\Widget\Button\ButtonList $buttonList
     ) {
+        $this->request = $context->getRequest();
+        $orderId = $this->request->getParam('order_id');
 
-        $this->_request = $context->getRequest();
-        $orderId = $this->_request->getParam('order_id');
         $adviceUrl = $context->getUrl('advice/advice/', ['order_id' => $orderId]);
         $waybillUrl = $context->getUrl('waybill/waybill/', ['order_id' => $orderId]);
         $cancelUrl = $context->getUrl('cancel/cancel/', ['order_id' => $orderId]);
         $retryUrl = $context->getUrl('recreate/recreate/', ['order_id' => $orderId]);
         $updateUrl = $context->getUrl('update/update/', ['order_id' => $orderId]);
         $confirmPocztaUrl = $context->getUrl('confirm/confirm/', ['operator_name' => 'Poczta']);
-        if ($this->_request->getFullActionName() == 'sales_order_view') {
-            $buttonList->add(
-                'waybill_bliska_paczka',
-                [
-                    'label' => __('List przewozowy'),
-                    'onclick' => sprintf("setLocation('%s')", $waybillUrl),
-                    'class' => 'reset'
-                ],
-                -1
-            );
-            $buttonList->add(
-                'delete_bliska_paczka',
-                ['label' => __('Anuluj Bliską paczkę'),
-                    'onclick' => sprintf("setLocation('%s')", $cancelUrl), 'class' => 'reset'
-                ],
-                -1
-            );
-            $buttonList->add(
-                'advice_bliska_paczka',
-                ['label' => __('Awizuj Bliską paczkę'),
-                    'onclick' => sprintf("setLocation('%s')", $adviceUrl),
-                    'class' => 'advice'
-                ],
-                -1
-            );
-            $buttonList->add(
-                'retry_bliska_paczka',
-                ['label' => __('Ponów Bliską paczkę'),
-                    'onclick' => sprintf("setLocation('%s')", $retryUrl),
-                    'class' => 'reset'
-                ],
-                -1
-            );
+
+        if ($this->request->getFullActionName() == 'sales_order_view') {
+            $order = $this->orderRepository->get($orderId);
+
+            if ($this->senditOrderHelper->canWaybill($order)) {
+                $buttonList->add(
+                    'waybill_bliska_paczka',
+                    [
+                        'label' => __('List przewozowy'),
+                        'onclick' => sprintf("setLocation('%s')", $waybillUrl),
+                        'class' => 'reset'
+                    ],
+                    -1
+                );
+            }
+            if ($this->senditOrderHelper->canCancel($order)) {
+                $buttonList->add(
+                    'delete_bliska_paczka',
+                    ['label' => __('Anuluj Bliską paczkę'),
+                        'onclick' => sprintf("setLocation('%s')", $cancelUrl), 'class' => 'reset'
+                    ],
+                    -1
+                );
+            }
+            if ($this->senditOrderHelper->canAdvice($order)) {
+                $buttonList->add(
+                    'advice_bliska_paczka',
+                    ['label' => __('Awizuj Bliską paczkę'),
+                        'onclick' => sprintf("setLocation('%s')", $adviceUrl),
+                        'class' => 'advice'
+                    ],
+                    -1
+                );
+            }
+            if ($this->senditOrderHelper->canRetry($order)) {
+                $buttonList->add(
+                    'retry_bliska_paczka',
+                    ['label' => __('Ponów Bliską paczkę'),
+                        'onclick' => sprintf("setLocation('%s')", $retryUrl),
+                        'class' => 'reset'
+                    ],
+                    -1
+                );
+            }
             $buttonList->add(
                 'update_bliska_paczka',
                 ['label' => __('Aktualizuj Bliską paczkę'),

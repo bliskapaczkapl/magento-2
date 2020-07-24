@@ -14,17 +14,16 @@ use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\OrderManagementInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\Sales\Model\Order;
 use Sendit\Bliskapaczka\Helper\Data;
 use Sendit\Bliskapaczka\Model\Api\Configuration;
 use Bliskapaczka\ApiClient\Bliskapaczka\Order as BliskapaczkaOrder;
 use Bliskapaczka\ApiClient\Bliskapaczka\Todoor as BliskapaczkaTodoor;
 
 /**
- * Class Status
+ * Class Order
  * @package Sendit\Bliskapaczka\Cron
  */
-class Status
+class Order
 {
     /**
      * @var OrderRepositoryInterface
@@ -83,7 +82,7 @@ class Status
     /**
      * executeFast method
      */
-    public function executeFast()
+    public function executeFastStatuses()
     {
         try {
             $this->execute(Data::FAST_STATUSES);
@@ -96,7 +95,7 @@ class Status
     /**
      * executeSlow method
      */
-    public function executeSlow()
+    public function executeSlowStatuses()
     {
         try {
             $this->execute(Data::SLOW_STATUSES);
@@ -136,7 +135,6 @@ class Status
      */
     protected function execute(array $statuses)
     {
-
         $filterGroupStatus = $this->filterGroup;
         $filterStatus    = $this->filterBuilder
             ->setField('bliskapaczka_status')
@@ -146,12 +144,20 @@ class Status
         $filterGroupStatus->setFilters([$filterStatus]);
         $searchCriteria = $this->searchCriteriaBuilder->setFilterGroups([$filterGroupStatus]);
         $searchResults  = $this->orderRepository->getList($searchCriteria->create());
+
         /** @var Order $order */
         foreach ($searchResults->getItems() as $order) {
-            $orderApi = $this->getOrderApiClientByOrder($order);
-            $orderApi->setOrderId($order->getNumber());
-            $data = json_decode($orderApi->get());
-            $order->setData("bliskapaczka_status", $data->status);
+            try {
+                $orderApi = $this->getOrderApiClientByOrder($order);
+                $orderApi->setOrderId($order->getNumber());
+
+                $data = json_decode($orderApi->get());
+                $order->setData("tracking_number", $data->trackingNumber);
+                $order->setData("advice_date", $data->adviceDate);
+                $order->setData("bliskapaczka_status", $data->status);
+                $order->save();
+            } catch (\Exception $e) {
+            }
         }
     }
 }

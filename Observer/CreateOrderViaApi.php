@@ -8,7 +8,7 @@ use Sendit\Bliskapaczka\Model\Api\Configuration;
 use Bliskapaczka\ApiClient\Bliskapaczka\Order as BliskapaczkaOrder;
 use Bliskapaczka\ApiClient\Bliskapaczka\Todoor as BliskapaczkaTodoor;
 use Bliskapaczka\ApiClient\Bliskapaczka\Order\Advice as BliskapaczkaOrderAdvice;
-use Bliskapaczka\ApiClient\Bliskapaczka\Order\Todoor as BliskapaczkaOrderTodoor;
+use Bliskapaczka\ApiClient\Bliskapaczka\Todoor\Advice as BliskapaczkaTodoorAdvice;
 use Sendit\Bliskapaczka\Model\Mapper\Order;
 use Sendit\Bliskapaczka\Model\Mapper\Todoor;
 use Sendit\Bliskapaczka\Helper\Data as SenditHelper;
